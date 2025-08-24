@@ -214,7 +214,7 @@ public class GuiShieldSelection extends GuiScreen
 				else if (ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getRarity() == Rarity.LEGENDARY && !ShieldAttribute.SHIELD_ATTRIBUTES.get(i).hasAttribute(nbt)) cost = 3;
 				else if (ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getAttributeTier(nbt) == 3) cost = 0;
 				
-				List<String> list = new ArrayList<String>();
+				List<String> list = new ArrayList<>();
 				list.add(ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getColor() + ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getName(nbt));
 				list.add(TextFormatting.GRAY + "Cost: " + cost + " token(s)");
 				list.add("");

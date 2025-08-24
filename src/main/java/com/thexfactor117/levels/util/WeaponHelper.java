@@ -79,7 +79,7 @@ public class WeaponHelper
 	/**
 	 * Creates a new Attribute Modifier tag list and adds it to the NBTTagCompound. Overrides default vanilla implementation.
 	 * @param nbt
-	 * @param sword
+	 * @param stack
 	 */
 	private static void setAttributeModifiers(NBTTagCompound nbt, ItemStack stack)
 	{

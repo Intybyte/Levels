@@ -10,7 +10,7 @@ import java.util.TreeMap;
  *
  */
 public class RandomCollection<E> {
-    private final NavigableMap<Double, E> map = new TreeMap<Double, E>();
+    private final NavigableMap<Double, E> map = new TreeMap<>();
     private double total = 0;
 
     public void add(double weight, E result) {

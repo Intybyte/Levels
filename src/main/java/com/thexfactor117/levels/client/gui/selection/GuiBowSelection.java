@@ -213,7 +213,7 @@ public class GuiBowSelection extends GuiScreen
 				else if (BowAttribute.BOW_ATTRIBUTES.get(i).getRarity() == Rarity.LEGENDARY && !BowAttribute.BOW_ATTRIBUTES.get(i).hasAttribute(nbt)) cost = 3;
 				else if (BowAttribute.BOW_ATTRIBUTES.get(i).getAttributeTier(nbt) == 3) cost = 0;
 				
-				List<String> list = new ArrayList<String>();
+				List<String> list = new ArrayList<>();
 				list.add(BowAttribute.BOW_ATTRIBUTES.get(i).getColor() + BowAttribute.BOW_ATTRIBUTES.get(i).getName(nbt));
 				list.add(TextFormatting.GRAY + "Cost: " + cost + " token(s)");
 				list.add("");

@@ -113,7 +113,6 @@ public class GuiArmorSelection extends GuiScreen
 	
 	/**
 	 * Determines which buttons need to be enabled.
-	 * @param buttons
 	 * @param nbt
 	 */
 	private void displayButtons(NBTTagCompound nbt)

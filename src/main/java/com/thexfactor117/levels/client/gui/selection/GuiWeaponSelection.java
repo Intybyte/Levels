@@ -215,7 +215,7 @@ public class GuiWeaponSelection extends GuiScreen
 				else if (WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getRarity() == Rarity.LEGENDARY && !WeaponAttribute.WEAPON_ATTRIBUTES.get(i).hasAttribute(nbt)) cost = 3;
 				else if (WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getAttributeTier(nbt) == 3) cost = 0;
 				
-				List<String> list = new ArrayList<String>();
+				List<String> list = new ArrayList<>();
 				list.add(WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getColor() + WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getName(nbt));
 				list.add(TextFormatting.GRAY + "Cost: " + cost + " token(s)");
 				list.add("");

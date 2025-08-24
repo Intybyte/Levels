@@ -24,9 +24,8 @@ public enum Rarity
 	LEGENDARY(TextFormatting.DARK_PURPLE, 0xAA00AA, 0.045, 0xF0100010, 0x50AA00AA),
 	MYTHIC(TextFormatting.GOLD, 0xFFAA00, 0.005, 0xF0100010, 0x50FFAA00);
 
-    public static final RandomCollection<Rarity> rarityRandom;
+    public static final RandomCollection<Rarity> rarityRandom = new RandomCollection<>();;
     static {
-        rarityRandom = new RandomCollection<>();
         for (Rarity entry : values()) {
             rarityRandom.add(entry.defaultChance, entry);
         }

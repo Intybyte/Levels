@@ -149,7 +149,7 @@ public class GuiItemInformation extends GuiScreen {
             for (int i = 0; i < ShieldAttribute.SHIELD_ATTRIBUTES.size(); i++) {
                 if (ShieldAttribute.SHIELD_ATTRIBUTES.get(i).hasAttribute(nbt)) {
                     k++;
-                    drawCenteredString(fontRenderer, ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getHex());
+                    drawCenteredString(fontRenderer, ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getBaseName(nbt), width / 2 + 112, 115 + (10 * k), ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getHex());
                 }
             }
         }

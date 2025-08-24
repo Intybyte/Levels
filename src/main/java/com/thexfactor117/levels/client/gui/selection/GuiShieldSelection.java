@@ -48,7 +48,7 @@ public class GuiShieldSelection extends GuiScreen
 			
 			for (int i = 0; i < attributes.length; i++)
 			{
-				attributes[i] = new GuiButton(i, width / 2 - 147, 60 + (i * 20), 75, 20, ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getName(nbt));
+				attributes[i] = new GuiButton(i, width / 2 - 147, 60 + (i * 20), 75, 20, ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getBaseName(nbt));
 				this.buttonList.add(attributes[i]);
 				attributes[i].enabled = false;
 			}
@@ -215,7 +215,7 @@ public class GuiShieldSelection extends GuiScreen
 				else if (ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getAttributeTier(nbt) == 3) cost = 0;
 				
 				List<String> list = new ArrayList<>();
-				list.add(ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getColor() + ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getName(nbt));
+				list.add(ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getColor() + ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getBaseName(nbt));
 				list.add(TextFormatting.GRAY + "Cost: " + cost + " token(s)");
 				list.add("");
 				list.add(I18n.format("levels.attributes.shields.info." + ShieldAttribute.SHIELD_ATTRIBUTES.get(i).ordinal()));

@@ -6,12 +6,12 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.8"
     id("com.gtnewhorizons.retrofuturagradle") version "1.4.0"
+    id("io.freefair.lombok") version "8.14.2"
 }
 
 // Project properties
 group = "com.thexfactor117.levels"
 version = "3.0.0"
-
 
 val minecraftVersion = "1.12.2"
 

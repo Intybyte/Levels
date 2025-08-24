@@ -143,7 +143,7 @@ public class EventTooltip
 				for (ShieldAttribute attribute : ShieldAttribute.SHIELD_ATTRIBUTES)
 				{
 					if (attribute.hasAttribute(nbt))
-						tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));
+						tooltip.add(" " + attribute.getColor() + attribute.getBaseName(nbt));
 				}
 			}
 		}

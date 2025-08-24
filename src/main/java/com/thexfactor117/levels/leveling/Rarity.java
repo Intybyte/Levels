@@ -23,12 +23,20 @@ public enum Rarity
 	RARE(TextFormatting.AQUA, 0x55FFFF, 0.1, 0xF0100010, 0x5055FFFF),
 	LEGENDARY(TextFormatting.DARK_PURPLE, 0xAA00AA, 0.045, 0xF0100010, 0x50AA00AA),
 	MYTHIC(TextFormatting.GOLD, 0xFFAA00, 0.005, 0xF0100010, 0x50FFAA00);
-	
-	private String color;
-	private int hex;
-	private double defaultChance;
-	private int backColor;
-	private int borderColor;
+
+    public static final RandomCollection<Rarity> rarityRandom;
+    static {
+        rarityRandom = new RandomCollection<>();
+        for (Rarity entry : values()) {
+            rarityRandom.add(entry.defaultChance, entry);
+        }
+    }
+
+	private final String color;
+	private final int hex;
+	private final double defaultChance;
+	private final int backColor;
+	private final int borderColor;
 	
 	Rarity(Object color, int hex, double chance, int backColor, int borderColor)
 	{
@@ -47,9 +55,7 @@ public enum Rarity
 	 */
 	public static Rarity getRandomRarity(NBTTagCompound nbt, Random rand)
 	{
-		RandomCollection<Rarity> random = new RandomCollection<Rarity>();
-		
-		return random.next(rand);
+		return rarityRandom.next(rand);
 	}
 	
 	/**

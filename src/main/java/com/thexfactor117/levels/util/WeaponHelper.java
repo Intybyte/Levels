@@ -43,37 +43,38 @@ public class WeaponHelper
 	public static void create(ItemStack stack, EntityPlayer player)
 	{
 		NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
-		
-		if (nbt != null)
-		{
-			Rarity rarity = Rarity.getRarity(nbt);
-			Random rand = player.getEntityWorld().rand;
-			
-			if (rarity == Rarity.DEFAULT)
-			{				
-				Rarity.setRarity(nbt, Rarity.getRandomRarity(nbt, rand)); // sets random rarity
 
-				if (Rarity.getRarity(nbt) == Rarity.MYTHIC)
-				{
-					SPacketTitle packet = new SPacketTitle(SPacketTitle.Type.TITLE, new TextComponentString(TextFormatting.GOLD + "MYTHIC"), -1, 20, -1);
-					EntityPlayerMP playermp = (EntityPlayerMP) player;
-					playermp.connection.sendPacket(packet);
-					Levels.network.sendTo(new PacketMythicSound(), (EntityPlayerMP) player);
-				}
-				
-				if (Config.unlimitedDurability)
-				{
-					nbt.setInteger("Unbreakable", 1); // adds Unbreakable tag to item
-				}
-				
-				Experience.setLevel(nbt, 1);
-				nbt.setDouble("Multiplier", getWeightedMultiplier(Rarity.getRarity(nbt))); // adds a randomized multiplier to the item, weighted by rarity
-				nbt.setInteger("HideFlags", 6); // hides Attribute Modifier and Unbreakable tags
-				setAttributeModifiers(nbt, stack); // sets up Attribute Modifiers
-				NBTHelper.saveStackNBT(stack, nbt);
-			}
-		}
-	}
+        if (nbt == null) {
+            return;
+        }
+
+        Rarity rarity = Rarity.getRarity(nbt);
+        Random rand = player.getEntityWorld().rand;
+
+        if (rarity != Rarity.DEFAULT) {
+            return;
+        }
+
+        Rarity.setRarity(nbt, Rarity.getRandomRarity(nbt, rand)); // sets random rarity
+        if (Rarity.getRarity(nbt) == Rarity.MYTHIC)
+        {
+            SPacketTitle packet = new SPacketTitle(SPacketTitle.Type.TITLE, new TextComponentString(TextFormatting.GOLD + "MYTHIC"), -1, 20, -1);
+            EntityPlayerMP playermp = (EntityPlayerMP) player;
+            playermp.connection.sendPacket(packet);
+            Levels.network.sendTo(new PacketMythicSound(), (EntityPlayerMP) player);
+        }
+
+        if (Config.unlimitedDurability)
+        {
+            nbt.setInteger("Unbreakable", 1); // adds Unbreakable tag to item
+        }
+
+        Experience.setLevel(nbt, 1);
+        nbt.setDouble("Multiplier", getWeightedMultiplier(Rarity.getRarity(nbt))); // adds a randomized multiplier to the item, weighted by rarity
+        nbt.setInteger("HideFlags", 6); // hides Attribute Modifier and Unbreakable tags
+        setAttributeModifiers(nbt, stack); // sets up Attribute Modifiers
+        NBTHelper.saveStackNBT(stack, nbt);
+    }
 	
 	/**
 	 * Creates a new Attribute Modifier tag list and adds it to the NBTTagCompound. Overrides default vanilla implementation.

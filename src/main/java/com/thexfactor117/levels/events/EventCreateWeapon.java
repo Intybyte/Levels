@@ -25,20 +25,22 @@ public class EventCreateWeapon
 	@SubscribeEvent
 	public void onCreateWeapon(PlayerTickEvent event)
 	{
-		if (!event.player.getEntityWorld().isRemote)
-		{
-			if (event.phase == Phase.START)
-			{
-				for (ItemStack stack : event.player.inventory.mainInventory)
-				{
-					if (stack != null && (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow || stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield))
-					{
-						create(stack, event.player);
-					}
-				}
-			}
-		}
-	}
+        if (event.player.getEntityWorld().isRemote) {
+            return;
+        }
+
+        if (event.phase != Phase.START) {
+            return;
+        }
+
+        for (ItemStack stack : event.player.inventory.mainInventory)
+        {
+            if (stack != null && (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow || stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield))
+            {
+                create(stack, event.player);
+            }
+        }
+    }
 	
 	/**
 	 * Sets up a weapon with customized values.

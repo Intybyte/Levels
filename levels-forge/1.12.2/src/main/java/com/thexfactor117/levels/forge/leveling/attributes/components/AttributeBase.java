@@ -1,5 +1,6 @@
 package com.thexfactor117.levels.forge.leveling.attributes.components;
 
+import com.thexfactor117.levels.common.attribute.AttributeRarity;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface AttributeBase extends RomanNumeralDisplay {

@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("io.freefair.lombok") version "8.14.2"
 }
 
 group = "com.thexfactor117.levels.common"

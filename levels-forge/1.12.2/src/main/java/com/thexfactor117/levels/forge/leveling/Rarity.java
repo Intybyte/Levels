@@ -15,12 +15,12 @@ import java.util.Random;
  *
  */
 public enum Rarity {
-    DEFAULT(LegacyTextColor.GRAY, 0, 0, 0, 0),
-    COMMON(LegacyTextColor.WHITE, 0xFFFFFF, 0.65, 0xF0100010, 0x50FFFFFF),
-    UNCOMMON(LegacyTextColor.DARK_GREEN, 0x00AA00, 0.2, 0xF0100010, 0x5000AA00),
-    RARE(LegacyTextColor.AQUA, 0x55FFFF, 0.1, 0xF0100010, 0x5055FFFF),
-    LEGENDARY(LegacyTextColor.DARK_PURPLE, 0xAA00AA, 0.045, 0xF0100010, 0x50AA00AA),
-    MYTHIC(LegacyTextColor.GOLD, 0xFFAA00, 0.005, 0xF0100010, 0x50FFAA00);
+    DEFAULT(LegacyTextColor.GRAY, 0, 0, 0),
+    COMMON(LegacyTextColor.WHITE, 0.65, 0xF0100010, 0x50FFFFFF),
+    UNCOMMON(LegacyTextColor.DARK_GREEN, 0.2, 0xF0100010, 0x5000AA00),
+    RARE(LegacyTextColor.AQUA, 0.1, 0xF0100010, 0x5055FFFF),
+    LEGENDARY(LegacyTextColor.DARK_PURPLE, 0.045, 0xF0100010, 0x50AA00AA),
+    MYTHIC(LegacyTextColor.GOLD, 0.005, 0xF0100010, 0x50FFAA00);
 
     public static final RandomCollection<Rarity> rarityRandom = new RandomCollection<>();
 
@@ -36,9 +36,9 @@ public enum Rarity {
     private final int backColor;
     private final int borderColor;
 
-    Rarity(Object color, int hex, double chance, int backColor, int borderColor) {
+    Rarity(LegacyTextColor color, double chance, int backColor, int borderColor) {
         this.color = color.toString();
-        this.hex = hex;
+        this.hex = color.getHex();
         this.defaultChance = chance;
         this.backColor = backColor;
         this.borderColor = borderColor;

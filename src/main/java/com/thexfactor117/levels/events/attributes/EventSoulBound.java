@@ -5,7 +5,6 @@ import com.thexfactor117.levels.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.leveling.attributes.ShieldAttribute;
 import com.thexfactor117.levels.leveling.attributes.WeaponAttribute;
 import com.thexfactor117.levels.util.NBTHelper;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -19,46 +18,38 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
- * 
+ *
  * @author TheXFactor117
  *
  */
-public class EventSoulBound 
-{
-	@SubscribeEvent
-	public void onPlayerClone(PlayerEvent.Clone event)
-	{
-		if (event.isWasDeath())
-		{
-			EntityPlayer player = event.getEntityPlayer();
-			player.inventory.copyInventory(event.getOriginal().inventory);
-		}
-	}
-	
-	@SubscribeEvent
-	public void onPlayerDeath(PlayerDropsEvent event)
-	{
-		EntityPlayer player = event.getEntityPlayer();
-		Item item;
-		
-		for (int i = 0; i < event.getDrops().size(); i++)
-		{
-			item = event.getDrops().get(i).getItem().getItem();
-			
-			if (item != null && (item instanceof ItemSword || item instanceof ItemShield || item instanceof ItemArmor || item instanceof ItemBow))
-			{
-				ItemStack stack = event.getDrops().get(i).getItem();
-				NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
-				
-				if (nbt != null)
-				{
-					if (WeaponAttribute.SOUL_BOUND.hasAttribute(nbt) || ArmorAttribute.SOUL_BOUND.hasAttribute(nbt) || BowAttribute.SOUL_BOUND.hasAttribute(nbt) || ShieldAttribute.SOUL_BOUND.hasAttribute(nbt))
-					{
-						event.getDrops().remove(i);
-						player.inventory.addItemStackToInventory(stack);
-					}
-				}
-			}
-		}
-	}
+public class EventSoulBound {
+    @SubscribeEvent
+    public void onPlayerClone(PlayerEvent.Clone event) {
+        if (event.isWasDeath()) {
+            EntityPlayer player = event.getEntityPlayer();
+            player.inventory.copyInventory(event.getOriginal().inventory);
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerDeath(PlayerDropsEvent event) {
+        EntityPlayer player = event.getEntityPlayer();
+        Item item;
+
+        for (int i = 0; i < event.getDrops().size(); i++) {
+            item = event.getDrops().get(i).getItem().getItem();
+
+            if (item != null && (item instanceof ItemSword || item instanceof ItemShield || item instanceof ItemArmor || item instanceof ItemBow)) {
+                ItemStack stack = event.getDrops().get(i).getItem();
+                NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
+
+                if (nbt != null) {
+                    if (WeaponAttribute.SOUL_BOUND.hasAttribute(nbt) || ArmorAttribute.SOUL_BOUND.hasAttribute(nbt) || BowAttribute.SOUL_BOUND.hasAttribute(nbt) || ShieldAttribute.SOUL_BOUND.hasAttribute(nbt)) {
+                        event.getDrops().remove(i);
+                        player.inventory.addItemStackToInventory(stack);
+                    }
+                }
+            }
+        }
+    }
 }

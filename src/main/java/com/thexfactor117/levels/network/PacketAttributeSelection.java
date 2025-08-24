@@ -1,25 +1,20 @@
 package com.thexfactor117.levels.network;
 
 import com.thexfactor117.levels.leveling.Experience;
-import com.thexfactor117.levels.leveling.Rarity;
-import com.thexfactor117.levels.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.leveling.ItemType;
+import com.thexfactor117.levels.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.util.NBTHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.List;
 
 /**
  *
@@ -51,73 +46,41 @@ public class PacketAttributeSelection implements IMessage {
         public IMessage onMessage(final PacketAttributeSelection message, final MessageContext ctx) {
 
             IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.getEntityWorld();
-            mainThread.addScheduledTask(() -> {
+            mainThread.addScheduledTask(getTask(ctx, message));
+
+            return null;
+        }
+
+        private Runnable getTask(final MessageContext ctx, final PacketAttributeSelection message) {
+            return () -> {
                 EntityPlayer player = ctx.getServerHandler().player;
                 ItemStack stack = player.inventory.getCurrentItem();
                 NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
-                if (player != null && stack != null && nbt != null) {
-                    if (stack.getItem() instanceof ItemSword) {
-                        WeaponAttribute attribute = WeaponAttribute.WEAPON_ATTRIBUTES.get(message.index);
-
-                        if (attribute.hasAttribute(nbt)) {
-                            attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
-                            Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
-                        } else {
-                            int cost = attribute.getRarity().getCost();
-
-                            attribute.addAttribute(nbt);
-                            Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);
-
-                            if (attribute == WeaponAttribute.UNBREAKABLE) nbt.setInteger("Unbreakable", 1);
-                        }
-                    } else if (stack.getItem() instanceof ItemArmor) {
-                        ArmorAttribute attribute = ArmorAttribute.ARMOR_ATTRIBUTES.get(message.index);
-
-                        if (attribute.hasAttribute(nbt)) {
-                            attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
-                            Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
-                        } else {
-                            int cost = attribute.getRarity().getCost();
-
-                            attribute.addAttribute(nbt);
-                            Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);
-
-                            if (attribute == ArmorAttribute.UNBREAKABLE) nbt.setInteger("Unbreakable", 1);
-                        }
-                    } else if (stack.getItem() instanceof ItemBow) {
-                        BowAttribute attribute = BowAttribute.BOW_ATTRIBUTES.get(message.index);
-
-                        if (attribute.hasAttribute(nbt)) {
-                            attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
-                            Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
-                        } else {
-                            int cost = attribute.getRarity().getCost();
-
-                            attribute.addAttribute(nbt);
-                            Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);
-
-                            if (attribute == BowAttribute.UNBREAKABLE) nbt.setInteger("Unbreakable", 1);
-                        }
-                    } else if (stack.getItem() instanceof ItemShield) {
-                        ShieldAttribute attribute = ShieldAttribute.SHIELD_ATTRIBUTES.get(message.index);
-
-                        if (attribute.hasAttribute(nbt)) {
-                            attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
-                            Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
-                        } else {
-                            int cost = attribute.getRarity().getCost();
-
-                            attribute.addAttribute(nbt);
-                            Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);
-
-                            if (attribute == ShieldAttribute.UNBREAKABLE) nbt.setInteger("Unbreakable", 1);
-                        }
-                    }
+                if (player == null || stack == null || nbt == null) {
+                    return;
                 }
-            });
 
-            return null;
+                ItemType type = ItemType.of(stack.getItem());
+                if (type == null) {
+                    return;
+                }
+
+                List<? extends AttributeBase> attributeList = type.list();
+                AttributeBase attribute = attributeList.get(message.index);
+                if (attribute.hasAttribute(nbt)) {
+                    attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
+                    Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
+                } else {
+                    int cost = attribute.getRarity().getCost();
+
+                    attribute.addAttribute(nbt);
+                    Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);
+
+                    if (attribute.getAttributeKey().contains("Unbreakable"))
+                        nbt.setInteger("Unbreakable", 1);
+                }
+            };
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.config;
+package com.thexfactor117.levels.forge.config;
 
 import com.google.common.collect.Lists;
 import net.minecraftforge.common.config.Configuration;

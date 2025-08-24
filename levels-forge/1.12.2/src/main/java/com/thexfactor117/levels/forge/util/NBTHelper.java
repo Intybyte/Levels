@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.util;
+package com.thexfactor117.levels.forge.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

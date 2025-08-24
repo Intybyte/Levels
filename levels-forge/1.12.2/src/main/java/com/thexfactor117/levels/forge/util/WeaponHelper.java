@@ -1,11 +1,11 @@
-package com.thexfactor117.levels.util;
+package com.thexfactor117.levels.forge.util;
 
 import com.google.common.collect.Multimap;
-import com.thexfactor117.levels.Levels;
-import com.thexfactor117.levels.config.Config;
-import com.thexfactor117.levels.leveling.Experience;
-import com.thexfactor117.levels.leveling.Rarity;
-import com.thexfactor117.levels.network.PacketMythicSound;
+import com.thexfactor117.levels.forge.Levels;
+import com.thexfactor117.levels.forge.config.Config;
+import com.thexfactor117.levels.forge.leveling.Experience;
+import com.thexfactor117.levels.forge.leveling.Rarity;
+import com.thexfactor117.levels.forge.network.PacketMythicSound;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;

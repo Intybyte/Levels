@@ -1,8 +1,8 @@
-package com.thexfactor117.levels.events;
+package com.thexfactor117.levels.forge.events;
 
-import com.thexfactor117.levels.config.Config;
-import com.thexfactor117.levels.util.NBTHelper;
-import com.thexfactor117.levels.util.WeaponHelper;
+import com.thexfactor117.levels.forge.config.Config;
+import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.forge.util.WeaponHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;

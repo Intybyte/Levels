@@ -1,11 +1,11 @@
-package com.thexfactor117.levels.init;
+package com.thexfactor117.levels.forge.init;
 
-import com.thexfactor117.levels.events.EventAttack;
-import com.thexfactor117.levels.events.EventCreateWeapon;
-import com.thexfactor117.levels.events.EventInput;
-import com.thexfactor117.levels.events.EventTooltip;
-import com.thexfactor117.levels.events.attributes.EventBarrage;
-import com.thexfactor117.levels.events.attributes.EventSoulBound;
+import com.thexfactor117.levels.forge.events.EventAttack;
+import com.thexfactor117.levels.forge.events.EventCreateWeapon;
+import com.thexfactor117.levels.forge.events.EventInput;
+import com.thexfactor117.levels.forge.events.EventTooltip;
+import com.thexfactor117.levels.forge.events.attributes.EventBarrage;
+import com.thexfactor117.levels.forge.events.attributes.EventSoulBound;
 import net.minecraftforge.common.MinecraftForge;
 
 /**

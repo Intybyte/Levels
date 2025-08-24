@@ -1,13 +1,13 @@
-package com.thexfactor117.levels.events;
+package com.thexfactor117.levels.forge.events;
 
-import com.thexfactor117.levels.config.Config;
-import com.thexfactor117.levels.leveling.Experience;
-import com.thexfactor117.levels.leveling.Rarity;
-import com.thexfactor117.levels.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.leveling.attributes.WeaponAttribute;
-import com.thexfactor117.levels.util.NBTHelper;
+import com.thexfactor117.levels.forge.config.Config;
+import com.thexfactor117.levels.forge.leveling.Experience;
+import com.thexfactor117.levels.forge.leveling.Rarity;
+import com.thexfactor117.levels.forge.leveling.attributes.ArmorAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.ShieldAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.forge.util.NBTHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;

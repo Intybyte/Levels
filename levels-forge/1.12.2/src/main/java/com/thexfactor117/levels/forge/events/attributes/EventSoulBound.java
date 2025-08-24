@@ -1,10 +1,10 @@
-package com.thexfactor117.levels.events.attributes;
+package com.thexfactor117.levels.forge.events.attributes;
 
-import com.thexfactor117.levels.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.leveling.attributes.WeaponAttribute;
-import com.thexfactor117.levels.util.NBTHelper;
+import com.thexfactor117.levels.forge.leveling.attributes.ArmorAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.ShieldAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.forge.util.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;

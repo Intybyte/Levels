@@ -1,7 +1,7 @@
-package com.thexfactor117.levels.events.attributes;
+package com.thexfactor117.levels.forge.events.attributes;
 
-import com.thexfactor117.levels.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.util.NBTHelper;
+import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
+import com.thexfactor117.levels.forge.util.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityArrow.PickupStatus;

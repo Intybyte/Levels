@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.leveling.attributes.components;
+package com.thexfactor117.levels.forge.leveling.attributes.components;
 
 import net.minecraft.nbt.NBTTagCompound;
 

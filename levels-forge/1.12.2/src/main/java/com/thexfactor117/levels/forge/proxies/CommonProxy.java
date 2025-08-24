@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.proxies;
+package com.thexfactor117.levels.forge.proxies;
 
 /**
  *

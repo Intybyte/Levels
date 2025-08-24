@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.proxies;
+package com.thexfactor117.levels.forge.proxies;
 
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;

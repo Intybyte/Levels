@@ -1,6 +1,6 @@
-package com.thexfactor117.levels.leveling;
+package com.thexfactor117.levels.forge.leveling;
 
-import com.thexfactor117.levels.util.RandomCollection;
+import com.thexfactor117.levels.forge.util.RandomCollection;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;

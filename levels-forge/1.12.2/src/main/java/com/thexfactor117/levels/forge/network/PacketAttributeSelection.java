@@ -1,9 +1,9 @@
-package com.thexfactor117.levels.network;
+package com.thexfactor117.levels.forge.network;
 
-import com.thexfactor117.levels.leveling.Experience;
-import com.thexfactor117.levels.leveling.ItemType;
-import com.thexfactor117.levels.leveling.attributes.components.AttributeBase;
-import com.thexfactor117.levels.util.NBTHelper;
+import com.thexfactor117.levels.forge.leveling.Experience;
+import com.thexfactor117.levels.forge.leveling.ItemType;
+import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
+import com.thexfactor117.levels.forge.util.NBTHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

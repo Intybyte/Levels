@@ -1,12 +1,12 @@
-package com.thexfactor117.levels;
+package com.thexfactor117.levels.forge;
 
-import com.thexfactor117.levels.config.Config;
-import com.thexfactor117.levels.init.ModEvents;
-import com.thexfactor117.levels.network.PacketAttributeSelection;
-import com.thexfactor117.levels.network.PacketMythicSound;
-import com.thexfactor117.levels.proxies.CommonProxy;
-import com.thexfactor117.levels.util.GuiHandler;
-import com.thexfactor117.levels.util.Reference;
+import com.thexfactor117.levels.forge.config.Config;
+import com.thexfactor117.levels.forge.init.ModEvents;
+import com.thexfactor117.levels.forge.network.PacketAttributeSelection;
+import com.thexfactor117.levels.forge.network.PacketMythicSound;
+import com.thexfactor117.levels.forge.proxies.CommonProxy;
+import com.thexfactor117.levels.forge.util.GuiHandler;
+import com.thexfactor117.levels.forge.util.Reference;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;

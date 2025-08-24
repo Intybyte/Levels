@@ -1,8 +1,8 @@
-package com.thexfactor117.levels.leveling.attributes;
+package com.thexfactor117.levels.forge.leveling.attributes;
 
-import com.thexfactor117.levels.config.Config;
-import com.thexfactor117.levels.leveling.attributes.components.AttributeBase;
-import com.thexfactor117.levels.leveling.attributes.components.AttributeRarity;
+import com.thexfactor117.levels.forge.config.Config;
+import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
+import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeRarity;
 import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;

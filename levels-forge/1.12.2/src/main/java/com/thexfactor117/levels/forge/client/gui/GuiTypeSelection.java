@@ -1,12 +1,12 @@
-package com.thexfactor117.levels.client.gui;
+package com.thexfactor117.levels.forge.client.gui;
 
-import com.thexfactor117.levels.Levels;
-import com.thexfactor117.levels.leveling.Experience;
-import com.thexfactor117.levels.leveling.ItemType;
-import com.thexfactor117.levels.leveling.attributes.components.AttributeBase;
-import com.thexfactor117.levels.leveling.attributes.components.AttributeRarity;
-import com.thexfactor117.levels.network.PacketAttributeSelection;
-import com.thexfactor117.levels.util.NBTHelper;
+import com.thexfactor117.levels.forge.Levels;
+import com.thexfactor117.levels.forge.leveling.Experience;
+import com.thexfactor117.levels.forge.leveling.ItemType;
+import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
+import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeRarity;
+import com.thexfactor117.levels.forge.network.PacketAttributeSelection;
+import com.thexfactor117.levels.forge.util.NBTHelper;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

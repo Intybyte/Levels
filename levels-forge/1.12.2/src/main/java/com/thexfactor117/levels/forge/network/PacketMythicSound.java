@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.network;
+package com.thexfactor117.levels.forge.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

@@ -1,10 +1,10 @@
-package com.thexfactor117.levels.leveling;
+package com.thexfactor117.levels.forge.leveling;
 
-import com.thexfactor117.levels.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.leveling.attributes.WeaponAttribute;
-import com.thexfactor117.levels.leveling.attributes.components.AttributeBase;
+import com.thexfactor117.levels.forge.leveling.attributes.ArmorAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.ShieldAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.item.Item;

@@ -1,8 +1,8 @@
-package com.thexfactor117.levels.events;
+package com.thexfactor117.levels.forge.events;
 
-import com.thexfactor117.levels.Levels;
-import com.thexfactor117.levels.proxies.ClientProxy;
-import com.thexfactor117.levels.util.GuiHandler;
+import com.thexfactor117.levels.forge.Levels;
+import com.thexfactor117.levels.forge.proxies.ClientProxy;
+import com.thexfactor117.levels.forge.util.GuiHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;

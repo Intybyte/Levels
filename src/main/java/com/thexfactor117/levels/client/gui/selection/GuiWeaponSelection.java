@@ -67,9 +67,9 @@ public class GuiWeaponSelection extends GuiScreen
 		
 		if (player != null && stack != null &&  nbt != null && stack.getItem() instanceof ItemSword)
 		{
-			drawCenteredString(fontRendererObj, I18n.format("levels.misc.attributes"), width / 2, 20, 0xFFFFFF);
-			drawCenteredString(fontRendererObj, I18n.format("levels.misc.attributes.tokens") + ": " + Experience.getAttributeTokens(nbt), width / 2 - 112, 40, 0xFFFFFF);
-			drawCenteredString(fontRendererObj, I18n.format("levels.misc.attributes.current"), width / 2 + 112, 40, 0xFFFFFF);
+			drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes"), width / 2, 20, 0xFFFFFF);
+			drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.tokens") + ": " + Experience.getAttributeTokens(nbt), width / 2 - 112, 40, 0xFFFFFF);
+			drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.current"), width / 2 + 112, 40, 0xFFFFFF);
 			
 			int k = -1;
 			
@@ -78,7 +78,7 @@ public class GuiWeaponSelection extends GuiScreen
 				if (WeaponAttribute.WEAPON_ATTRIBUTES.get(i).hasAttribute(nbt))
 				{
 					k++;
-					drawCenteredString(fontRendererObj, WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 60 + (10 * k), WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getHex());
+					drawCenteredString(fontRenderer, WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 60 + (10 * k), WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getHex());
 				}
 			}
 
@@ -115,7 +115,6 @@ public class GuiWeaponSelection extends GuiScreen
 	
 	/**
 	 * Determines which buttons need to be enabled.
-	 * @param buttons
 	 * @param nbt
 	 */
 	private void displayButtons(NBTTagCompound nbt)

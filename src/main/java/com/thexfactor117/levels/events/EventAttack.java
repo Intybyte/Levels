@@ -47,9 +47,10 @@ public class EventAttack
 	@SubscribeEvent
 	public void onAttack(LivingHurtEvent event)
 	{
-		if (event.getSource().getSourceOfDamage() instanceof EntityPlayer && !(event.getSource().getSourceOfDamage() instanceof FakePlayer))
+        Entity source = event.getSource().getTrueSource();
+		if (source instanceof EntityPlayer && !(source instanceof FakePlayer))
 		{
-			EntityPlayer player = (EntityPlayer) event.getSource().getSourceOfDamage();
+			EntityPlayer player = (EntityPlayer) source;
 			EntityLivingBase enemy = event.getEntityLiving();
 			ItemStack stack = player.inventory.getCurrentItem();
 			NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
@@ -62,10 +63,10 @@ public class EventAttack
 				attemptLevel(nbt, stack, player);
 			}
 		}
-		else if (event.getSource().getSourceOfDamage() instanceof EntityLivingBase && event.getEntityLiving() instanceof EntityPlayer)
+		else if (source instanceof EntityLivingBase && event.getEntityLiving() instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-			EntityLivingBase enemy = (EntityLivingBase) event.getSource().getSourceOfDamage();
+			EntityLivingBase enemy = (EntityLivingBase) source;
 			
 			if (enemy != null && player != null)
 			{
@@ -97,9 +98,10 @@ public class EventAttack
 				}
 			}
 		}
-		else if (event.getSource().getSourceOfDamage() instanceof EntityArrow)
+        //TODO: remove, this is unnecessary
+		else if (source instanceof EntityArrow)
 		{
-			EntityArrow arrow = (EntityArrow) event.getSource().getSourceOfDamage();
+			EntityArrow arrow = (EntityArrow) source;
 			
 			if (arrow.shootingEntity instanceof EntityPlayer)
 			{
@@ -161,9 +163,10 @@ public class EventAttack
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent event)
 	{
-		if (event.getSource().getSourceOfDamage() instanceof EntityPlayer && !(event.getSource().getSourceOfDamage() instanceof FakePlayer))
+        Entity source = event.getSource().getTrueSource();
+		if (source instanceof EntityPlayer && !(source instanceof FakePlayer))
 		{
-			EntityPlayer player = (EntityPlayer) event.getSource().getSourceOfDamage();
+			EntityPlayer player = (EntityPlayer) source;
 			EntityLivingBase enemy = event.getEntityLiving();
 			ItemStack stack = player.inventory.getCurrentItem();
 			NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
@@ -175,9 +178,9 @@ public class EventAttack
 				attemptLevel(nbt, stack, player);
 			}
 		}
-		else if (event.getSource().getSourceOfDamage() instanceof EntityArrow)
+		else if (source instanceof EntityArrow)
 		{
-			EntityArrow arrow = (EntityArrow) event.getSource().getSourceOfDamage();
+			EntityArrow arrow = (EntityArrow) source;
 			
 			if (arrow.shootingEntity instanceof EntityPlayer)
 			{

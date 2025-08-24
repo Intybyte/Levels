@@ -17,7 +17,7 @@ public class NBTHelper
 
 	public static void saveStackNBT(ItemStack stack, NBTTagCompound nbt)
 	{
-		if (!stack.hasTagCompound() && !nbt.hasNoTags())
+		if (!stack.hasTagCompound() && !nbt.isEmpty())
 		{
 			stack.setTagCompound(nbt);
 		}

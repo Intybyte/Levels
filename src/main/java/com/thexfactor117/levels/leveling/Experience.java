@@ -105,7 +105,6 @@ public class Experience
 	/**
 	 * Sets the experience of the current weapon/armor.
 	 * @param nbt
-	 * @param level
 	 */
 	public static void setExperience(NBTTagCompound nbt, int experience)
 	{

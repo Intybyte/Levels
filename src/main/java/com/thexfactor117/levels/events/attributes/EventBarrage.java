@@ -35,7 +35,7 @@ public class EventBarrage
 				for (int i = 0; i < (int) BowAttribute.BARRAGE.getCalculatedValue(nbt, 3, 1.5); i++)
 				{
 					EntityArrow entityarrow = new EntityTippedArrow(player.getEntityWorld(), player);
-					entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0, ((ItemBow) event.getBow().getItem()).getArrowVelocity(event.getCharge()) * 3, 20F);
+                    entityarrow.shoot(player, player.rotationPitch, player.rotationYaw, 0, ((ItemBow) event.getBow().getItem()).getArrowVelocity(event.getCharge()) * 3, 20F);
 					entityarrow.pickupStatus = PickupStatus.DISALLOWED;
 					player.getEntityWorld().spawnEntity(entityarrow);
 				}

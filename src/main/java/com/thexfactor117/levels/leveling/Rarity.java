@@ -42,7 +42,6 @@ public enum Rarity
 	/**
 	 * Returns a randomized rarity based on the Blacksmithing rank of the player.
 	 * @param nbt
-	 * @param blacksmithingRank
 	 * @param rand
 	 * @return
 	 */

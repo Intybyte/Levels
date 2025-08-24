@@ -47,18 +47,21 @@ public class EventCreateWeapon
 	private void create(ItemStack stack, EntityPlayer player)
 	{
 		NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
-		
-		if (nbt != null)
-		{
-			for (int j = 0; j < Config.itemBlacklist.length; j++)
-			{
-				if (Config.itemBlacklist[j].equals(stack.getItem().getRegistryName().getResourceDomain() + ":" + stack.getItem().getRegistryName().getResourcePath()))
-				{
-					return;
-				}
-			}
-			
-			WeaponHelper.create(stack, player);
-		}
-	}
+
+        if (nbt == null) {
+            return;
+        }
+
+
+        String nsKey = stack.getItem().getRegistryName().getNamespace();
+        for (int j = 0; j < Config.itemBlacklist.length; j++)
+        {
+            if (Config.itemBlacklist[j].equals(nsKey))
+            {
+                return;
+            }
+        }
+
+        WeaponHelper.create(stack, player);
+    }
 }

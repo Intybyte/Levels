@@ -43,11 +43,11 @@ public class EventSoulBound
 		
 		for (int i = 0; i < event.getDrops().size(); i++)
 		{
-			item = event.getDrops().get(i).getEntityItem().getItem();
+			item = event.getDrops().get(i).getItem().getItem();
 			
 			if (item != null && (item instanceof ItemSword || item instanceof ItemShield || item instanceof ItemArmor || item instanceof ItemBow))
 			{
-				ItemStack stack = event.getDrops().get(i).getEntityItem();
+				ItemStack stack = event.getDrops().get(i).getItem();
 				NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 				
 				if (nbt != null)

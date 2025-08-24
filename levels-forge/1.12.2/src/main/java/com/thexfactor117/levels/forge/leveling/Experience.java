@@ -18,20 +18,34 @@ import net.minecraft.util.text.TextFormatting;
  *
  */
 public class Experience {
+
+    private final EntityPlayer player;
+    private final ItemStack stack;
+    private final NBTTagCompound nbt;
+
+    public Experience(EntityPlayer player, ItemStack stack) {
+        this.player = player;
+        this.stack = stack;
+        this.nbt = stack.getTagCompound();
+    }
+
     /**
      * Levels up the current weapon/armor to the next level, assuming it is not at max level.
-     * @param player
-     * @param stack
      */
-    public static void levelUp(EntityPlayer player, ItemStack stack) {
+    public void levelUp() {
+        if (player == null) {
+            throw new RuntimeException("levelUp can't be called with null player, if you see this message open a bug report");
+        }
+
         NBTTagCompound nbt = stack.getTagCompound();
+        //JsonToNBT
 
         if (nbt != null) {
-            while (Experience.getLevel(nbt) < Config.maxLevel && Experience.getExperience(nbt) >= Experience.getNextLevelExperience(Experience.getLevel(nbt))) {
-                Experience.setLevel(nbt, Experience.getLevel(nbt) + 1); // increase level by one
-                Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) + 1);
+            while (this.getLevel() < Config.maxLevel && this.getExperience() >= Experience.getNextLevelExperience(this.getLevel())) {
+                this.setLevel(this.getLevel() + 1); // increase level by one
+                this.addAttributeTokens(1);
 
-                player.sendMessage(new TextComponentString(stack.getDisplayName() + TextFormatting.GRAY + " has leveled up to level " + TextFormatting.GOLD + Experience.getLevel(nbt) + TextFormatting.GRAY + "!"));
+                player.sendMessage(new TextComponentString(stack.getDisplayName() + TextFormatting.GRAY + " has leveled up to level " + TextFormatting.GOLD + this.getLevel() + TextFormatting.GRAY + "!"));
 
                 if (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemAxe) {
                     // update damage and attack speed values
@@ -60,69 +74,77 @@ public class Experience {
 
     /**
      * Returns the level of the current weapon/armor.
-     * @param nbt
-     * @return
+     * @return level of the item
      */
-    public static int getLevel(NBTTagCompound nbt) {
+    public int getLevel() {
         return nbt != null ? nbt.getInteger("LEVEL") : 1;
     }
 
     /**
      * Sets the level of the current weapon/armor.
-     * @param nbt
-     * @param level
+     * @param level new level
      */
-    public static void setLevel(NBTTagCompound nbt, int level) {
-        if (nbt != null) {
-            if (level > 0)
-                nbt.setInteger("LEVEL", level);
-            else
-                nbt.removeTag("LEVEL");
+    public void setLevel(int level) {
+        if (nbt == null) {
+            return;
         }
+
+        if (level > 0)
+            nbt.setInteger("LEVEL", level);
+        else
+            nbt.removeTag("LEVEL");
     }
 
     /**
      * Returns the experience of the current weapon/armor.
-     * @param nbt
-     * @return
+     * @return experience
      */
-    public static int getExperience(NBTTagCompound nbt) {
+    public int getExperience() {
         return nbt != null ? nbt.getInteger("EXPERIENCE") : 1;
     }
 
     /**
      * Sets the experience of the current weapon/armor.
-     * @param nbt
      */
-    public static void setExperience(NBTTagCompound nbt, int experience) {
-        if (nbt != null) {
-            if (experience > 0)
-                nbt.setInteger("EXPERIENCE", experience);
-            else
-                nbt.removeTag("EXPERIENCE");
+    public void setExperience(int experience) {
+        if (nbt == null) {
+            return;
         }
+
+        if (experience > 0)
+            nbt.setInteger("EXPERIENCE", experience);
+        else
+            nbt.removeTag("EXPERIENCE");
+    }
+
+    public void addExperience(int experience) {
+        setExperience(getExperience() + experience);
     }
 
     /**
      * Sets the amount of Attribute Tokens the specific NBT tag has.
-     * @param nbt
      * @param tokens
      */
-    public static void setAttributeTokens(NBTTagCompound nbt, int tokens) {
-        if (nbt != null) {
-            if (tokens > 0)
-                nbt.setInteger("TOKENS", tokens);
-            else
-                nbt.removeTag("TOKENS");
+    public void setAttributeTokens(int tokens) {
+        if (nbt == null) {
+            return;
         }
+
+        if (tokens > 0)
+            nbt.setInteger("TOKENS", tokens);
+        else
+            nbt.removeTag("TOKENS");
+    }
+
+    public void addAttributeTokens(int toAdd) {
+        setAttributeTokens(getAttributeTokens() + toAdd);
     }
 
     /**
      * Returns how many Attribute Tokens the specific NBT tag has.
-     * @param nbt
      * @return
      */
-    public static int getAttributeTokens(NBTTagCompound nbt) {
+    public int getAttributeTokens() {
         return nbt != null ? nbt.getInteger("TOKENS") : 0;
     }
 

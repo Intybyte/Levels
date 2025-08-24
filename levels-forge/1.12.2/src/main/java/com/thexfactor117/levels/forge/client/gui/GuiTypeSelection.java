@@ -71,8 +71,9 @@ public class GuiTypeSelection extends GuiScreen {
             return;
         }
 
+        Experience exp = new Experience(null, stack);
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes"), width / 2, 20, 0xFFFFFF);
-        drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.tokens") + ": " + Experience.getAttributeTokens(nbt), width / 2 - 112, 40, 0xFFFFFF);
+        drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.tokens") + ": " + exp.getAttributeTokens(), width / 2 - 112, 40, 0xFFFFFF);
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.current"), width / 2 + 112, 40, 0xFFFFFF);
 
         int k = -1;
@@ -84,7 +85,7 @@ public class GuiTypeSelection extends GuiScreen {
             }
         }
 
-        displayButtons(nbt);
+        displayButtons(stack);
         drawTooltips(nbt, mouseX, mouseY);
     }
 
@@ -102,7 +103,8 @@ public class GuiTypeSelection extends GuiScreen {
             return;
         }
 
-        if (Experience.getAttributeTokens(nbt) <= 0) {
+        Experience exp = new Experience(null, stack);
+        if (exp.getAttributeTokens() <= 0) {
             return;
         }
 
@@ -118,10 +120,13 @@ public class GuiTypeSelection extends GuiScreen {
 
     /**
      * Determines which buttons need to be enabled.
-     * @param nbt
+     * @param stack
      */
-    private void displayButtons(NBTTagCompound nbt) {
-        if (Experience.getAttributeTokens(nbt) <= 0) {
+    private void displayButtons(ItemStack stack) {
+        NBTTagCompound nbt = stack.getTagCompound();
+        Experience exp = new Experience(null, stack);
+
+        if (exp.getAttributeTokens() <= 0) {
             for (GuiButton attributeButton : attributeButtons) {
                 attributeButton.enabled = false;
             }
@@ -135,7 +140,7 @@ public class GuiTypeSelection extends GuiScreen {
              * Enable Uncommon attributes UNLESS already added to nbt AND are not already tier 3.
              * Enable ALL attributes that have already been added UNLESS they are at tier 3.
              */
-            if (Experience.getAttributeTokens(nbt) == 1) {
+            if (exp.getAttributeTokens() == 1) {
                 if (attributes.get(i).getRarity() == AttributeRarity.UNCOMMON && !isLevel3)
                     attributeButtons[i].enabled = true;
 
@@ -147,7 +152,7 @@ public class GuiTypeSelection extends GuiScreen {
              * Enable UNCOMMON AND RARE attributes UNLESS already added to nbt AND are not already tier 3.
              * Enable ALL attributes that have already been added UNLESS they are at tier 3.
              */
-            if (Experience.getAttributeTokens(nbt) == 2) {
+            if (exp.getAttributeTokens() == 2) {
 
 
                 if ((attributes.get(i).getRarity() == AttributeRarity.RARE || attributes.get(i).getRarity() == AttributeRarity.UNCOMMON) && !attributes.get(i).hasAttribute(nbt))
@@ -165,7 +170,7 @@ public class GuiTypeSelection extends GuiScreen {
              * Enable ALL attributes UNLESS already added to nbt AND are not already tier 3.
              * Enable ALL attributes that have already been added.
              */
-            if (Experience.getAttributeTokens(nbt) >= 3) {
+            if (exp.getAttributeTokens() >= 3) {
                 if (!attributes.get(i).hasAttribute(nbt))
                     attributeButtons[i].enabled = true;
 

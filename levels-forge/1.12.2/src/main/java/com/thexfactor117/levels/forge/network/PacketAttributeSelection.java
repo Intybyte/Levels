@@ -66,16 +66,18 @@ public class PacketAttributeSelection implements IMessage {
                     return;
                 }
 
+                Experience exp = new Experience(null, stack);
+
                 List<? extends AttributeBase> attributeList = type.list();
                 AttributeBase attribute = attributeList.get(message.index);
                 if (attribute.hasAttribute(nbt)) {
                     attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
-                    Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
+                    exp.addAttributeTokens(-1);
                 } else {
                     int cost = attribute.getRarity().getCost();
 
                     attribute.addAttribute(nbt);
-                    Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);
+                    exp.addAttributeTokens(-cost);
 
                     if (attribute.getAttributeKey().contains("Unbreakable"))
                         nbt.setInteger("Unbreakable", 1);

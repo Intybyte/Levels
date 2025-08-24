@@ -64,7 +64,7 @@ public class WeaponHelper {
             nbt.setInteger("Unbreakable", 1); // adds Unbreakable tag to item
         }
 
-        Experience.setLevel(nbt, 1);
+        new Experience(null, stack).setLevel(1);
         nbt.setDouble("Multiplier", getWeightedMultiplier(Rarity.getRarity(nbt))); // adds a randomized multiplier to the item, weighted by rarity
         nbt.setInteger("HideFlags", 6); // hides Attribute Modifier and Unbreakable tags
         setAttributeModifiers(nbt, stack); // sets up Attribute Modifiers

@@ -77,17 +77,19 @@ public class EventTooltip {
         // rarity
         tooltip.add(rarity.getColor() + TextFormatting.ITALIC + rarity.getName()); // rarity
 
+        Experience exp = new Experience(null, stack);
+        int level = exp.getLevel();
         // level
-        if (Experience.getLevel(nbt) >= Config.maxLevel)
+        if (level >= Config.maxLevel)
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + I18n.format("levels.misc.max")); // max level
         else
-            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + Experience.getLevel(nbt)); // level
+            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + level); // level
 
         // experience
-        if (Experience.getLevel(nbt) >= Config.maxLevel)
+        if (level >= Config.maxLevel)
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + I18n.format("levels.misc.max"));
         else
-            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + Experience.getExperience(nbt) + " / " + Experience.getNextLevelExperience(Experience.getLevel(nbt)));
+            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + exp.getExperience() + " / " + Experience.getNextLevelExperience(level));
 
         // durability
         if (nbt.getInteger("Unbreakable") == 1)

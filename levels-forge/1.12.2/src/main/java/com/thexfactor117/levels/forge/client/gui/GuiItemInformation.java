@@ -106,18 +106,21 @@ public class GuiItemInformation extends GuiScreen {
      */
     private void drawStrings(ItemStack stack, NBTTagCompound nbt) {
         Rarity rarity = Rarity.getRarity(nbt);
+        Experience exp = new Experience(null, stack);
+
         drawCenteredString(fontRenderer, stack.getDisplayName(), width / 2, 20, rarity.getHex());
         drawString(fontRenderer, I18n.format("levels.misc.rarity") + ": " + rarity.getName(), width / 2 - 50, 40, rarity.getHex());
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes"), width / 2, 80, 0xFFFFFF);
-        drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.tokens") + ": " + Experience.getAttributeTokens(nbt), width / 2 - 112, 100, 0xFFFFFF);
+        drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.tokens") + ": " + exp.getAttributeTokens(), width / 2 - 112, 100, 0xFFFFFF);
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.current"), width / 2 + 112, 100, 0xFFFFFF);
 
-        if (Experience.getLevel(nbt) == Config.maxLevel) {
+
+        if (exp.getLevel() == Config.maxLevel) {
             drawString(fontRenderer, I18n.format("levels.misc.level") + ": " + I18n.format("levels.misc.max"), width / 2 - 50, 50, 0xFFFFFF);
             drawString(fontRenderer, I18n.format("levels.misc.experience") + ": " + I18n.format("levels.misc.max"), width / 2 - 50, 60, 0xFFFFFF);
         } else {
-            drawString(fontRenderer, I18n.format("levels.misc.level") + ": " + Experience.getLevel(nbt), width / 2 - 50, 50, 0xFFFFFF);
-            drawString(fontRenderer, I18n.format("levels.misc.experience") + ": " + Experience.getExperience(nbt) + " / " + Experience.getNextLevelExperience(Experience.getLevel(nbt)), width / 2 - 50, 60, 0xFFFFFF);
+            drawString(fontRenderer, I18n.format("levels.misc.level") + ": " + exp.getLevel(), width / 2 - 50, 50, 0xFFFFFF);
+            drawString(fontRenderer, I18n.format("levels.misc.experience") + ": " + exp.getExperience() + " / " + Experience.getNextLevelExperience(exp.getLevel()), width / 2 - 50, 60, 0xFFFFFF);
         }
 
         int k = -1;

@@ -180,33 +180,36 @@ public class EventAttack {
      * @param enemy
      */
     private void addExperience(NBTTagCompound nbt, ItemStack stack, EntityLivingBase enemy) {
-        if (Experience.getLevel(nbt) < Config.maxLevel) {
-            // DEV
-            boolean isDev = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
+        if (!(new Experience(null, stack).getLevel() < Config.maxLevel)) {
+            return;
+        }
 
-            if (isDev) {
-                Experience.setExperience(nbt, Experience.getExperience(nbt) + 200);
+        // DEV
+        boolean isDev = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
+
+        Experience exp = new Experience(null, stack);
+        if (isDev) {
+            exp.addExperience(200);
+        }
+
+        // WEAPONS AND BOW
+        if (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) {
+            int xp = (int) (enemy.getMaxHealth() * 0.2);
+            exp.addExperience(xp);
+        }
+
+        // ARMOR AND SHIELD
+        if (stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) {
+            int xp = 0;
+
+            // Default to use Attack Damage if available; uses Health if Attack Damage doesn't exist.
+            if (enemy.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE) != null) {
+                xp = (int) (enemy.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * 0.5);
+            } else {
+                xp = (int) (enemy.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue() * 0.5);
             }
 
-            // WEAPONS AND BOW
-            if (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) {
-                int xp = (int) (enemy.getMaxHealth() * 0.2);
-                Experience.setExperience(nbt, Experience.getExperience(nbt) + xp);
-            }
-
-            // ARMOR AND SHIELD
-            if (stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) {
-                int xp = 0;
-
-                // Default to use Attack Damage if available; uses Health if Attack Damage doesn't exist.
-                if (enemy.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE) != null) {
-                    xp = (int) (enemy.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * 0.5);
-                } else {
-                    xp = (int) (enemy.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue() * 0.5);
-                }
-
-                Experience.setExperience(nbt, Experience.getExperience(nbt) + xp);
-            }
+            exp.addExperience(xp);
         }
     }
 
@@ -218,71 +221,72 @@ public class EventAttack {
     private void useRarity(NBTTagCompound nbt, ItemStack stack, boolean death) {
         Rarity rarity = Rarity.getRarity(nbt);
 
-        if (rarity != Rarity.DEFAULT) {
-            int var;
-            int var1;
-            int var2;
-            int var3;
+        if (rarity == Rarity.DEFAULT) {
+            return;
+        }
 
-            switch (rarity) {
-                case UNCOMMON: // 6% chance of adding 1-3 experience points; 6% chance of not using durability
-                    if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
-                        var = (int) (Math.random() * 15);
-                        var1 = (int) (Math.random() * 3 + 1);
-                        if (var == 0) Experience.setExperience(nbt, Experience.getExperience(nbt) + var1);
-                    }
+        int var;
+        int addedXp;
+        int var2;
+        int var3;
 
-                    if (!Config.unlimitedDurability && !death) {
-                        var2 = (int) (Math.random() * 15);
-                        if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - 1);
-                    }
+        Experience exp = new Experience(null, stack);
+        switch (rarity) {
+            case UNCOMMON: // 6% chance of adding 1-3 experience points; 6% chance of not using durability
+                if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
+                    var = (int) (Math.random() * 15);
+                    addedXp = (int) (Math.random() * 3 + 1);
+                    if (var == 0) exp.addExperience(addedXp);
+                }
 
-                    break;
-                case RARE: // 10% chance of adding 1-5 experience points; 10% chance of not using durability AND gaining an additional durability point
-                    if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
-                        var = (int) (Math.random() * 10);
-                        var1 = (int) (Math.random() * 5 + 1);
-                        if (var == 0) Experience.setExperience(nbt, Experience.getExperience(nbt) + var1);
-                    }
+                if (!Config.unlimitedDurability && !death) {
+                    var2 = (int) (Math.random() * 15);
+                    if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - 1);
+                }
 
-                    if (!Config.unlimitedDurability && !death) {
-                        var2 = (int) (Math.random() * 10);
-                        var3 = (int) (Math.random() * 2);
-                        if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - (1 + var3));
-                    }
+                break;
+            case RARE: // 10% chance of adding 1-5 experience points; 10% chance of not using durability AND gaining an additional durability point
+                if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
+                    var = (int) (Math.random() * 10);
+                    addedXp = (int) (Math.random() * 5 + 1);
+                    if (var == 0) exp.addExperience(addedXp);
+                }
 
-                    break;
-                case LEGENDARY: // 14% chance of adding 3-5 experience points; 14% chance of not using durability AND gaining 1-3 durability points
-                    if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
-                        var = (int) (Math.random() * 7);
-                        var1 = (int) (Math.random() * 5 + 3);
-                        if (var == 0) Experience.setExperience(nbt, Experience.getExperience(nbt) + var1);
-                    }
+                if (!Config.unlimitedDurability && !death) {
+                    var2 = (int) (Math.random() * 10);
+                    var3 = (int) (Math.random() * 2);
+                    if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - (1 + var3));
+                }
 
-                    if (!Config.unlimitedDurability && !death) {
-                        var2 = (int) (Math.random() * 7);
-                        var3 = (int) (Math.random() * 3 + 1);
-                        if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - (1 + var3));
-                    }
+                break;
+            case LEGENDARY: // 14% chance of adding 3-5 experience points; 14% chance of not using durability AND gaining 1-3 durability points
+                if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
+                    var = (int) (Math.random() * 7);
+                    addedXp = (int) (Math.random() * 5 + 3);
+                    if (var == 0) exp.addExperience(addedXp);
+                }
 
-                    break;
-                case MYTHIC: // 20% chance of adding 3-10 experience points; 20% chance of not using durability AND gaining 1-5 durability points
-                    if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
-                        var = (int) (Math.random() * 5);
-                        var1 = (int) (Math.random() * 8 + 3);
-                        if (var == 0) Experience.setExperience(nbt, Experience.getExperience(nbt) + var1);
-                    }
+                if (!Config.unlimitedDurability && !death) {
+                    var2 = (int) (Math.random() * 7);
+                    var3 = (int) (Math.random() * 3 + 1);
+                    if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - (1 + var3));
+                }
 
-                    if (!Config.unlimitedDurability && !death) {
-                        var2 = (int) (Math.random() * 5);
-                        var3 = (int) (Math.random() * 5 + 1);
-                        if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - (1 + var3));
-                    }
+                break;
+            case MYTHIC: // 20% chance of adding 3-10 experience points; 20% chance of not using durability AND gaining 1-5 durability points
+                if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
+                    var = (int) (Math.random() * 5);
+                    addedXp = (int) (Math.random() * 8 + 3);
+                    if (var == 0) exp.addExperience(addedXp);
+                }
 
-                    break;
-                default:
-                    break;
-            }
+                if (!Config.unlimitedDurability && !death) {
+                    var2 = (int) (Math.random() * 5);
+                    var3 = (int) (Math.random() * 5 + 1);
+                    if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - (1 + var3));
+                }
+
+                break;
         }
     }
 
@@ -385,7 +389,7 @@ public class EventAttack {
      * @param player
      */
     private void attemptLevel(NBTTagCompound nbt, ItemStack stack, EntityPlayer player) {
-        Experience.levelUp(player, stack);
+        new Experience(player, stack).levelUp();
         NBTHelper.saveStackNBT(stack, nbt);
     }
 }

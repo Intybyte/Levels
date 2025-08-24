@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.forge.leveling.attributes.components;
+package com.thexfactor117.levels.common.attribute;
 
 import com.thexfactor117.levels.common.utils.RomanNumber;
 

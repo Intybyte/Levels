@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.common;
+package com.thexfactor117.levels.common.color;
 
 public enum LegacyTextColor {
     BLACK('0'),

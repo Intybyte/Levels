@@ -44,7 +44,7 @@ import java.util.List;
 public class EventAttack {
     @SubscribeEvent
     public void onAttack(LivingHurtEvent event) {
-        Entity source = event.getSource().getTrueSource();
+        Entity source = event.getSource().getImmediateSource();
         if (source instanceof EntityPlayer && !(source instanceof FakePlayer)) {
             EntityPlayer player = (EntityPlayer) source;
             EntityLivingBase enemy = event.getEntityLiving();
@@ -86,7 +86,6 @@ public class EventAttack {
                 }
             }
         }
-        //TODO: remove, this is unnecessary
         else if (source instanceof EntityArrow) {
             EntityArrow arrow = (EntityArrow) source;
 

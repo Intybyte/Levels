@@ -1,8 +1,8 @@
 import org.gradle.kotlin.dsl.maven
 
 rootProject.name = "Levels-Main"
-include("Levels-3")
-project(":Levels-3").projectDir = file("./levels-forge/1.12.2")
+include("levels-forge-1.12.2")
+project(":levels-forge-1.12.2").projectDir = file("./levels-forge/1.12.2")
 
 include("levels-common")
 

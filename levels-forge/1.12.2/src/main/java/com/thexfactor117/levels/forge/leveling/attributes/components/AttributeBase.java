@@ -57,4 +57,8 @@ public interface AttributeBase extends RomanNumeralDisplay {
     String getAttributeKey();
 
     AttributeRarity getRarity();
+
+    default String getName(NBTTagCompound nbt) {
+        return getCompleteName(getAttributeTier(nbt));
+    }
 }

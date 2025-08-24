@@ -61,15 +61,4 @@ public enum ShieldAttribute implements AttributeBase {
             return baseValue * (Math.pow(multiplier, 2));
 
     }
-
-    public String getName(NBTTagCompound nbt) {
-        if (getAttributeTier(nbt) == 1)
-            return baseName;
-        else if (getAttributeTier(nbt) == 2)
-            return baseName + " II";
-        else if (getAttributeTier(nbt) == 3)
-            return baseName + " III";
-        else
-            return baseName;
-    }
 }

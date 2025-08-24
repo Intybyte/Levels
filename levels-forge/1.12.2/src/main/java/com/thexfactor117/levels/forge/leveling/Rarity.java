@@ -1,9 +1,9 @@
 package com.thexfactor117.levels.forge.leveling;
 
+import com.thexfactor117.levels.common.LegacyTextColor;
 import com.thexfactor117.levels.forge.util.RandomCollection;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -15,12 +15,12 @@ import java.util.Random;
  *
  */
 public enum Rarity {
-    DEFAULT(TextFormatting.GRAY, 0, 0, 0, 0),
-    COMMON(TextFormatting.WHITE, 0xFFFFFF, 0.65, 0xF0100010, 0x50FFFFFF),
-    UNCOMMON(TextFormatting.DARK_GREEN, 0x00AA00, 0.2, 0xF0100010, 0x5000AA00),
-    RARE(TextFormatting.AQUA, 0x55FFFF, 0.1, 0xF0100010, 0x5055FFFF),
-    LEGENDARY(TextFormatting.DARK_PURPLE, 0xAA00AA, 0.045, 0xF0100010, 0x50AA00AA),
-    MYTHIC(TextFormatting.GOLD, 0xFFAA00, 0.005, 0xF0100010, 0x50FFAA00);
+    DEFAULT(LegacyTextColor.GRAY, 0, 0, 0, 0),
+    COMMON(LegacyTextColor.WHITE, 0xFFFFFF, 0.65, 0xF0100010, 0x50FFFFFF),
+    UNCOMMON(LegacyTextColor.DARK_GREEN, 0x00AA00, 0.2, 0xF0100010, 0x5000AA00),
+    RARE(LegacyTextColor.AQUA, 0x55FFFF, 0.1, 0xF0100010, 0x5055FFFF),
+    LEGENDARY(LegacyTextColor.DARK_PURPLE, 0xAA00AA, 0.045, 0xF0100010, 0x50AA00AA),
+    MYTHIC(LegacyTextColor.GOLD, 0xFFAA00, 0.005, 0xF0100010, 0x50FFAA00);
 
     public static final RandomCollection<Rarity> rarityRandom = new RandomCollection<>();
 

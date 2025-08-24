@@ -104,6 +104,7 @@ dependencies {
     // api(rfg.deobf("curse.maven:ic2-242638:2353971"))
     // Example: grab the ic2 jar from libs/ in the workspace and deobfuscate
     // api(rfg.deobf(project.files("libs/ic2.jar")))
+    implementation(project(":levels-common"))
 }
 
 // Publishing to a Maven repository

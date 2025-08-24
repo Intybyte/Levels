@@ -1,11 +1,11 @@
 package com.thexfactor117.levels.forge.leveling.attributes;
 
+import com.thexfactor117.levels.common.LegacyTextColor;
 import com.thexfactor117.levels.forge.config.Config;
 import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeRarity;
 import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextFormatting;
 
 import java.util.ArrayList;
 
@@ -16,16 +16,16 @@ import java.util.ArrayList;
  */
 @Getter
 public enum WeaponAttribute implements AttributeBase {
-    FIRE("Fire", Config.weaponFire, TextFormatting.RED, 0xFF5555, AttributeRarity.UNCOMMON),
-    FROST("Frost", Config.weaponFrost, TextFormatting.AQUA, 0x55FFFF, AttributeRarity.UNCOMMON),
-    POISON("Poison", Config.weaponPoison, TextFormatting.DARK_GREEN, 0x00AA00, AttributeRarity.UNCOMMON),
-    DURABLE("Durable", Config.weaponDurable, TextFormatting.GRAY, 0xAAAAAA, AttributeRarity.UNCOMMON),
-    ABSORB("Absorb", Config.weaponAbsorb, TextFormatting.GREEN, 0x55FF55, AttributeRarity.RARE),
-    SOUL_BOUND("Soul Bound", Config.weaponSoulBound, TextFormatting.DARK_PURPLE, 0xAA00AA, AttributeRarity.RARE),
-    CRITICAL("Critical", Config.weaponCritical, TextFormatting.BLUE, 0x5555FF, AttributeRarity.RARE),
-    CHAINED("Chained", Config.weaponChained, TextFormatting.WHITE, 0xFFFFFF, AttributeRarity.LEGENDARY),
-    UNBREAKABLE("Unbreakable", Config.weaponUnbreakable, TextFormatting.GRAY, 0xAAAAAA, AttributeRarity.LEGENDARY),
-    VOID("Void", Config.weaponVoid, TextFormatting.DARK_GRAY, 0x555555, AttributeRarity.LEGENDARY);
+    FIRE("Fire", Config.weaponFire, LegacyTextColor.RED, 0xFF5555, AttributeRarity.UNCOMMON),
+    FROST("Frost", Config.weaponFrost, LegacyTextColor.AQUA, 0x55FFFF, AttributeRarity.UNCOMMON),
+    POISON("Poison", Config.weaponPoison, LegacyTextColor.DARK_GREEN, 0x00AA00, AttributeRarity.UNCOMMON),
+    DURABLE("Durable", Config.weaponDurable, LegacyTextColor.GRAY, 0xAAAAAA, AttributeRarity.UNCOMMON),
+    ABSORB("Absorb", Config.weaponAbsorb, LegacyTextColor.GREEN, 0x55FF55, AttributeRarity.RARE),
+    SOUL_BOUND("Soul Bound", Config.weaponSoulBound, LegacyTextColor.DARK_PURPLE, 0xAA00AA, AttributeRarity.RARE),
+    CRITICAL("Critical", Config.weaponCritical, LegacyTextColor.BLUE, 0x5555FF, AttributeRarity.RARE),
+    CHAINED("Chained", Config.weaponChained, LegacyTextColor.WHITE, 0xFFFFFF, AttributeRarity.LEGENDARY),
+    UNBREAKABLE("Unbreakable", Config.weaponUnbreakable, LegacyTextColor.GRAY, 0xAAAAAA, AttributeRarity.LEGENDARY),
+    VOID("Void", Config.weaponVoid, LegacyTextColor.DARK_GRAY, 0x555555, AttributeRarity.LEGENDARY);
 
     private final String baseName;
     private final boolean enabled;

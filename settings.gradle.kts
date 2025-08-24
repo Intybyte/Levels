@@ -4,6 +4,8 @@ rootProject.name = "Levels-Main"
 include("Levels-3")
 project(":Levels-3").projectDir = file("./levels-forge/1.12.2")
 
+include("levels-common")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()

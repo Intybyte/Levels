@@ -2,7 +2,7 @@ package com.thexfactor117.levels.leveling.attributes.components;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface AttributeBase {
+public interface AttributeBase extends RomanNumeralDisplay {
 
     /**
      * Returns true if the NBT tag compound has the specified Attribute.

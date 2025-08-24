@@ -36,14 +36,14 @@ public enum ShieldAttribute implements AttributeBase {
     private final String baseName;
     private final boolean enabled;
     private final String color;
-    private final int hex;
+    private final int hexColor;
     private final AttributeRarity rarity;
 
-    ShieldAttribute(String baseName, boolean enabled, TextFormatting color, int hex, AttributeRarity rarity) {
+    ShieldAttribute(String baseName, boolean enabled, TextFormatting color, int hexColor, AttributeRarity rarity) {
         this.baseName = baseName;
         this.enabled = enabled;
         this.color = color.toString();
-        this.hex = hex;
+        this.hexColor = hexColor;
         this.rarity = rarity;
     }
 
@@ -62,7 +62,7 @@ public enum ShieldAttribute implements AttributeBase {
 
     }
 
-    public String getBaseName(NBTTagCompound nbt) {
+    public String getName(NBTTagCompound nbt) {
         if (getAttributeTier(nbt) == 1)
             return baseName;
         else if (getAttributeTier(nbt) == 2)

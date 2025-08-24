@@ -30,16 +30,16 @@ public enum WeaponAttribute implements AttributeBase {
     private final String baseName;
     private final boolean enabled;
     private final String color;
-    private final int hex;
+    private final int hexColor;
     private final AttributeRarity rarity;
 
     public static final ArrayList<WeaponAttribute> WEAPON_ATTRIBUTES = new ArrayList<>();
 
-    WeaponAttribute(String baseName, boolean enabled, Object color, int hex, AttributeRarity rarity) {
+    WeaponAttribute(String baseName, boolean enabled, Object color, int hexColor, AttributeRarity rarity) {
         this.baseName = baseName;
         this.enabled = enabled;
         this.color = color.toString();
-        this.hex = hex;
+        this.hexColor = hexColor;
         this.rarity = rarity;
     }
 

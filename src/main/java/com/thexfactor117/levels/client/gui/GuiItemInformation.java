@@ -126,7 +126,7 @@ public class GuiItemInformation extends GuiScreen {
             for (int i = 0; i < WeaponAttribute.WEAPON_ATTRIBUTES.size(); i++) {
                 if (WeaponAttribute.WEAPON_ATTRIBUTES.get(i).hasAttribute(nbt)) {
                     k++;
-                    drawCenteredString(fontRenderer, WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getHex());
+                    drawCenteredString(fontRenderer, WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getHexColor());
                 }
             }
         } else if (stack.getItem() instanceof ItemTool) {
@@ -135,21 +135,21 @@ public class GuiItemInformation extends GuiScreen {
             for (int i = 0; i < BowAttribute.BOW_ATTRIBUTES.size(); i++) {
                 if (BowAttribute.BOW_ATTRIBUTES.get(i).hasAttribute(nbt)) {
                     k++;
-                    drawCenteredString(fontRenderer, BowAttribute.BOW_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), BowAttribute.BOW_ATTRIBUTES.get(i).getHex());
+                    drawCenteredString(fontRenderer, BowAttribute.BOW_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), BowAttribute.BOW_ATTRIBUTES.get(i).getHexColor());
                 }
             }
         } else if (stack.getItem() instanceof ItemArmor) {
             for (int i = 0; i < ArmorAttribute.ARMOR_ATTRIBUTES.size(); i++) {
                 if (ArmorAttribute.ARMOR_ATTRIBUTES.get(i).hasAttribute(nbt)) {
                     k++;
-                    drawCenteredString(fontRenderer, ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getHex());
+                    drawCenteredString(fontRenderer, ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getHexColor());
                 }
             }
         } else if (stack.getItem() instanceof ItemShield) {
             for (int i = 0; i < ShieldAttribute.SHIELD_ATTRIBUTES.size(); i++) {
                 if (ShieldAttribute.SHIELD_ATTRIBUTES.get(i).hasAttribute(nbt)) {
                     k++;
-                    drawCenteredString(fontRenderer, ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getBaseName(nbt), width / 2 + 112, 115 + (10 * k), ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getHex());
+                    drawCenteredString(fontRenderer, ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getHexColor());
                 }
             }
         }

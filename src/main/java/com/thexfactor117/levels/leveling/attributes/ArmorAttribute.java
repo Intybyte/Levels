@@ -27,16 +27,16 @@ public enum ArmorAttribute implements AttributeBase {
     private final String baseName;
     private final boolean enabled;
     private final String color;
-    private final int hex;
+    private final int hexColor;
     private final AttributeRarity rarity;
 
     public static ArrayList<ArmorAttribute> ARMOR_ATTRIBUTES = new ArrayList<>();
 
-    ArmorAttribute(String baseName, boolean enabled, TextFormatting color, int hex, AttributeRarity rarity) {
+    ArmorAttribute(String baseName, boolean enabled, TextFormatting color, int hexColor, AttributeRarity rarity) {
         this.baseName = baseName;
         this.enabled = enabled;
         this.color = color.toString();
-        this.hex = hex;
+        this.hexColor = hexColor;
         this.rarity = rarity;
     }
 

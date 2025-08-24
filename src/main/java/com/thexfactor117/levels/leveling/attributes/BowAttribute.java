@@ -31,16 +31,16 @@ public enum BowAttribute implements AttributeBase {
     private final String baseName;
     private final boolean enabled;
     private final String color;
-    private final int hex;
+    private final int hexColor;
     private final AttributeRarity rarity;
 
     public static ArrayList<BowAttribute> BOW_ATTRIBUTES = new ArrayList<>();
 
-    BowAttribute(String baseName, boolean enabled, TextFormatting color, int hex, AttributeRarity rarity) {
+    BowAttribute(String baseName, boolean enabled, TextFormatting color, int hexColor, AttributeRarity rarity) {
         this.baseName = baseName;
         this.enabled = enabled;
         this.color = color.toString();
-        this.hex = hex;
+        this.hexColor = hexColor;
         this.rarity = rarity;
     }
 

@@ -119,7 +119,7 @@ public class EventTooltip {
             } else if (stack.getItem() instanceof ItemShield) {
                 for (ShieldAttribute attribute : ShieldAttribute.SHIELD_ATTRIBUTES) {
                     if (attribute.hasAttribute(nbt))
-                        tooltip.add(" " + attribute.getColor() + attribute.getBaseName(nbt));
+                        tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));
                 }
             }
         } else {

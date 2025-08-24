@@ -1,10 +1,8 @@
 package com.thexfactor117.levels.util;
 
 import com.thexfactor117.levels.client.gui.GuiItemInformation;
-import com.thexfactor117.levels.client.gui.selection.GuiArmorSelection;
-import com.thexfactor117.levels.client.gui.selection.GuiBowSelection;
-import com.thexfactor117.levels.client.gui.selection.GuiShieldSelection;
-import com.thexfactor117.levels.client.gui.selection.GuiWeaponSelection;
+import com.thexfactor117.levels.client.gui.GuiTypeSelection;
+import com.thexfactor117.levels.leveling.ItemType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -30,14 +28,11 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         if (ID == ITEM_INFORMATION)
             return new GuiItemInformation();
-        if (ID == WEAPON_ATTRIBUTES)
-            return new GuiWeaponSelection();
-        if (ID == ARMOR_ATTRIBUTES)
-            return new GuiArmorSelection();
-        if (ID == BOW_ATTRIBUTES)
-            return new GuiBowSelection();
-        if (ID == SHIELD_ATTRIBUTES)
-            return new GuiShieldSelection();
+
+        if (ID <= 4) {
+            ItemType type = ItemType.values()[ID - 1];
+            return new GuiTypeSelection(type);
+        }
 
         return null;
     }

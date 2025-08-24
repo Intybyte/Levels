@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.leveling.attributes;
+package com.thexfactor117.levels.leveling.attributes.components;
 
 import lombok.Getter;
 import net.minecraft.util.text.TextFormatting;

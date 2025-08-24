@@ -1,6 +1,8 @@
 package com.thexfactor117.levels.leveling.attributes;
 
 import com.thexfactor117.levels.config.Config;
+import com.thexfactor117.levels.leveling.attributes.components.AttributeBase;
+import com.thexfactor117.levels.leveling.attributes.components.AttributeRarity;
 import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
  *
  */
 @Getter
-public enum WeaponAttribute {
+public enum WeaponAttribute implements AttributeBase {
     FIRE("Fire", Config.weaponFire, TextFormatting.RED, 0xFF5555, AttributeRarity.UNCOMMON),
     FROST("Frost", Config.weaponFrost, TextFormatting.AQUA, 0x55FFFF, AttributeRarity.UNCOMMON),
     POISON("Poison", Config.weaponPoison, TextFormatting.DARK_GREEN, 0x00AA00, AttributeRarity.UNCOMMON),
@@ -41,55 +43,9 @@ public enum WeaponAttribute {
         this.rarity = rarity;
     }
 
-    /**
-     * Returns true if the NBT tag compound has the specified Attribute.
-     * @param nbt
-     * @return
-     */
-    public boolean hasAttribute(NBTTagCompound nbt) {
-        return nbt != null && nbt.getBoolean(toString());
-    }
-
-    /**
-     * Adds the specified Attribute to the NBT tag compound.
-     * @param nbt
-     */
-    public void addAttribute(NBTTagCompound nbt) {
-        if (nbt != null) {
-            nbt.setBoolean(toString(), true);
-            nbt.setInteger(baseName + "_TIER", 1);
-        }
-    }
-
-    /**
-     * Removes the specified Attribute from the NBT tag compound.
-     * @param nbt
-     */
-    public void removeAttribute(NBTTagCompound nbt) {
-        if (nbt != null) {
-            nbt.removeTag(toString());
-            nbt.removeTag(baseName + "_TIER");
-        }
-    }
-
-    /**
-     * Sets the tier of the specific attribute.
-     * @param nbt
-     * @param tier
-     */
-    public void setAttributeTier(NBTTagCompound nbt, int tier) {
-        if (nbt != null) {
-            nbt.setInteger(baseName + "_TIER", tier);
-        }
-    }
-
-    /**
-     * Returns the tier of the specific attribute.
-     * @param nbt
-     * @return
-     */
-    public int getAttributeTier(NBTTagCompound nbt) {
-        return nbt != null ? nbt.getInteger(baseName + "_TIER") : 0;
+    @Override
+    public String getAttributeKey() {
+        return baseName + "_TIER";
     }
 
     public double getCalculatedValue(NBTTagCompound nbt, double baseValue, double multiplier) {

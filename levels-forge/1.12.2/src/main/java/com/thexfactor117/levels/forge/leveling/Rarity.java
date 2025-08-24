@@ -1,7 +1,7 @@
 package com.thexfactor117.levels.forge.leveling;
 
 import com.thexfactor117.levels.common.LegacyTextColor;
-import com.thexfactor117.levels.forge.util.RandomCollection;
+import com.thexfactor117.levels.common.collections.RandomCollection;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;

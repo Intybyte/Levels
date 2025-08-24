@@ -16,13 +16,13 @@ import java.util.ArrayList;
  */
 @Getter
 public enum ArmorAttribute implements AttributeBase {
-    FIRE("Fire", Config.armorFire, LegacyTextColor.RED, 0xFF5555, AttributeRarity.UNCOMMON),
-    FROST("Frost", Config.armorFrost, LegacyTextColor.AQUA, 0x55FFFFF, AttributeRarity.UNCOMMON),
-    POISON("Poison", Config.armorPoison, LegacyTextColor.DARK_GREEN, 0x00AA00, AttributeRarity.UNCOMMON),
-    DURABLE("Durable", Config.armorDurable, LegacyTextColor.GRAY, 0xAAAAAA, AttributeRarity.UNCOMMON),
-    MAGICAL("Magical", Config.armorMagical, LegacyTextColor.BLUE, 0x5555FF, AttributeRarity.RARE),
-    SOUL_BOUND("Soul Bound", Config.armorSoulBound, LegacyTextColor.DARK_PURPLE, 0xAA00AA, AttributeRarity.RARE),
-    UNBREAKABLE("Unbreakable", Config.armorUnbreakable, LegacyTextColor.GRAY, 0xAAAAAA, AttributeRarity.LEGENDARY);
+    FIRE("Fire", Config.armorFire, LegacyTextColor.RED, AttributeRarity.UNCOMMON),
+    FROST("Frost", Config.armorFrost, LegacyTextColor.AQUA, AttributeRarity.UNCOMMON),
+    POISON("Poison", Config.armorPoison, LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON),
+    DURABLE("Durable", Config.armorDurable, LegacyTextColor.GRAY, AttributeRarity.UNCOMMON),
+    MAGICAL("Magical", Config.armorMagical, LegacyTextColor.BLUE, AttributeRarity.RARE),
+    SOUL_BOUND("Soul Bound", Config.armorSoulBound, LegacyTextColor.DARK_PURPLE, AttributeRarity.RARE),
+    UNBREAKABLE("Unbreakable", Config.armorUnbreakable, LegacyTextColor.GRAY, AttributeRarity.LEGENDARY);
 
     private final String baseName;
     private final boolean enabled;
@@ -32,11 +32,11 @@ public enum ArmorAttribute implements AttributeBase {
 
     public static ArrayList<ArmorAttribute> ARMOR_ATTRIBUTES = new ArrayList<>();
 
-    ArmorAttribute(String baseName, boolean enabled, LegacyTextColor color, int hexColor, AttributeRarity rarity) {
+    ArmorAttribute(String baseName, boolean enabled, LegacyTextColor color, AttributeRarity rarity) {
         this.baseName = baseName;
         this.enabled = enabled;
         this.color = color.toString();
-        this.hexColor = hexColor;
+        this.hexColor = color.getHex();
         this.rarity = rarity;
     }
 

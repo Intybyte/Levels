@@ -16,12 +16,12 @@ import java.util.ArrayList;
  */
 @Getter
 public enum ShieldAttribute implements AttributeBase {
-    FIRE("Fire", Config.shieldFire, LegacyTextColor.RED, 0xFF5555, AttributeRarity.UNCOMMON),
-    FROST("Frost", Config.shieldFrost, LegacyTextColor.AQUA, 0x55FFFF, AttributeRarity.UNCOMMON),
-    POISON("Poison", Config.shieldPoison, LegacyTextColor.DARK_GREEN, 0x00AA00, AttributeRarity.UNCOMMON),
-    DURABLE("Durable", Config.shieldDurable, LegacyTextColor.GRAY, 0xAAAAAA, AttributeRarity.UNCOMMON),
-    SOUL_BOUND("Soul Bound", Config.shieldSoulBound, LegacyTextColor.DARK_PURPLE, 0xAA00AA, AttributeRarity.RARE),
-    UNBREAKABLE("Unbreakable", Config.shieldUnbreakable, LegacyTextColor.GRAY, 0xAAAAAA, AttributeRarity.LEGENDARY);
+    FIRE("Fire", Config.shieldFire, LegacyTextColor.RED, AttributeRarity.UNCOMMON),
+    FROST("Frost", Config.shieldFrost, LegacyTextColor.AQUA, AttributeRarity.UNCOMMON),
+    POISON("Poison", Config.shieldPoison, LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON),
+    DURABLE("Durable", Config.shieldDurable, LegacyTextColor.GRAY, AttributeRarity.UNCOMMON),
+    SOUL_BOUND("Soul Bound", Config.shieldSoulBound, LegacyTextColor.DARK_PURPLE, AttributeRarity.RARE),
+    UNBREAKABLE("Unbreakable", Config.shieldUnbreakable, LegacyTextColor.GRAY, AttributeRarity.LEGENDARY);
 
     public static final ArrayList<ShieldAttribute> SHIELD_ATTRIBUTES = new ArrayList<>();
 
@@ -39,11 +39,11 @@ public enum ShieldAttribute implements AttributeBase {
     private final int hexColor;
     private final AttributeRarity rarity;
 
-    ShieldAttribute(String baseName, boolean enabled, LegacyTextColor color, int hexColor, AttributeRarity rarity) {
+    ShieldAttribute(String baseName, boolean enabled, LegacyTextColor color, AttributeRarity rarity) {
         this.baseName = baseName;
         this.enabled = enabled;
         this.color = color.toString();
-        this.hexColor = hexColor;
+        this.hexColor = color.getHex();
         this.rarity = rarity;
     }
 

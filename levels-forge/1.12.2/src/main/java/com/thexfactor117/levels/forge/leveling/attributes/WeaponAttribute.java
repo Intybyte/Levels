@@ -16,16 +16,16 @@ import java.util.ArrayList;
  */
 @Getter
 public enum WeaponAttribute implements AttributeBase {
-    FIRE("Fire", Config.weaponFire, LegacyTextColor.RED, 0xFF5555, AttributeRarity.UNCOMMON),
-    FROST("Frost", Config.weaponFrost, LegacyTextColor.AQUA, 0x55FFFF, AttributeRarity.UNCOMMON),
-    POISON("Poison", Config.weaponPoison, LegacyTextColor.DARK_GREEN, 0x00AA00, AttributeRarity.UNCOMMON),
-    DURABLE("Durable", Config.weaponDurable, LegacyTextColor.GRAY, 0xAAAAAA, AttributeRarity.UNCOMMON),
-    ABSORB("Absorb", Config.weaponAbsorb, LegacyTextColor.GREEN, 0x55FF55, AttributeRarity.RARE),
-    SOUL_BOUND("Soul Bound", Config.weaponSoulBound, LegacyTextColor.DARK_PURPLE, 0xAA00AA, AttributeRarity.RARE),
-    CRITICAL("Critical", Config.weaponCritical, LegacyTextColor.BLUE, 0x5555FF, AttributeRarity.RARE),
-    CHAINED("Chained", Config.weaponChained, LegacyTextColor.WHITE, 0xFFFFFF, AttributeRarity.LEGENDARY),
-    UNBREAKABLE("Unbreakable", Config.weaponUnbreakable, LegacyTextColor.GRAY, 0xAAAAAA, AttributeRarity.LEGENDARY),
-    VOID("Void", Config.weaponVoid, LegacyTextColor.DARK_GRAY, 0x555555, AttributeRarity.LEGENDARY);
+    FIRE("Fire", Config.weaponFire, LegacyTextColor.RED, AttributeRarity.UNCOMMON),
+    FROST("Frost", Config.weaponFrost, LegacyTextColor.AQUA, AttributeRarity.UNCOMMON),
+    POISON("Poison", Config.weaponPoison, LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON),
+    DURABLE("Durable", Config.weaponDurable, LegacyTextColor.GRAY, AttributeRarity.UNCOMMON),
+    ABSORB("Absorb", Config.weaponAbsorb, LegacyTextColor.GREEN, AttributeRarity.RARE),
+    SOUL_BOUND("Soul Bound", Config.weaponSoulBound, LegacyTextColor.DARK_PURPLE, AttributeRarity.RARE),
+    CRITICAL("Critical", Config.weaponCritical, LegacyTextColor.BLUE, AttributeRarity.RARE),
+    CHAINED("Chained", Config.weaponChained, LegacyTextColor.WHITE, AttributeRarity.LEGENDARY),
+    UNBREAKABLE("Unbreakable", Config.weaponUnbreakable, LegacyTextColor.GRAY, AttributeRarity.LEGENDARY),
+    VOID("Void", Config.weaponVoid, LegacyTextColor.DARK_GRAY, AttributeRarity.LEGENDARY);
 
     private final String baseName;
     private final boolean enabled;
@@ -35,11 +35,11 @@ public enum WeaponAttribute implements AttributeBase {
 
     public static final ArrayList<WeaponAttribute> WEAPON_ATTRIBUTES = new ArrayList<>();
 
-    WeaponAttribute(String baseName, boolean enabled, Object color, int hexColor, AttributeRarity rarity) {
+    WeaponAttribute(String baseName, boolean enabled, LegacyTextColor color, AttributeRarity rarity) {
         this.baseName = baseName;
         this.enabled = enabled;
         this.color = color.toString();
-        this.hexColor = hexColor;
+        this.hexColor = color.getHex();
         this.rarity = rarity;
     }
 

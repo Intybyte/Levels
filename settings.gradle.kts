@@ -1,23 +1,20 @@
-rootProject.name = "Level-3"
+import org.gradle.kotlin.dsl.maven
+
+rootProject.name = "Levels-Main"
+include("Levels-3")
+project(":Levels-3").projectDir = file("./levels-forge/1.12.2")
 
 pluginManagement {
     repositories {
+        gradlePluginPortal()
+        maven("https://jenkins.usrv.eu:8081/nexus/content/repositories/releases/")
         maven {
-            // RetroFuturaGradle
+            name = "OvermindDL1 Maven"
+            url = uri("https://gregtech.overminddl1.com/")
+        }
+        maven {
             name = "GTNH Maven"
             url = uri("https://nexus.gtnewhorizons.com/repository/public/")
-            mavenContent {
-                includeGroupByRegex("com\\.gtnewhorizons\\..+")
-                includeGroup("com.gtnewhorizons")
-            }
         }
-        gradlePluginPortal()
-        mavenCentral()
-        mavenLocal()
     }
-}
-
-plugins {
-    // Automatic toolchain provisioning
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
 }

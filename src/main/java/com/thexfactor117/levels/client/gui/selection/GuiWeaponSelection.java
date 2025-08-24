@@ -2,8 +2,7 @@ package com.thexfactor117.levels.client.gui.selection;
 
 import com.thexfactor117.levels.Levels;
 import com.thexfactor117.levels.leveling.Experience;
-import com.thexfactor117.levels.leveling.Rarity;
-import com.thexfactor117.levels.leveling.attributes.AttributeRarity;
+import com.thexfactor117.levels.leveling.attributes.components.AttributeRarity;
 import com.thexfactor117.levels.leveling.attributes.WeaponAttribute;
 import com.thexfactor117.levels.network.PacketAttributeSelection;
 import com.thexfactor117.levels.util.NBTHelper;
@@ -180,7 +179,7 @@ public class GuiWeaponSelection extends GuiScreen {
             if (checker.checkHover(mouseX, mouseY)) {
                 int cost = 1;
 
-                if (WeaponAttribute.WEAPON_ATTRIBUTES.get(i).hasAttribute(nbt)) {
+                if (!WeaponAttribute.WEAPON_ATTRIBUTES.get(i).hasAttribute(nbt)) {
                     cost = WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getRarity().getCost();
                 }
 

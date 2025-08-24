@@ -1,7 +1,7 @@
 package com.thexfactor117.levels.leveling.attributes;
 
 import com.thexfactor117.levels.config.Config;
-import com.thexfactor117.levels.leveling.Rarity;
+import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 
@@ -12,25 +12,26 @@ import java.util.ArrayList;
  * @author TheXFactor117
  *
  */
+@Getter
 public enum ArmorAttribute {
-    FIRE("Fire", Config.armorFire, TextFormatting.RED, 0xFF5555, Rarity.UNCOMMON),
-    FROST("Frost", Config.armorFrost, TextFormatting.AQUA, 0x55FFFFF, Rarity.UNCOMMON),
-    POISON("Poison", Config.armorPoison, TextFormatting.DARK_GREEN, 0x00AA00, Rarity.UNCOMMON),
-    DURABLE("Durable", Config.armorDurable, TextFormatting.GRAY, 0xAAAAAA, Rarity.UNCOMMON),
-    MAGICAL("Magical", Config.armorMagical, TextFormatting.BLUE, 0x5555FF, Rarity.RARE),
-    SOUL_BOUND("Soul Bound", Config.armorSoulBound, TextFormatting.DARK_PURPLE, 0xAA00AA, Rarity.RARE),
-    UNBREAKABLE("Unbreakable", Config.armorUnbreakable, TextFormatting.GRAY, 0xAAAAAA, Rarity.LEGENDARY);
+    FIRE("Fire", Config.armorFire, TextFormatting.RED, 0xFF5555, AttributeRarity.UNCOMMON),
+    FROST("Frost", Config.armorFrost, TextFormatting.AQUA, 0x55FFFFF, AttributeRarity.UNCOMMON),
+    POISON("Poison", Config.armorPoison, TextFormatting.DARK_GREEN, 0x00AA00, AttributeRarity.UNCOMMON),
+    DURABLE("Durable", Config.armorDurable, TextFormatting.GRAY, 0xAAAAAA, AttributeRarity.UNCOMMON),
+    MAGICAL("Magical", Config.armorMagical, TextFormatting.BLUE, 0x5555FF, AttributeRarity.RARE),
+    SOUL_BOUND("Soul Bound", Config.armorSoulBound, TextFormatting.DARK_PURPLE, 0xAA00AA, AttributeRarity.RARE),
+    UNBREAKABLE("Unbreakable", Config.armorUnbreakable, TextFormatting.GRAY, 0xAAAAAA, AttributeRarity.LEGENDARY);
 
-    private final String name;
+    private final String baseName;
     private final boolean enabled;
     private final String color;
     private final int hex;
-    private final Rarity rarity;
+    private final AttributeRarity rarity;
 
     public static ArrayList<ArmorAttribute> ARMOR_ATTRIBUTES = new ArrayList<ArmorAttribute>();
 
-    ArmorAttribute(String name, boolean enabled, Object color, int hex, Rarity rarity) {
-        this.name = name;
+    ArmorAttribute(String baseName, boolean enabled, TextFormatting color, int hex, AttributeRarity rarity) {
+        this.baseName = baseName;
         this.enabled = enabled;
         this.color = color.toString();
         this.hex = hex;
@@ -53,7 +54,7 @@ public enum ArmorAttribute {
     public void addAttribute(NBTTagCompound nbt) {
         if (nbt != null) {
             nbt.setBoolean(toString(), true);
-            nbt.setInteger(name + "_TIER", 1);
+            nbt.setInteger(baseName + "_TIER", 1);
         }
     }
 
@@ -64,7 +65,7 @@ public enum ArmorAttribute {
     public void removeAttribute(NBTTagCompound nbt) {
         if (nbt != null) {
             nbt.removeTag(toString());
-            nbt.removeTag(name + "_TIER");
+            nbt.removeTag(baseName + "_TIER");
         }
     }
 
@@ -75,7 +76,7 @@ public enum ArmorAttribute {
      */
     public void setAttributeTier(NBTTagCompound nbt, int tier) {
         if (nbt != null) {
-            nbt.setInteger(name + "_TIER", tier);
+            nbt.setInteger(baseName + "_TIER", tier);
         }
     }
 
@@ -85,7 +86,7 @@ public enum ArmorAttribute {
      * @return
      */
     public int getAttributeTier(NBTTagCompound nbt) {
-        return nbt != null ? nbt.getInteger(name + "_TIER") : 0;
+        return nbt != null ? nbt.getInteger(baseName + "_TIER") : 0;
     }
 
     public double getCalculatedValue(NBTTagCompound nbt, double baseValue, double multiplier) {
@@ -100,25 +101,13 @@ public enum ArmorAttribute {
 
     public String getName(NBTTagCompound nbt) {
         if (getAttributeTier(nbt) == 1)
-            return name;
+            return baseName;
         else if (getAttributeTier(nbt) == 2)
-            return name + " II";
+            return baseName + " II";
         else if (getAttributeTier(nbt) == 3)
-            return name + " III";
+            return baseName + " III";
         else
-            return name;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public int getHex() {
-        return hex;
-    }
-
-    public Rarity getRarity() {
-        return rarity;
+            return baseName;
     }
 
     static {

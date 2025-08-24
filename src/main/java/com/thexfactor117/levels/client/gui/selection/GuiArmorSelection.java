@@ -4,6 +4,7 @@ import com.thexfactor117.levels.Levels;
 import com.thexfactor117.levels.leveling.Experience;
 import com.thexfactor117.levels.leveling.Rarity;
 import com.thexfactor117.levels.leveling.attributes.ArmorAttribute;
+import com.thexfactor117.levels.leveling.attributes.AttributeRarity;
 import com.thexfactor117.levels.network.PacketAttributeSelection;
 import com.thexfactor117.levels.util.NBTHelper;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -111,7 +112,7 @@ public class GuiArmorSelection extends GuiScreen {
                  * Enable ALL attributes that have already been added UNLESS they are at tier 3.
                  */
                 if (Experience.getAttributeTokens(nbt) == 1) {
-                    if (list.get(i).getRarity() == Rarity.UNCOMMON && list.get(i).getAttributeTier(nbt) != 3)
+                    if (list.get(i).getRarity() == AttributeRarity.UNCOMMON && list.get(i).getAttributeTier(nbt) != 3)
                         attributes[i].enabled = true;
 
                     if (list.get(i).hasAttribute(nbt) && list.get(i).getAttributeTier(nbt) != 3)
@@ -125,7 +126,7 @@ public class GuiArmorSelection extends GuiScreen {
                  * Enable ALL attributes that have already been added UNLESS they are at tier 3.
                  */
                 if (Experience.getAttributeTokens(nbt) == 2) {
-                    if ((list.get(i).getRarity() == Rarity.RARE || list.get(i).getRarity() == Rarity.UNCOMMON) && !list.get(i).hasAttribute(nbt))
+                    if ((list.get(i).getRarity() == AttributeRarity.RARE || list.get(i).getRarity() == AttributeRarity.UNCOMMON) && !list.get(i).hasAttribute(nbt))
                         attributes[i].enabled = true;
 
                     if (list.get(i).hasAttribute(nbt) && list.get(i).getAttributeTier(nbt) != 3)
@@ -133,7 +134,7 @@ public class GuiArmorSelection extends GuiScreen {
                     else if (list.get(i).hasAttribute(nbt) && list.get(i).getAttributeTier(nbt) == 3)
                         attributes[i].enabled = false;
                 } else {
-                    if (list.get(i).getRarity() == Rarity.RARE && !list.get(i).hasAttribute(nbt))
+                    if (list.get(i).getRarity() == AttributeRarity.RARE && !list.get(i).hasAttribute(nbt))
                         attributes[i].enabled = false;
 
                     if (list.get(i).hasAttribute(nbt) && list.get(i).getAttributeTier(nbt) != 3)
@@ -155,7 +156,7 @@ public class GuiArmorSelection extends GuiScreen {
                     else if (list.get(i).hasAttribute(nbt) && list.get(i).getAttributeTier(nbt) == 3)
                         attributes[i].enabled = false;
                 } else {
-                    if (list.get(i).getRarity() == Rarity.LEGENDARY && !list.get(i).hasAttribute(nbt))
+                    if (list.get(i).getRarity() == AttributeRarity.LEGENDARY && !list.get(i).hasAttribute(nbt))
                         attributes[i].enabled = false;
 
                     if (list.get(i).hasAttribute(nbt) && list.get(i).getAttributeTier(nbt) != 3)
@@ -178,13 +179,11 @@ public class GuiArmorSelection extends GuiScreen {
             if (checker.checkHover(mouseX, mouseY)) {
                 int cost = 1;
 
-                if (ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getRarity() == Rarity.UNCOMMON && !ArmorAttribute.ARMOR_ATTRIBUTES.get(i).hasAttribute(nbt))
-                    cost = 1;
-                else if (ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getRarity() == Rarity.RARE && !ArmorAttribute.ARMOR_ATTRIBUTES.get(i).hasAttribute(nbt))
-                    cost = 2;
-                else if (ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getRarity() == Rarity.LEGENDARY && !ArmorAttribute.ARMOR_ATTRIBUTES.get(i).hasAttribute(nbt))
-                    cost = 3;
-                else if (ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getAttributeTier(nbt) == 3) cost = 0;
+                if (!ArmorAttribute.ARMOR_ATTRIBUTES.get(i).hasAttribute(nbt)) {
+                    cost = ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getRarity().getCost();
+                }
+
+                if (ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getAttributeTier(nbt) == 3) cost = 0;
 
                 List<String> list = new ArrayList<String>();
                 list.add(ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getColor() + ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getName(nbt));

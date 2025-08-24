@@ -1,7 +1,7 @@
 package com.thexfactor117.levels.leveling.attributes;
 
 import com.thexfactor117.levels.config.Config;
-import com.thexfactor117.levels.leveling.Rarity;
+import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 
@@ -12,28 +12,29 @@ import java.util.ArrayList;
  * @author TheXFactor117
  *
  */
+@Getter
 public enum WeaponAttribute {
-    FIRE("Fire", Config.weaponFire, TextFormatting.RED, 0xFF5555, Rarity.UNCOMMON),
-    FROST("Frost", Config.weaponFrost, TextFormatting.AQUA, 0x55FFFF, Rarity.UNCOMMON),
-    POISON("Poison", Config.weaponPoison, TextFormatting.DARK_GREEN, 0x00AA00, Rarity.UNCOMMON),
-    DURABLE("Durable", Config.weaponDurable, TextFormatting.GRAY, 0xAAAAAA, Rarity.UNCOMMON),
-    ABSORB("Absorb", Config.weaponAbsorb, TextFormatting.GREEN, 0x55FF55, Rarity.RARE),
-    SOUL_BOUND("Soul Bound", Config.weaponSoulBound, TextFormatting.DARK_PURPLE, 0xAA00AA, Rarity.RARE),
-    CRITICAL("Critical", Config.weaponCritical, TextFormatting.BLUE, 0x5555FF, Rarity.RARE),
-    CHAINED("Chained", Config.weaponChained, TextFormatting.WHITE, 0xFFFFFF, Rarity.LEGENDARY),
-    UNBREAKABLE("Unbreakable", Config.weaponUnbreakable, TextFormatting.GRAY, 0xAAAAAA, Rarity.LEGENDARY),
-    VOID("Void", Config.weaponVoid, TextFormatting.DARK_GRAY, 0x555555, Rarity.LEGENDARY);
+    FIRE("Fire", Config.weaponFire, TextFormatting.RED, 0xFF5555, AttributeRarity.UNCOMMON),
+    FROST("Frost", Config.weaponFrost, TextFormatting.AQUA, 0x55FFFF, AttributeRarity.UNCOMMON),
+    POISON("Poison", Config.weaponPoison, TextFormatting.DARK_GREEN, 0x00AA00, AttributeRarity.UNCOMMON),
+    DURABLE("Durable", Config.weaponDurable, TextFormatting.GRAY, 0xAAAAAA, AttributeRarity.UNCOMMON),
+    ABSORB("Absorb", Config.weaponAbsorb, TextFormatting.GREEN, 0x55FF55, AttributeRarity.RARE),
+    SOUL_BOUND("Soul Bound", Config.weaponSoulBound, TextFormatting.DARK_PURPLE, 0xAA00AA, AttributeRarity.RARE),
+    CRITICAL("Critical", Config.weaponCritical, TextFormatting.BLUE, 0x5555FF, AttributeRarity.RARE),
+    CHAINED("Chained", Config.weaponChained, TextFormatting.WHITE, 0xFFFFFF, AttributeRarity.LEGENDARY),
+    UNBREAKABLE("Unbreakable", Config.weaponUnbreakable, TextFormatting.GRAY, 0xAAAAAA, AttributeRarity.LEGENDARY),
+    VOID("Void", Config.weaponVoid, TextFormatting.DARK_GRAY, 0x555555, AttributeRarity.LEGENDARY);
 
-    private final String name;
+    private final String baseName;
     private final boolean enabled;
     private final String color;
     private final int hex;
-    private final Rarity rarity;
+    private final AttributeRarity rarity;
 
-    public static ArrayList<WeaponAttribute> WEAPON_ATTRIBUTES = new ArrayList<WeaponAttribute>();
+    public static final ArrayList<WeaponAttribute> WEAPON_ATTRIBUTES = new ArrayList<>();
 
-    WeaponAttribute(String name, boolean enabled, Object color, int hex, Rarity rarity) {
-        this.name = name;
+    WeaponAttribute(String baseName, boolean enabled, Object color, int hex, AttributeRarity rarity) {
+        this.baseName = baseName;
         this.enabled = enabled;
         this.color = color.toString();
         this.hex = hex;
@@ -56,7 +57,7 @@ public enum WeaponAttribute {
     public void addAttribute(NBTTagCompound nbt) {
         if (nbt != null) {
             nbt.setBoolean(toString(), true);
-            nbt.setInteger(name + "_TIER", 1);
+            nbt.setInteger(baseName + "_TIER", 1);
         }
     }
 
@@ -67,7 +68,7 @@ public enum WeaponAttribute {
     public void removeAttribute(NBTTagCompound nbt) {
         if (nbt != null) {
             nbt.removeTag(toString());
-            nbt.removeTag(name + "_TIER");
+            nbt.removeTag(baseName + "_TIER");
         }
     }
 
@@ -78,7 +79,7 @@ public enum WeaponAttribute {
      */
     public void setAttributeTier(NBTTagCompound nbt, int tier) {
         if (nbt != null) {
-            nbt.setInteger(name + "_TIER", tier);
+            nbt.setInteger(baseName + "_TIER", tier);
         }
     }
 
@@ -88,7 +89,7 @@ public enum WeaponAttribute {
      * @return
      */
     public int getAttributeTier(NBTTagCompound nbt) {
-        return nbt != null ? nbt.getInteger(name + "_TIER") : 0;
+        return nbt != null ? nbt.getInteger(baseName + "_TIER") : 0;
     }
 
     public double getCalculatedValue(NBTTagCompound nbt, double baseValue, double multiplier) {
@@ -103,29 +104,13 @@ public enum WeaponAttribute {
 
     public String getName(NBTTagCompound nbt) {
         if (getAttributeTier(nbt) == 1)
-            return name;
+            return baseName;
         else if (getAttributeTier(nbt) == 2)
-            return name + " II";
+            return baseName + " II";
         else if (getAttributeTier(nbt) == 3)
-            return name + " III";
+            return baseName + " III";
         else
-            return name;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public int getHex() {
-        return hex;
-    }
-
-    public Rarity getRarity() {
-        return rarity;
+            return baseName;
     }
 
     static {

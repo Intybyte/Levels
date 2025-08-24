@@ -64,11 +64,7 @@ public class PacketAttributeSelection implements IMessage {
                             attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
                             Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
                         } else {
-                            int cost = 1;
-
-                            if (attribute.getRarity() == Rarity.UNCOMMON) cost = 1;
-                            else if (attribute.getRarity() == Rarity.RARE) cost = 2;
-                            else if (attribute.getRarity() == Rarity.LEGENDARY) cost = 3;
+                            int cost = attribute.getRarity().getCost();
 
                             attribute.addAttribute(nbt);
                             Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);
@@ -82,11 +78,7 @@ public class PacketAttributeSelection implements IMessage {
                             attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
                             Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
                         } else {
-                            int cost = 1;
-
-                            if (attribute.getRarity() == Rarity.UNCOMMON) cost = 1;
-                            else if (attribute.getRarity() == Rarity.RARE) cost = 2;
-                            else if (attribute.getRarity() == Rarity.LEGENDARY) cost = 3;
+                            int cost = attribute.getRarity().getCost();
 
                             attribute.addAttribute(nbt);
                             Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);
@@ -100,11 +92,7 @@ public class PacketAttributeSelection implements IMessage {
                             attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
                             Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
                         } else {
-                            int cost = 1;
-
-                            if (attribute.getRarity() == Rarity.UNCOMMON) cost = 1;
-                            else if (attribute.getRarity() == Rarity.RARE) cost = 2;
-                            else if (attribute.getRarity() == Rarity.LEGENDARY) cost = 3;
+                            int cost = attribute.getRarity().getCost();
 
                             attribute.addAttribute(nbt);
                             Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);
@@ -118,11 +106,7 @@ public class PacketAttributeSelection implements IMessage {
                             attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
                             Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - 1);
                         } else {
-                            int cost = 1;
-
-                            if (attribute.getRarity() == Rarity.UNCOMMON) cost = 1;
-                            else if (attribute.getRarity() == Rarity.RARE) cost = 2;
-                            else if (attribute.getRarity() == Rarity.LEGENDARY) cost = 3;
+                            int cost = attribute.getRarity().getCost();
 
                             attribute.addAttribute(nbt);
                             Experience.setAttributeTokens(nbt, Experience.getAttributeTokens(nbt) - cost);

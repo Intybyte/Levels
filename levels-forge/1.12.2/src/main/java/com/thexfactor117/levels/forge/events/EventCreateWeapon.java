@@ -2,7 +2,7 @@ package com.thexfactor117.levels.forge.events;
 
 import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.forge.leveling.ItemType;
-import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import com.thexfactor117.levels.forge.util.WeaponHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

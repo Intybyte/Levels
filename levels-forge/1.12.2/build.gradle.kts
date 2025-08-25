@@ -126,6 +126,10 @@ publishing {
     }
 }
 
+tasks.compileJava {
+    options.compilerArgs.add("-Xdiags:verbose")
+}
+
 tasks.register<Delete>("cleanModOnly") {
     delete("build/classes", "build/libs", "build/resources")
 }

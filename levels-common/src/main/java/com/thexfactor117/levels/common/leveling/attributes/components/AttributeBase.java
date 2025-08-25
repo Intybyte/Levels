@@ -1,9 +1,6 @@
-package com.thexfactor117.levels.forge.leveling.attributes.components;
+package com.thexfactor117.levels.common.leveling.attributes.components;
 
-import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
-import com.thexfactor117.levels.common.leveling.attributes.components.EnableAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.components.RomanNumeralDisplay;
-import net.minecraft.nbt.NBTTagCompound;
+import com.thexfactor117.levels.common.nbt.INBT;
 
 public interface AttributeBase extends RomanNumeralDisplay, EnableAttribute {
 
@@ -12,7 +9,7 @@ public interface AttributeBase extends RomanNumeralDisplay, EnableAttribute {
      * @param nbt
      * @return
      */
-    default boolean hasAttribute(NBTTagCompound nbt) {
+    default boolean hasAttribute(INBT nbt) {
         return nbt != null && nbt.hasKey(getAttributeKey());
     }
 
@@ -20,9 +17,9 @@ public interface AttributeBase extends RomanNumeralDisplay, EnableAttribute {
      * Adds the specified Attribute to the NBT tag compound.
      * @param nbt
      */
-    default void addAttribute(NBTTagCompound nbt) {
+    default void addAttribute(INBT nbt) {
         if (nbt != null) {
-            nbt.setInteger(getAttributeKey(), 1);
+            nbt.setInt(getAttributeKey(), 1);
         }
     }
 
@@ -30,9 +27,9 @@ public interface AttributeBase extends RomanNumeralDisplay, EnableAttribute {
      * Removes the specified Attribute from the NBT tag compound.
      * @param nbt
      */
-    default void removeAttribute(NBTTagCompound nbt) {
+    default void removeAttribute(INBT nbt) {
         if (nbt != null) {
-            nbt.removeTag(getAttributeKey());
+            nbt.remove(getAttributeKey());
         }
     }
 
@@ -41,9 +38,9 @@ public interface AttributeBase extends RomanNumeralDisplay, EnableAttribute {
      * @param nbt
      * @param tier
      */
-    default void setAttributeTier(NBTTagCompound nbt, int tier) {
+    default void setAttributeTier(INBT nbt, int tier) {
         if (nbt != null) {
-            nbt.setInteger(getAttributeKey(), tier);
+            nbt.setInt(getAttributeKey(), tier);
         }
     }
 
@@ -52,15 +49,24 @@ public interface AttributeBase extends RomanNumeralDisplay, EnableAttribute {
      * @param nbt
      * @return
      */
-    default int getAttributeTier(NBTTagCompound nbt) {
-        return nbt != null ? nbt.getInteger(getAttributeKey()) : 0;
+    default int getAttributeTier(INBT nbt) {
+        return nbt != null ? nbt.getInt(getAttributeKey()) : 0;
+    }
+
+    default double getCalculatedValue(INBT nbt, double baseValue, double multiplier) {
+        if (getAttributeTier(nbt) == 1)
+            return baseValue;
+        else if (getAttributeTier(nbt) == 2)
+            return baseValue * multiplier;
+        else
+            return baseValue * (Math.pow(multiplier, 2));
     }
 
     String getAttributeKey();
 
     AttributeRarity getRarity();
 
-    default String getName(NBTTagCompound nbt) {
+    default String getName(INBT nbt) {
         return getCompleteName(getAttributeTier(nbt));
     }
 }

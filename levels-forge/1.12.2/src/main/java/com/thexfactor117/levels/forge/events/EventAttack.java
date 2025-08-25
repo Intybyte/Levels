@@ -1,14 +1,15 @@
 package com.thexfactor117.levels.forge.events;
 
 import com.thexfactor117.levels.common.config.Configs;
+import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
-import com.thexfactor117.levels.forge.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.WeaponAttribute;
-import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -166,7 +167,8 @@ public class EventAttack {
                     useRarity(nbt, stack, true);
                     attemptLevel(nbt, stack, player);
 
-                    if (BowAttribute.RECOVER.hasAttribute(nbt)) {
+                    INBT inbt = NBTHelper.toCommon(nbt);
+                    if (BowAttribute.RECOVER.hasAttribute(inbt)) {
                         enemy.dropItem(Items.ARROW, (int) (Math.random() * 2));
                     }
                 }
@@ -297,14 +299,15 @@ public class EventAttack {
 
     /**
      * Uses any attributes the stack currently has.
-     * @param nbt
+     * @param baseNbt
      * @param event
      * @param stack
      * @param player
      * @param enemy
      */
-    private void useAttributes(NBTTagCompound nbt, LivingHurtEvent event, ItemStack stack, EntityPlayer player, EntityLivingBase enemy) {
+    private void useAttributes(NBTTagCompound baseNbt, LivingHurtEvent event, ItemStack stack, EntityPlayer player, EntityLivingBase enemy) {
         // WEAPONS
+        INBT nbt = NBTHelper.toCommon(baseNbt);
         if (stack.getItem() instanceof ItemSword) {
             if (WeaponAttribute.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
                 enemy.setFire((int) WeaponAttribute.FIRE.getCalculatedValue(nbt, 4, 1.25)); // 25% chance; tiers: (4 second, 5 second, 6 second)

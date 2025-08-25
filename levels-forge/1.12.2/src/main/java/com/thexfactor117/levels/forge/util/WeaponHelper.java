@@ -5,6 +5,7 @@ import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.leveling.Rarity;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import com.thexfactor117.levels.forge.network.PacketMythicSound;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;

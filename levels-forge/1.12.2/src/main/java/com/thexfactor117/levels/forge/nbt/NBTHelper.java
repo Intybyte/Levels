@@ -1,5 +1,6 @@
-package com.thexfactor117.levels.forge.util;
+package com.thexfactor117.levels.forge.nbt;
 
+import com.thexfactor117.levels.common.nbt.INBT;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -9,6 +10,18 @@ import net.minecraft.nbt.NBTTagCompound;
  *
  */
 public class NBTHelper {
+    public static NBTTagCompound fromCommon(INBT nbt) {
+        if (nbt instanceof NBTImpl) {
+            return ((NBTImpl) nbt).getNbt();
+        }
+
+        throw new RuntimeException("NBTImpl not found");
+    }
+
+    public static INBT toCommon(NBTTagCompound nbt) {
+        return new NBTImpl(nbt);
+    }
+
     public static NBTTagCompound loadStackNBT(ItemStack stack) {
         return stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
     }

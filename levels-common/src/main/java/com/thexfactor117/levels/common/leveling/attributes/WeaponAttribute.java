@@ -1,12 +1,11 @@
-package com.thexfactor117.levels.forge.leveling.attributes;
+package com.thexfactor117.levels.common.leveling.attributes;
 
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.components.EnableAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.components.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.color.LegacyTextColor;
-import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
 import lombok.Getter;
-import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
 
@@ -47,16 +46,6 @@ public enum WeaponAttribute implements AttributeBase, SimpleConfigAttribute {
     @Override
     public String getAttributeKey() {
         return baseName + "_TIER";
-    }
-
-    public double getCalculatedValue(NBTTagCompound nbt, double baseValue, double multiplier) {
-        if (getAttributeTier(nbt) == 1)
-            return baseValue;
-        else if (getAttributeTier(nbt) == 2)
-            return baseValue * multiplier;
-        else
-            return baseValue * (Math.pow(multiplier, 2));
-
     }
 
     @Override

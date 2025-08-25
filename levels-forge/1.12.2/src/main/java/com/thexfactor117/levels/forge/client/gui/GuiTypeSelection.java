@@ -1,12 +1,13 @@
 package com.thexfactor117.levels.forge.client.gui;
 
+import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.leveling.ItemType;
-import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
 import com.thexfactor117.levels.forge.network.PacketAttributeSelection;
-import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -39,15 +40,17 @@ public class GuiTypeSelection extends GuiScreen {
     public void initGui() {
         EntityPlayer player = this.mc.player;
         ItemStack stack = player.inventory.getCurrentItem();
-        NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
+        NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
 
         ItemType currentType = ItemType.of(stack.getItem());
 
-        if (player == null || stack == null || nbt == null || currentType != type) {
+        if (player == null || stack == null || baseNbt == null || currentType != type) {
             return;
         }
 
+        INBT nbt = NBTHelper.toCommon(baseNbt);
         attributeButtons = new GuiButton[attributes.size()];
+
         for (int i = 0; i < attributeButtons.length; i++) {
             attributeButtons[i] = new GuiButton(i, width / 2 - 147, 60 + (i * 20), 75, 20, attributes.get(i).getName(nbt));
             this.buttonList.add(attributeButtons[i]);
@@ -63,11 +66,11 @@ public class GuiTypeSelection extends GuiScreen {
 
         EntityPlayer player = this.mc.player;
         ItemStack stack = player.inventory.getCurrentItem();
-        NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
+        NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
 
         ItemType currentType = ItemType.of(stack.getItem());
 
-        if (player == null || stack == null || nbt == null || currentType != type) {
+        if (player == null || stack == null || baseNbt == null || currentType != type) {
             return;
         }
 
@@ -78,6 +81,7 @@ public class GuiTypeSelection extends GuiScreen {
 
         int k = -1;
 
+        INBT nbt = NBTHelper.toCommon(baseNbt);
         for (AttributeBase attribute : attributes) {
             if (attribute.hasAttribute(nbt)) {
                 k++;
@@ -86,7 +90,7 @@ public class GuiTypeSelection extends GuiScreen {
         }
 
         displayButtons(stack);
-        drawTooltips(nbt, mouseX, mouseY);
+        drawTooltips(baseNbt, mouseX, mouseY);
     }
 
     @SideOnly(Side.CLIENT)
@@ -123,7 +127,6 @@ public class GuiTypeSelection extends GuiScreen {
      * @param stack
      */
     private void displayButtons(ItemStack stack) {
-        NBTTagCompound nbt = stack.getTagCompound();
         Experience exp = new Experience(null, stack);
 
         if (exp.getAttributeTokens() <= 0) {
@@ -133,6 +136,8 @@ public class GuiTypeSelection extends GuiScreen {
             return;
         }
 
+        NBTTagCompound nbtBase = stack.getTagCompound();
+        INBT nbt = NBTHelper.toCommon(nbtBase);
         for (int i = 0; i < attributeButtons.length; i++) {
             boolean isLevel3 = attributes.get(i).getAttributeTier(nbt) == 3;
 
@@ -184,7 +189,8 @@ public class GuiTypeSelection extends GuiScreen {
         }
     }
 
-    private void drawTooltips(NBTTagCompound nbt, int mouseX, int mouseY) {
+    private void drawTooltips(NBTTagCompound nbtBase, int mouseX, int mouseY) {
+        INBT nbt = NBTHelper.toCommon(nbtBase);
         for (int i = 0; i < attributeButtons.length; i++) {
             HoverChecker checker = new HoverChecker(attributeButtons[i], 0);
 

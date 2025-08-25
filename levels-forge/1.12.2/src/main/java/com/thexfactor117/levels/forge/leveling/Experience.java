@@ -1,7 +1,7 @@
 package com.thexfactor117.levels.forge.leveling;
 
 import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
-import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;

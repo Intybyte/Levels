@@ -1,9 +1,10 @@
 package com.thexfactor117.levels.forge.network;
 
+import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.leveling.ItemType;
-import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
-import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -55,9 +56,9 @@ public class PacketAttributeSelection implements IMessage {
             return () -> {
                 EntityPlayer player = ctx.getServerHandler().player;
                 ItemStack stack = player.inventory.getCurrentItem();
-                NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
+                NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
 
-                if (player == null || stack == null || nbt == null) {
+                if (player == null || stack == null || baseNbt == null) {
                     return;
                 }
 
@@ -70,6 +71,8 @@ public class PacketAttributeSelection implements IMessage {
 
                 List<? extends AttributeBase> attributeList = type.attributes();
                 AttributeBase attribute = attributeList.get(message.index);
+
+                INBT nbt = NBTHelper.toCommon(baseNbt);
                 if (attribute.hasAttribute(nbt)) {
                     attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
                     exp.addAttributeTokens(-1);
@@ -80,7 +83,7 @@ public class PacketAttributeSelection implements IMessage {
                     exp.addAttributeTokens(-cost);
 
                     if (attribute.getAttributeKey().contains("Unbreakable"))
-                        nbt.setInteger("Unbreakable", 1);
+                        nbt.setInt("Unbreakable", 1);
                 }
             };
         }

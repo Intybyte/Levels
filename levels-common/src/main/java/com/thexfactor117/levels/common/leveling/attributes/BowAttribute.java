@@ -1,12 +1,12 @@
-package com.thexfactor117.levels.forge.leveling.attributes;
+package com.thexfactor117.levels.common.leveling.attributes;
 
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.components.EnableAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.components.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.color.LegacyTextColor;
-import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
+;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
 import lombok.Getter;
-import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
 
@@ -16,14 +16,18 @@ import java.util.List;
  *
  */
 @Getter
-public enum ArmorAttribute implements AttributeBase, SimpleConfigAttribute {
+public enum BowAttribute implements AttributeBase, SimpleConfigAttribute {
     FIRE("Fire", LegacyTextColor.RED, AttributeRarity.UNCOMMON),
     FROST("Frost", LegacyTextColor.AQUA, AttributeRarity.UNCOMMON),
     POISON("Poison", LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON),
     DURABLE("Durable", LegacyTextColor.GRAY, AttributeRarity.UNCOMMON),
-    MAGICAL("Magical", LegacyTextColor.BLUE, AttributeRarity.RARE),
+    ABSORB("Absorb", LegacyTextColor.GREEN, AttributeRarity.RARE),
     SOUL_BOUND("Soul Bound", LegacyTextColor.DARK_PURPLE, AttributeRarity.RARE),
-    UNBREAKABLE("Unbreakable", LegacyTextColor.GRAY, AttributeRarity.LEGENDARY);
+    CRITICAL("Critical", LegacyTextColor.BLUE, AttributeRarity.RARE),
+    RECOVER("Recover", LegacyTextColor.DARK_AQUA, AttributeRarity.RARE),
+    BARRAGE("Barrage", LegacyTextColor.DARK_RED, AttributeRarity.LEGENDARY),
+    UNBREAKABLE("Unbreakable", LegacyTextColor.GRAY, AttributeRarity.LEGENDARY),
+    VOID("Void", LegacyTextColor.DARK_GRAY, AttributeRarity.LEGENDARY);
 
     private final String enabledKey;
 
@@ -32,7 +36,7 @@ public enum ArmorAttribute implements AttributeBase, SimpleConfigAttribute {
     private final int hexColor;
     private final AttributeRarity rarity;
 
-    ArmorAttribute(String baseName, LegacyTextColor color, AttributeRarity rarity) {
+    BowAttribute(String baseName, LegacyTextColor color, AttributeRarity rarity) {
         this.baseName = baseName;
         this.color = color.toString();
         this.hexColor = color.getHex();
@@ -46,22 +50,12 @@ public enum ArmorAttribute implements AttributeBase, SimpleConfigAttribute {
         return baseName + "_TIER";
     }
 
-    public double getCalculatedValue(NBTTagCompound nbt, double baseValue, double multiplier) {
-        if (getAttributeTier(nbt) == 1)
-            return baseValue;
-        else if (getAttributeTier(nbt) == 2)
-            return baseValue * multiplier;
-        else
-            return baseValue * (Math.pow(multiplier, 2));
-
-    }
-
     @Override
     public boolean isEnabled() {
         return SimpleConfigAttribute.super.isEnabled();
     }
 
-    public static List<ArmorAttribute> getEnabled() {
+    public static List<BowAttribute> getEnabled() {
         return EnableAttribute.getEnabled(values());
     }
 }

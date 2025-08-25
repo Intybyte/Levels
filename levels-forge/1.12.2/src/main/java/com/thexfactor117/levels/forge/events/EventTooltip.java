@@ -1,11 +1,12 @@
 package com.thexfactor117.levels.forge.events;
 
 import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
+import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
-import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
-import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
@@ -49,10 +50,10 @@ public class EventTooltip {
         }
     }
 
-    private void addTooltips(ArrayList<String> tooltip, ItemStack stack, NBTTagCompound nbt) {
-        Rarity rarity = Rarity.getRarity(nbt);
+    private void addTooltips(ArrayList<String> tooltip, ItemStack stack, NBTTagCompound baseNbt) {
+        Rarity rarity = Rarity.getRarity(baseNbt);
 
-        NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10);
+        NBTTagList taglist = baseNbt.getTagList("AttributeModifiers", 10);
         NBTTagCompound damageNbt = taglist.getCompoundTagAt(0);
         NBTTagCompound speedNbt = taglist.getCompoundTagAt(1);
         DecimalFormat format = new DecimalFormat("#.##");
@@ -78,20 +79,17 @@ public class EventTooltip {
 
         Experience exp = new Experience(null, stack);
         int level = exp.getLevel();
-        // level
-        if (exp.isMaxLevel())
+        // level & experience
+        if (exp.isMaxLevel()) {
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + I18n.format("levels.misc.max")); // max level
-        else
-            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + level); // level
-
-        // experience
-        if (exp.isMaxLevel())
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + I18n.format("levels.misc.max"));
-        else
+        } else {
+            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + level); // level
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + exp.getExperience() + " / " + ExperienceEditor.getNextLevelExperience(level));
+        }
 
         // durability
-        if (nbt.getInteger("Unbreakable") == 1)
+        if (baseNbt.getInteger("Unbreakable") == 1)
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.durability") + ": " + I18n.format("levels.misc.durability.unlimited"));
         else
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.durability") + ": " + (stack.getMaxDamage() - stack.getItemDamage()) + " / " + stack.getMaxDamage());
@@ -116,6 +114,7 @@ public class EventTooltip {
         }
 
         List<? extends AttributeBase> attributes = type.attributes();
+        INBT nbt = NBTHelper.toCommon(baseNbt);
         for (AttributeBase attribute : attributes) {
             if (attribute.hasAttribute(nbt))
                 tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));

@@ -1,7 +1,8 @@
 package com.thexfactor117.levels.forge.events.attributes;
 
-import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.common.nbt.INBT;
+import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
@@ -23,17 +24,22 @@ public class EventBarrage {
     public void onBowFire(ArrowLooseEvent event) {
         EntityPlayer player = event.getEntityPlayer();
         ItemStack stack = event.getBow();
-        NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
+        NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
 
-        if (player != null && stack != null && nbt != null && !player.getEntityWorld().isRemote) {
-            if (BowAttribute.BARRAGE.hasAttribute(nbt)) {
-                for (int i = 0; i < (int) BowAttribute.BARRAGE.getCalculatedValue(nbt, 3, 1.5); i++) {
-                    EntityArrow entityarrow = new EntityTippedArrow(player.getEntityWorld(), player);
-                    entityarrow.shoot(player, player.rotationPitch, player.rotationYaw, 0, ((ItemBow) event.getBow().getItem()).getArrowVelocity(event.getCharge()) * 3, 20F);
-                    entityarrow.pickupStatus = PickupStatus.DISALLOWED;
-                    player.getEntityWorld().spawnEntity(entityarrow);
-                }
-            }
+        if (player == null || stack == null || baseNbt == null || player.getEntityWorld().isRemote) {
+            return;
+        }
+
+        INBT nbt = NBTHelper.toCommon(baseNbt);
+        if (!BowAttribute.BARRAGE.hasAttribute(nbt)) {
+            return;
+        }
+
+        for (int i = 0; i < (int) BowAttribute.BARRAGE.getCalculatedValue(nbt, 3, 1.5); i++) {
+            EntityArrow entityarrow = new EntityTippedArrow(player.getEntityWorld(), player);
+            entityarrow.shoot(player, player.rotationPitch, player.rotationYaw, 0, ((ItemBow) event.getBow().getItem()).getArrowVelocity(event.getCharge()) * 3, 20F);
+            entityarrow.pickupStatus = PickupStatus.DISALLOWED;
+            player.getEntityWorld().spawnEntity(entityarrow);
         }
     }
 }

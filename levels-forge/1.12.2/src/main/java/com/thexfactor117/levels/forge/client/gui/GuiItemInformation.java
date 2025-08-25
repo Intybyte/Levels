@@ -1,13 +1,14 @@
 package com.thexfactor117.levels.forge.client.gui;
 
 import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
+import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
-import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
 import com.thexfactor117.levels.forge.util.GuiHandler;
-import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -129,10 +130,11 @@ public class GuiItemInformation extends GuiScreen {
         }
 
         List<? extends AttributeBase> attributes = type.attributes();
+        INBT inbt = NBTHelper.toCommon(nbt);
         for (AttributeBase attribute : attributes) {
-            if (attribute.hasAttribute(nbt)) {
+            if (attribute.hasAttribute(inbt)) {
                 k++;
-                drawCenteredString(fontRenderer, attribute.getName(nbt), width / 2 + 112, 115 + (10 * k), attribute.getHexColor());
+                drawCenteredString(fontRenderer, attribute.getName(inbt), width / 2 + 112, 115 + (10 * k), attribute.getHexColor());
             }
         }
     }

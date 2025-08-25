@@ -1,17 +1,15 @@
 package com.thexfactor117.levels.forge.events.attributes;
 
-import com.thexfactor117.levels.forge.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.WeaponAttribute;
-import com.thexfactor117.levels.forge.util.NBTHelper;
+import com.thexfactor117.levels.common.nbt.INBT;
+import com.thexfactor117.levels.forge.leveling.ItemType;
+import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -39,16 +37,21 @@ public class EventSoulBound {
         for (int i = 0; i < event.getDrops().size(); i++) {
             item = event.getDrops().get(i).getItem().getItem();
 
-            if (item != null && (item instanceof ItemSword || item instanceof ItemShield || item instanceof ItemArmor || item instanceof ItemBow)) {
-                ItemStack stack = event.getDrops().get(i).getItem();
-                NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
+            ItemType type = ItemType.of(item);
+            if (type == null) {
+                continue;
+            }
 
-                if (nbt != null) {
-                    if (WeaponAttribute.SOUL_BOUND.hasAttribute(nbt) || ArmorAttribute.SOUL_BOUND.hasAttribute(nbt) || BowAttribute.SOUL_BOUND.hasAttribute(nbt) || ShieldAttribute.SOUL_BOUND.hasAttribute(nbt)) {
-                        event.getDrops().remove(i);
-                        player.inventory.addItemStackToInventory(stack);
-                    }
-                }
+            ItemStack stack = event.getDrops().get(i).getItem();
+            NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
+            if (baseNbt == null) {
+                continue;
+            }
+
+            INBT nbt = NBTHelper.toCommon(baseNbt);
+            if (WeaponAttribute.SOUL_BOUND.hasAttribute(nbt) || ArmorAttribute.SOUL_BOUND.hasAttribute(nbt) || BowAttribute.SOUL_BOUND.hasAttribute(nbt) || ShieldAttribute.SOUL_BOUND.hasAttribute(nbt)) {
+                event.getDrops().remove(i);
+                player.inventory.addItemStackToInventory(stack);
             }
         }
     }

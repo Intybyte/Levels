@@ -1,12 +1,18 @@
 package com.thexfactor117.levels.forge;
 
-import com.thexfactor117.levels.forge.config.Config;
+import com.thexfactor117.levels.common.config.MainConfig;
+import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.forge.init.ModEvents;
+import com.thexfactor117.levels.forge.leveling.attributes.ArmorAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.ShieldAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.WeaponAttribute;
 import com.thexfactor117.levels.forge.network.PacketAttributeSelection;
 import com.thexfactor117.levels.forge.network.PacketMythicSound;
 import com.thexfactor117.levels.forge.proxies.CommonProxy;
 import com.thexfactor117.levels.forge.util.GuiHandler;
 import com.thexfactor117.levels.forge.util.Reference;
+import lombok.Getter;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -37,13 +43,28 @@ public class Levels {
     public static Levels instance;
     public static final Logger LOGGER = LogManager.getLogger("Levels");
     public static SimpleNetworkWrapper network;
+    @Getter
     private static File configDir;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         configDir = new File(event.getModConfigurationDirectory() + "/" + Reference.MODID);
         configDir.mkdirs();
-        Config.init(configDir);
+        Configs.init(configDir);
+        Configs cfg = Configs.getInstance();
+
+        cfg.attributes
+                .processEnum(ArmorAttribute.class)
+                .processEnum(BowAttribute.class)
+                .processEnum(ShieldAttribute.class)
+                .processEnum(WeaponAttribute.class)
+                .initFile();
+
+        cfg.main
+                .process(new MainConfig())
+                .initFile();
+
+        //Config.init(configDir);
 
         ModEvents.register();
         proxy.preInit();
@@ -63,7 +84,4 @@ public class Levels {
     public void postInit(FMLPostInitializationEvent event) {
     }
 
-    public static File getConfigDir() {
-        return configDir;
-    }
 }

@@ -1,13 +1,14 @@
 package com.thexfactor117.levels.forge.leveling.attributes;
 
+import com.thexfactor117.levels.common.attribute.EnableAttribute;
+import com.thexfactor117.levels.common.attribute.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.color.LegacyTextColor;
-import com.thexfactor117.levels.forge.config.Config;
 import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.attribute.AttributeRarity;
 import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,29 +16,29 @@ import java.util.ArrayList;
  *
  */
 @Getter
-public enum ArmorAttribute implements AttributeBase {
-    FIRE("Fire", Config.armorFire, LegacyTextColor.RED, AttributeRarity.UNCOMMON),
-    FROST("Frost", Config.armorFrost, LegacyTextColor.AQUA, AttributeRarity.UNCOMMON),
-    POISON("Poison", Config.armorPoison, LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON),
-    DURABLE("Durable", Config.armorDurable, LegacyTextColor.GRAY, AttributeRarity.UNCOMMON),
-    MAGICAL("Magical", Config.armorMagical, LegacyTextColor.BLUE, AttributeRarity.RARE),
-    SOUL_BOUND("Soul Bound", Config.armorSoulBound, LegacyTextColor.DARK_PURPLE, AttributeRarity.RARE),
-    UNBREAKABLE("Unbreakable", Config.armorUnbreakable, LegacyTextColor.GRAY, AttributeRarity.LEGENDARY);
+public enum ArmorAttribute implements AttributeBase, SimpleConfigAttribute {
+    FIRE("Fire", LegacyTextColor.RED, AttributeRarity.UNCOMMON),
+    FROST("Frost", LegacyTextColor.AQUA, AttributeRarity.UNCOMMON),
+    POISON("Poison", LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON),
+    DURABLE("Durable", LegacyTextColor.GRAY, AttributeRarity.UNCOMMON),
+    MAGICAL("Magical", LegacyTextColor.BLUE, AttributeRarity.RARE),
+    SOUL_BOUND("Soul Bound", LegacyTextColor.DARK_PURPLE, AttributeRarity.RARE),
+    UNBREAKABLE("Unbreakable", LegacyTextColor.GRAY, AttributeRarity.LEGENDARY);
+
+    private final String enabledKey;
 
     private final String baseName;
-    private final boolean enabled;
     private final String color;
     private final int hexColor;
     private final AttributeRarity rarity;
 
-    public static ArrayList<ArmorAttribute> ARMOR_ATTRIBUTES = new ArrayList<>();
-
-    ArmorAttribute(String baseName, boolean enabled, LegacyTextColor color, AttributeRarity rarity) {
+    ArmorAttribute(String baseName, LegacyTextColor color, AttributeRarity rarity) {
         this.baseName = baseName;
-        this.enabled = enabled;
         this.color = color.toString();
         this.hexColor = color.getHex();
         this.rarity = rarity;
+
+        this.enabledKey = SimpleConfigAttribute.keyOf(this);
     }
 
     @Override
@@ -55,11 +56,12 @@ public enum ArmorAttribute implements AttributeBase {
 
     }
 
-    static {
-        for (int i = 0; i < ArmorAttribute.values().length; i++) {
-            if (ArmorAttribute.values()[i].enabled) {
-                ArmorAttribute.ARMOR_ATTRIBUTES.add(ArmorAttribute.values()[i]);
-            }
-        }
+    @Override
+    public boolean isEnabled() {
+        return SimpleConfigAttribute.super.isEnabled();
+    }
+
+    public static List<ArmorAttribute> getEnabled() {
+        return EnableAttribute.getEnabled(values());
     }
 }

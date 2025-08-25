@@ -1,6 +1,7 @@
 package com.thexfactor117.levels.forge.leveling;
 
-import com.thexfactor117.levels.forge.config.Config;
+import com.thexfactor117.levels.common.config.ConfigManager;
+import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.forge.util.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -40,35 +41,37 @@ public class Experience {
         NBTTagCompound nbt = stack.getTagCompound();
         //JsonToNBT
 
-        if (nbt != null) {
-            while (this.getLevel() < Config.maxLevel && this.getExperience() >= Experience.getNextLevelExperience(this.getLevel())) {
-                this.setLevel(this.getLevel() + 1); // increase level by one
-                this.addAttributeTokens(1);
+        if (nbt == null) {
+            return;
+        }
 
-                player.sendMessage(new TextComponentString(stack.getDisplayName() + TextFormatting.GRAY + " has leveled up to level " + TextFormatting.GOLD + this.getLevel() + TextFormatting.GRAY + "!"));
+        while (!this.isMaxLevel() && this.getExperience() >= Experience.getNextLevelExperience(this.getLevel())) {
+            this.setLevel(this.getLevel() + 1); // increase level by one
+            this.addAttributeTokens(1);
 
-                if (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemAxe) {
-                    // update damage and attack speed values
-                    NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10); // retrieves our custom Attribute Modifier implementation
-                    NBTTagCompound damageNbt = taglist.getCompoundTagAt(0);
-                    NBTTagCompound speedNbt = taglist.getCompoundTagAt(1);
-                    double newDamage = damageNbt.getDouble("Amount") + ((damageNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
-                    double newSpeed = speedNbt.getDouble("Amount") - ((speedNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
-                    damageNbt.setDouble("Amount", newDamage);
-                    speedNbt.setDouble("Amount", newSpeed);
-                } else if (stack.getItem() instanceof ItemArmor) {
-                    // update armor and armor toughness values
-                    NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10); // retrieves our custom Attribute Modifier implementation
-                    NBTTagCompound armorNbt = taglist.getCompoundTagAt(0);
-                    NBTTagCompound toughnessNbt = taglist.getCompoundTagAt(1);
-                    double newArmor = armorNbt.getDouble("Amount") + ((armorNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
-                    double newToughness = toughnessNbt.getDouble("Amount") - ((toughnessNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
-                    armorNbt.setDouble("Amount", newArmor);
-                    toughnessNbt.setDouble("Amount", newToughness);
-                }
+            player.sendMessage(new TextComponentString(stack.getDisplayName() + TextFormatting.GRAY + " has leveled up to level " + TextFormatting.GOLD + this.getLevel() + TextFormatting.GRAY + "!"));
 
-                NBTHelper.saveStackNBT(stack, nbt);
+            if (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemAxe) {
+                // update damage and attack speed values
+                NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10); // retrieves our custom Attribute Modifier implementation
+                NBTTagCompound damageNbt = taglist.getCompoundTagAt(0);
+                NBTTagCompound speedNbt = taglist.getCompoundTagAt(1);
+                double newDamage = damageNbt.getDouble("Amount") + ((damageNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
+                double newSpeed = speedNbt.getDouble("Amount") - ((speedNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
+                damageNbt.setDouble("Amount", newDamage);
+                speedNbt.setDouble("Amount", newSpeed);
+            } else if (stack.getItem() instanceof ItemArmor) {
+                // update armor and armor toughness values
+                NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10); // retrieves our custom Attribute Modifier implementation
+                NBTTagCompound armorNbt = taglist.getCompoundTagAt(0);
+                NBTTagCompound toughnessNbt = taglist.getCompoundTagAt(1);
+                double newArmor = armorNbt.getDouble("Amount") + ((armorNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
+                double newToughness = toughnessNbt.getDouble("Amount") - ((toughnessNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
+                armorNbt.setDouble("Amount", newArmor);
+                toughnessNbt.setDouble("Amount", newToughness);
             }
+
+            NBTHelper.saveStackNBT(stack, nbt);
         }
     }
 
@@ -78,6 +81,10 @@ public class Experience {
      */
     public int getLevel() {
         return nbt != null ? nbt.getInteger("LEVEL") : 1;
+    }
+
+    public boolean isMaxLevel() {
+        return getLevel() >= Configs.getInstance().main.getInt("maxLevel");
     }
 
     /**
@@ -154,6 +161,7 @@ public class Experience {
      * @return
      */
     public static int getNextLevelExperience(int currentLevel) {
-        return (int) Math.pow(currentLevel, Config.expExponent) * Config.expMultiplier;
+        ConfigManager cfg = Configs.getInstance().main;
+        return (int) (Math.pow(currentLevel, cfg.getDouble("expExponent")) * cfg.getDouble("expMultiplier"));
     }
 }

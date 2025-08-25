@@ -68,7 +68,7 @@ public class PacketAttributeSelection implements IMessage {
 
                 Experience exp = new Experience(null, stack);
 
-                List<? extends AttributeBase> attributeList = type.list();
+                List<? extends AttributeBase> attributeList = type.attributes();
                 AttributeBase attribute = attributeList.get(message.index);
                 if (attribute.hasAttribute(nbt)) {
                     attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);

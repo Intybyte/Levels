@@ -1,12 +1,9 @@
 package com.thexfactor117.levels.forge.events;
 
-import com.thexfactor117.levels.forge.config.Config;
 import com.thexfactor117.levels.forge.leveling.Experience;
+import com.thexfactor117.levels.forge.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
-import com.thexfactor117.levels.forge.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.forge.util.NBTHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemArmor;
@@ -26,6 +23,7 @@ import org.lwjgl.input.Keyboard;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -80,13 +78,13 @@ public class EventTooltip {
         Experience exp = new Experience(null, stack);
         int level = exp.getLevel();
         // level
-        if (level >= Config.maxLevel)
+        if (exp.isMaxLevel())
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + I18n.format("levels.misc.max")); // max level
         else
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + level); // level
 
         // experience
-        if (level >= Config.maxLevel)
+        if (exp.isMaxLevel())
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + I18n.format("levels.misc.max"));
         else
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + exp.getExperience() + " / " + Experience.getNextLevelExperience(level));
@@ -100,32 +98,26 @@ public class EventTooltip {
         tooltip.add("");
 
         // attributes
-        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-            tooltip.add(TextFormatting.GRAY + "" + TextFormatting.ITALIC + I18n.format("levels.misc.attributes"));
-
-            if (stack.getItem() instanceof ItemSword) {
-                for (WeaponAttribute attribute : WeaponAttribute.WEAPON_ATTRIBUTES) {
-                    if (attribute.hasAttribute(nbt))
-                        tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));
-                }
-            } else if (stack.getItem() instanceof ItemArmor) {
-                for (ArmorAttribute attribute : ArmorAttribute.ARMOR_ATTRIBUTES) {
-                    if (attribute.hasAttribute(nbt))
-                        tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));
-                }
-            } else if (stack.getItem() instanceof ItemBow) {
-                for (BowAttribute attribute : BowAttribute.BOW_ATTRIBUTES) {
-                    if (attribute.hasAttribute(nbt))
-                        tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));
-                }
-            } else if (stack.getItem() instanceof ItemShield) {
-                for (ShieldAttribute attribute : ShieldAttribute.SHIELD_ATTRIBUTES) {
-                    if (attribute.hasAttribute(nbt))
-                        tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));
-                }
-            }
-        } else {
+        if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
             tooltip.add(TextFormatting.GRAY + "" + TextFormatting.ITALIC + I18n.format("levels.misc.attributes.shift"));
+            tooltip.add("");
+            return;
+        }
+
+        // Process Shift additional info
+
+        tooltip.add(TextFormatting.GRAY + "" + TextFormatting.ITALIC + I18n.format("levels.misc.attributes"));
+
+        ItemType type = ItemType.of(stack.getItem());
+        if (type == null) {
+            tooltip.add("");
+            return;
+        }
+
+        List<? extends AttributeBase> attributes = type.attributes();
+        for (AttributeBase attribute : attributes) {
+            if (attribute.hasAttribute(nbt))
+                tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));
         }
 
         tooltip.add("");

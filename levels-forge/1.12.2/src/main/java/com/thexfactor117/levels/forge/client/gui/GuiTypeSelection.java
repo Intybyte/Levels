@@ -31,7 +31,7 @@ public class GuiTypeSelection extends GuiScreen {
 
     public GuiTypeSelection(ItemType type) {
         this.type = type;
-        this.attributes = type.list();
+        this.attributes = type.attributes();
     }
 
     @SideOnly(Side.CLIENT)

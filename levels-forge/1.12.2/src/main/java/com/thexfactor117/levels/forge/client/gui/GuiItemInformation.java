@@ -1,13 +1,10 @@
 package com.thexfactor117.levels.forge.client.gui;
 
 import com.thexfactor117.levels.forge.Levels;
-import com.thexfactor117.levels.forge.config.Config;
 import com.thexfactor117.levels.forge.leveling.Experience;
+import com.thexfactor117.levels.forge.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
-import com.thexfactor117.levels.forge.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.forge.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.forge.util.GuiHandler;
 import com.thexfactor117.levels.forge.util.NBTHelper;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -27,6 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -115,7 +113,7 @@ public class GuiItemInformation extends GuiScreen {
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.current"), width / 2 + 112, 100, 0xFFFFFF);
 
 
-        if (exp.getLevel() == Config.maxLevel) {
+        if (exp.isMaxLevel()) {
             drawString(fontRenderer, I18n.format("levels.misc.level") + ": " + I18n.format("levels.misc.max"), width / 2 - 50, 50, 0xFFFFFF);
             drawString(fontRenderer, I18n.format("levels.misc.experience") + ": " + I18n.format("levels.misc.max"), width / 2 - 50, 60, 0xFFFFFF);
         } else {
@@ -124,36 +122,16 @@ public class GuiItemInformation extends GuiScreen {
         }
 
         int k = -1;
+        ItemType type = ItemType.of(stack.getItem());
+        if (type == null) {
+            return;
+        }
 
-        if (stack.getItem() instanceof ItemSword) {
-            for (int i = 0; i < WeaponAttribute.WEAPON_ATTRIBUTES.size(); i++) {
-                if (WeaponAttribute.WEAPON_ATTRIBUTES.get(i).hasAttribute(nbt)) {
-                    k++;
-                    drawCenteredString(fontRenderer, WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), WeaponAttribute.WEAPON_ATTRIBUTES.get(i).getHexColor());
-                }
-            }
-        } else if (stack.getItem() instanceof ItemTool) {
-
-        } else if (stack.getItem() instanceof ItemBow) {
-            for (int i = 0; i < BowAttribute.BOW_ATTRIBUTES.size(); i++) {
-                if (BowAttribute.BOW_ATTRIBUTES.get(i).hasAttribute(nbt)) {
-                    k++;
-                    drawCenteredString(fontRenderer, BowAttribute.BOW_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), BowAttribute.BOW_ATTRIBUTES.get(i).getHexColor());
-                }
-            }
-        } else if (stack.getItem() instanceof ItemArmor) {
-            for (int i = 0; i < ArmorAttribute.ARMOR_ATTRIBUTES.size(); i++) {
-                if (ArmorAttribute.ARMOR_ATTRIBUTES.get(i).hasAttribute(nbt)) {
-                    k++;
-                    drawCenteredString(fontRenderer, ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), ArmorAttribute.ARMOR_ATTRIBUTES.get(i).getHexColor());
-                }
-            }
-        } else if (stack.getItem() instanceof ItemShield) {
-            for (int i = 0; i < ShieldAttribute.SHIELD_ATTRIBUTES.size(); i++) {
-                if (ShieldAttribute.SHIELD_ATTRIBUTES.get(i).hasAttribute(nbt)) {
-                    k++;
-                    drawCenteredString(fontRenderer, ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getName(nbt), width / 2 + 112, 115 + (10 * k), ShieldAttribute.SHIELD_ATTRIBUTES.get(i).getHexColor());
-                }
+        List<? extends AttributeBase> attributes = type.attributes();
+        for (AttributeBase attribute : attributes) {
+            if (attribute.hasAttribute(nbt)) {
+                k++;
+                drawCenteredString(fontRenderer, attribute.getName(nbt), width / 2 + 112, 115 + (10 * k), attribute.getHexColor());
             }
         }
     }

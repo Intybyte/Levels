@@ -1,18 +1,17 @@
 package com.thexfactor117.levels.forge.events;
 
-import com.thexfactor117.levels.forge.config.Config;
+import com.thexfactor117.levels.common.config.Configs;
+import com.thexfactor117.levels.forge.leveling.ItemType;
 import com.thexfactor117.levels.forge.util.NBTHelper;
 import com.thexfactor117.levels.forge.util.WeaponHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+
+import java.util.Set;
 
 /**
  *
@@ -31,7 +30,7 @@ public class EventCreateWeapon {
         }
 
         for (ItemStack stack : event.player.inventory.mainInventory) {
-            if (stack != null && (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow || stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield)) {
+            if (stack != null && ItemType.of(stack.getItem()) != null) {
                 create(stack, event.player);
             }
         }
@@ -49,12 +48,9 @@ public class EventCreateWeapon {
         }
 
 
+        Set<String> list = Configs.getInstance().main.getStringSet("itemBlackList");
         String nsKey = stack.getItem().getRegistryName().getNamespace();
-        for (int j = 0; j < Config.itemBlacklist.length; j++) {
-            if (Config.itemBlacklist[j].equals(nsKey)) {
-                return;
-            }
-        }
+        if (list.contains(nsKey)) return;
 
         WeaponHelper.create(stack, player);
     }

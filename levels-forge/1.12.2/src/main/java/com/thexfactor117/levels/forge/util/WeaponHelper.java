@@ -1,8 +1,8 @@
 package com.thexfactor117.levels.forge.util;
 
 import com.google.common.collect.Multimap;
+import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.forge.Levels;
-import com.thexfactor117.levels.forge.config.Config;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.leveling.Rarity;
 import com.thexfactor117.levels.forge.network.PacketMythicSound;
@@ -60,7 +60,7 @@ public class WeaponHelper {
             Levels.network.sendTo(new PacketMythicSound(), (EntityPlayerMP) player);
         }
 
-        if (Config.unlimitedDurability) {
+        if (Configs.getInstance().main.getBoolean("unlimitedDurability")) {
             nbt.setInteger("Unbreakable", 1); // adds Unbreakable tag to item
         }
 

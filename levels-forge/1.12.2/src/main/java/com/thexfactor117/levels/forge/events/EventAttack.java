@@ -1,7 +1,8 @@
 package com.thexfactor117.levels.forge.events;
 
-import com.thexfactor117.levels.forge.config.Config;
+import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.forge.leveling.Experience;
+import com.thexfactor117.levels.forge.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
 import com.thexfactor117.levels.forge.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.forge.leveling.attributes.BowAttribute;
@@ -180,7 +181,9 @@ public class EventAttack {
      * @param enemy
      */
     private void addExperience(NBTTagCompound nbt, ItemStack stack, EntityLivingBase enemy) {
-        if (!(new Experience(null, stack).getLevel() < Config.maxLevel)) {
+        int maxLevel = Configs.getInstance().main.getInt("maxLevel");
+
+        if (!(new Experience(null, stack).getLevel() < maxLevel)) {
             return;
         }
 
@@ -225,65 +228,67 @@ public class EventAttack {
             return;
         }
 
-        int var;
+        int randomAddXp;
         int addedXp;
-        int var2;
-        int var3;
+        int randomDurabilityDamage;
+        int repairDurability;
 
+        boolean isUnlimitedDurability = Configs.getInstance().main.getBoolean("unlimitedDurability");
         Experience exp = new Experience(null, stack);
+        ItemType type = ItemType.of(stack.getItem());
         switch (rarity) {
             case UNCOMMON: // 6% chance of adding 1-3 experience points; 6% chance of not using durability
-                if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
-                    var = (int) (Math.random() * 15);
+                if (type != null && death) {
+                    randomAddXp = (int) (Math.random() * 15);
                     addedXp = (int) (Math.random() * 3 + 1);
-                    if (var == 0) exp.addExperience(addedXp);
+                    if (randomAddXp == 0) exp.addExperience(addedXp);
                 }
 
-                if (!Config.unlimitedDurability && !death) {
-                    var2 = (int) (Math.random() * 15);
-                    if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - 1);
+                if (!isUnlimitedDurability && !death) {
+                    randomDurabilityDamage = (int) (Math.random() * 15);
+                    if (randomDurabilityDamage == 0) stack.setItemDamage(stack.getItemDamage() - 1);
                 }
 
                 break;
             case RARE: // 10% chance of adding 1-5 experience points; 10% chance of not using durability AND gaining an additional durability point
-                if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
-                    var = (int) (Math.random() * 10);
+                if (type != null && death) {
+                    randomAddXp = (int) (Math.random() * 10);
                     addedXp = (int) (Math.random() * 5 + 1);
-                    if (var == 0) exp.addExperience(addedXp);
+                    if (randomAddXp == 0) exp.addExperience(addedXp);
                 }
 
-                if (!Config.unlimitedDurability && !death) {
-                    var2 = (int) (Math.random() * 10);
-                    var3 = (int) (Math.random() * 2);
-                    if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - (1 + var3));
+                if (!isUnlimitedDurability && !death) {
+                    randomDurabilityDamage = (int) (Math.random() * 10);
+                    repairDurability = (int) (Math.random() * 2);
+                    if (randomDurabilityDamage == 0) stack.setItemDamage(stack.getItemDamage() - (1 + repairDurability));
                 }
 
                 break;
             case LEGENDARY: // 14% chance of adding 3-5 experience points; 14% chance of not using durability AND gaining 1-3 durability points
-                if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
-                    var = (int) (Math.random() * 7);
+                if (type != null && death) {
+                    randomAddXp = (int) (Math.random() * 7);
                     addedXp = (int) (Math.random() * 5 + 3);
-                    if (var == 0) exp.addExperience(addedXp);
+                    if (randomAddXp == 0) exp.addExperience(addedXp);
                 }
 
-                if (!Config.unlimitedDurability && !death) {
-                    var2 = (int) (Math.random() * 7);
-                    var3 = (int) (Math.random() * 3 + 1);
-                    if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - (1 + var3));
+                if (!isUnlimitedDurability && !death) {
+                    randomDurabilityDamage = (int) (Math.random() * 7);
+                    repairDurability = (int) (Math.random() * 3 + 1);
+                    if (randomDurabilityDamage == 0) stack.setItemDamage(stack.getItemDamage() - (1 + repairDurability));
                 }
 
                 break;
             case MYTHIC: // 20% chance of adding 3-10 experience points; 20% chance of not using durability AND gaining 1-5 durability points
-                if ((stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemShield) || ((stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow) && death)) {
-                    var = (int) (Math.random() * 5);
+                if (type != null && death) {
+                    randomAddXp = (int) (Math.random() * 5);
                     addedXp = (int) (Math.random() * 8 + 3);
-                    if (var == 0) exp.addExperience(addedXp);
+                    if (randomAddXp == 0) exp.addExperience(addedXp);
                 }
 
-                if (!Config.unlimitedDurability && !death) {
-                    var2 = (int) (Math.random() * 5);
-                    var3 = (int) (Math.random() * 5 + 1);
-                    if (var2 == 0) stack.setItemDamage(stack.getItemDamage() - (1 + var3));
+                if (!isUnlimitedDurability && !death) {
+                    randomDurabilityDamage = (int) (Math.random() * 5);
+                    repairDurability = (int) (Math.random() * 5 + 1);
+                    if (randomDurabilityDamage == 0) stack.setItemDamage(stack.getItemDamage() - (1 + repairDurability));
                 }
 
                 break;

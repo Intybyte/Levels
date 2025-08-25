@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.common.attributes.components;
+package com.thexfactor117.levels.common.leveling.attributes.components;
 
 import com.thexfactor117.levels.common.config.ConfigEntry;
 import com.thexfactor117.levels.common.config.ConfigEntryHolder;

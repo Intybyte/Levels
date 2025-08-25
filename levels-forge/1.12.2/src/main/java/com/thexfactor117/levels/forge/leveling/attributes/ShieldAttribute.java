@@ -1,10 +1,10 @@
 package com.thexfactor117.levels.forge.leveling.attributes;
 
-import com.thexfactor117.levels.common.attributes.components.EnableAttribute;
-import com.thexfactor117.levels.common.attributes.components.SimpleConfigAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.components.EnableAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.components.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.color.LegacyTextColor;
 import com.thexfactor117.levels.forge.leveling.attributes.components.AttributeBase;
-import com.thexfactor117.levels.common.attributes.components.AttributeRarity;
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
 import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
 

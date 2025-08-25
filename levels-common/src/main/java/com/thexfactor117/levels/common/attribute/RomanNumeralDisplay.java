@@ -7,7 +7,7 @@ public interface RomanNumeralDisplay {
     default String getCompleteName(int level) {
         if (level == 0) return getBaseName();
 
-        return getBaseName() + RomanNumber.toRoman(level);
+        return getBaseName() + " " + RomanNumber.toRoman(level);
     }
 
     int getHexColor();

@@ -3,11 +3,12 @@ package com.thexfactor117.levels.forge.client.gui;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
-import com.thexfactor117.levels.forge.leveling.ItemType;
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
 import com.thexfactor117.levels.forge.network.PacketAttributeSelection;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
+import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -42,7 +43,7 @@ public class GuiTypeSelection extends GuiScreen {
         ItemStack stack = player.inventory.getCurrentItem();
         NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
 
-        ItemType currentType = ItemType.of(stack.getItem());
+        ItemType currentType = ItemUtil.type(stack.getItem());
 
         if (player == null || stack == null || baseNbt == null || currentType != type) {
             return;
@@ -68,7 +69,7 @@ public class GuiTypeSelection extends GuiScreen {
         ItemStack stack = player.inventory.getCurrentItem();
         NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
 
-        ItemType currentType = ItemType.of(stack.getItem());
+        ItemType currentType = ItemUtil.type(stack.getItem());
 
         if (player == null || stack == null || baseNbt == null || currentType != type) {
             return;
@@ -101,7 +102,7 @@ public class GuiTypeSelection extends GuiScreen {
         ItemStack stack = player.inventory.getCurrentItem();
         NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
-        ItemType currentType = ItemType.of(stack.getItem());
+        ItemType currentType = ItemUtil.type(stack.getItem());
 
         if (player == null || stack == null || nbt == null) {
             return;

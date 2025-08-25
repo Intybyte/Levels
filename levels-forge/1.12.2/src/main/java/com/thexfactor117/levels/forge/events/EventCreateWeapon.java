@@ -1,8 +1,8 @@
 package com.thexfactor117.levels.forge.events;
 
 import com.thexfactor117.levels.common.config.Configs;
-import com.thexfactor117.levels.forge.leveling.ItemType;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
+import com.thexfactor117.levels.forge.util.ItemUtil;
 import com.thexfactor117.levels.forge.util.WeaponHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,7 +30,7 @@ public class EventCreateWeapon {
         }
 
         for (ItemStack stack : event.player.inventory.mainInventory) {
-            if (stack != null && ItemType.of(stack.getItem()) != null) {
+            if (stack != null && ItemUtil.type(stack.getItem()) != null) {
                 create(stack, event.player);
             }
         }

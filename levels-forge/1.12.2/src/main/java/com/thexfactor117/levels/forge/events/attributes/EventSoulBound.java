@@ -1,12 +1,13 @@
 package com.thexfactor117.levels.forge.events.attributes;
 
 import com.thexfactor117.levels.common.nbt.INBT;
-import com.thexfactor117.levels.forge.leveling.ItemType;
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.WeaponAttribute;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
+import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,7 +38,7 @@ public class EventSoulBound {
         for (int i = 0; i < event.getDrops().size(); i++) {
             item = event.getDrops().get(i).getItem().getItem();
 
-            ItemType type = ItemType.of(item);
+            ItemType type = ItemUtil.type(item);
             if (type == null) {
                 continue;
             }

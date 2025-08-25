@@ -3,13 +3,14 @@ package com.thexfactor117.levels.forge.events;
 import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
-import com.thexfactor117.levels.forge.leveling.ItemType;
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.WeaponAttribute;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
+import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -237,7 +238,7 @@ public class EventAttack {
 
         boolean isUnlimitedDurability = Configs.getInstance().main.getBoolean("unlimitedDurability");
         Experience exp = new Experience(null, stack);
-        ItemType type = ItemType.of(stack.getItem());
+        ItemType type = ItemUtil.type(stack.getItem());
         switch (rarity) {
             case UNCOMMON: // 6% chance of adding 1-3 experience points; 6% chance of not using durability
                 if (type != null && death) {

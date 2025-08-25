@@ -4,11 +4,12 @@ import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
-import com.thexfactor117.levels.forge.leveling.ItemType;
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
 import com.thexfactor117.levels.forge.util.GuiHandler;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
+import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -124,7 +125,7 @@ public class GuiItemInformation extends GuiScreen {
         }
 
         int k = -1;
-        ItemType type = ItemType.of(stack.getItem());
+        ItemType type = ItemUtil.type(stack.getItem());
         if (type == null) {
             return;
         }

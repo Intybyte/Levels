@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.forge.leveling;
+package com.thexfactor117.levels.common.leveling;
 
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
@@ -7,11 +7,6 @@ import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.WeaponAttribute;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemShield;
-import net.minecraft.item.ItemSword;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -39,14 +34,6 @@ public enum ItemType {
     }
 
     private final String baseTranslateKey;
-
-    public static ItemType of(Item item) {
-        if (item instanceof ItemSword) return SWORD;
-        if (item instanceof ItemArmor) return ARMOR;
-        if (item instanceof ItemBow) return BOW;
-        if (item instanceof ItemShield) return SHIELD;
-        return null;
-    }
 
     public List<? extends AttributeBase> attributes() {
         return ATTRIBUTE_MAPPER.get(this).get();

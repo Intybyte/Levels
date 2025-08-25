@@ -3,10 +3,11 @@ package com.thexfactor117.levels.forge.events;
 import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
-import com.thexfactor117.levels.forge.leveling.ItemType;
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
+import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
@@ -107,7 +108,7 @@ public class EventTooltip {
 
         tooltip.add(TextFormatting.GRAY + "" + TextFormatting.ITALIC + I18n.format("levels.misc.attributes"));
 
-        ItemType type = ItemType.of(stack.getItem());
+        ItemType type = ItemUtil.type(stack.getItem());
         if (type == null) {
             tooltip.add("");
             return;

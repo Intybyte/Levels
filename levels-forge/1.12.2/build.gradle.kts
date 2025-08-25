@@ -126,6 +126,18 @@ publishing {
     }
 }
 
+tasks.register<Delete>("cleanModOnly") {
+    delete("build/classes", "build/libs", "build/resources")
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.forkOptions.jvmArgs = listOf("-Xmx2G", "-Xms512M")
+}
+
+tasks.named<Jar>("jar") {
+    // Add compiled classes from levels-common to this mod's jar
+    from(project(":levels-common").sourceSets["main"].output)
+}
 
 tasks.processIdeaSettings.configure {
     dependsOn(tasks.injectTags)

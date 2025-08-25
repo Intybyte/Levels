@@ -1,5 +1,6 @@
 package com.thexfactor117.levels.forge.events;
 
+import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.leveling.ItemType;
 import com.thexfactor117.levels.forge.leveling.Rarity;
@@ -87,7 +88,7 @@ public class EventTooltip {
         if (exp.isMaxLevel())
             tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + I18n.format("levels.misc.max"));
         else
-            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + exp.getExperience() + " / " + Experience.getNextLevelExperience(level));
+            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + exp.getExperience() + " / " + ExperienceEditor.getNextLevelExperience(level));
 
         // durability
         if (nbt.getInteger("Unbreakable") == 1)

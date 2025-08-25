@@ -1,5 +1,6 @@
 package com.thexfactor117.levels.forge.client.gui;
 
+import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.leveling.ItemType;
@@ -118,7 +119,7 @@ public class GuiItemInformation extends GuiScreen {
             drawString(fontRenderer, I18n.format("levels.misc.experience") + ": " + I18n.format("levels.misc.max"), width / 2 - 50, 60, 0xFFFFFF);
         } else {
             drawString(fontRenderer, I18n.format("levels.misc.level") + ": " + exp.getLevel(), width / 2 - 50, 50, 0xFFFFFF);
-            drawString(fontRenderer, I18n.format("levels.misc.experience") + ": " + exp.getExperience() + " / " + Experience.getNextLevelExperience(exp.getLevel()), width / 2 - 50, 60, 0xFFFFFF);
+            drawString(fontRenderer, I18n.format("levels.misc.experience") + ": " + exp.getExperience() + " / " + ExperienceEditor.getNextLevelExperience(exp.getLevel()), width / 2 - 50, 60, 0xFFFFFF);
         }
 
         int k = -1;

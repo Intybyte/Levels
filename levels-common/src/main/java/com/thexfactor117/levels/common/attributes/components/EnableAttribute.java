@@ -1,4 +1,4 @@
-package com.thexfactor117.levels.common.attribute;
+package com.thexfactor117.levels.common.attributes.components;
 
 import java.util.ArrayList;
 import java.util.List;

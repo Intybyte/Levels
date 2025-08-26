@@ -2,6 +2,7 @@ package com.thexfactor117.levels.forge.util;
 
 import com.google.common.collect.Multimap;
 import com.thexfactor117.levels.common.config.Configs;
+import com.thexfactor117.levels.common.leveling.MinecraftAttributes;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
@@ -35,10 +36,6 @@ import java.util.UUID;
  *
  */
 public class WeaponHelper {
-    private static final UUID ATTACK_DAMAGE = UUID.fromString("38d403d3-3e25-4638-957f-71cd25273933");
-    private static final UUID ATTACK_SPEED = UUID.fromString("106410b5-3fa8-4fcf-8252-ca4292dc0391");
-    private static final UUID ARMOR = UUID.fromString("6ff9f9f0-0498-4623-aeca-a1afa64188e7");
-    private static final UUID ARMOR_TOUGHNESS = UUID.fromString("245507c2-cb9d-4274-81ee-ecced32dafe4");
 
     public static void create(ItemStack stack, EntityPlayer player) {
         NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
@@ -101,8 +98,8 @@ public class WeaponHelper {
             double speed = rarity.generateWeightedAttackSpeed(baseSpeed);
 
             // Creates new AttributeModifier's and applies them to the stack's NBT tag compound.
-            AttributeModifier attackDamage = new AttributeModifier(ATTACK_DAMAGE, "attackDamage", damage, 0);
-            AttributeModifier attackSpeed = new AttributeModifier(ATTACK_SPEED, "attackSpeed", speed, 0);
+            AttributeModifier attackDamage = new AttributeModifier(MinecraftAttributes.ATTACK_DAMAGE_UUID, "attackDamage", damage, 0);
+            AttributeModifier attackSpeed = new AttributeModifier(MinecraftAttributes.ATTACK_SPEED_UUID, "attackSpeed", speed, 0);
             NBTTagCompound damageNbt = writeAttributeModifierToNBT(SharedMonsterAttributes.ATTACK_DAMAGE, attackDamage, EntityEquipmentSlot.MAINHAND);
             NBTTagCompound speedNbt = writeAttributeModifierToNBT(SharedMonsterAttributes.ATTACK_SPEED, attackSpeed, EntityEquipmentSlot.MAINHAND);
             NBTTagList list = new NBTTagList();
@@ -122,8 +119,8 @@ public class WeaponHelper {
             double newToughness = rarity.generateWeightedArmorToughness(baseToughness);
 
             // Creates new AttributeModifier's and applies them to the stack's NBT tag compound.
-            AttributeModifier armor = new AttributeModifier(ARMOR, "armor", newArmor, 0);
-            AttributeModifier toughness = new AttributeModifier(ARMOR_TOUGHNESS, "armorToughness", newToughness, 0);
+            AttributeModifier armor = new AttributeModifier(MinecraftAttributes.ARMOR_UUID, "armor", newArmor, 0);
+            AttributeModifier toughness = new AttributeModifier(MinecraftAttributes.ARMOR_TOUGHNESS_UUID, "armorToughness", newToughness, 0);
             NBTTagCompound armorNbt = writeAttributeModifierToNBT(SharedMonsterAttributes.ARMOR, armor, ((ItemArmor) item).armorType);
             NBTTagCompound toughnessNbt = writeAttributeModifierToNBT(SharedMonsterAttributes.ARMOR_TOUGHNESS, toughness, ((ItemArmor) item).armorType);
             NBTTagList list = new NBTTagList();

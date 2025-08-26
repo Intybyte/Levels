@@ -1,11 +1,12 @@
 package com.thexfactor117.levels.common.leveling.exp;
 
+import com.thexfactor117.levels.common.leveling.SavingEditor;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.common.nbt.INBTHolder;
 import com.thexfactor117.levels.common.nbt.INBTList;
 import com.thexfactor117.levels.common.nbt.NBTType;
 
-public interface LevelUpProcessor extends INBTHolder {
+public interface LevelUpProcessor extends INBTHolder, SavingEditor {
 
     ExperienceEditor getExpEditor();
 
@@ -14,8 +15,6 @@ public interface LevelUpProcessor extends INBTHolder {
     boolean isWeapon();
 
     boolean isArmor();
-
-    void saveLevelUp();
 
     /**
      * Levels up the current weapon/armor to the next level, assuming it is not at max level.
@@ -63,7 +62,7 @@ public interface LevelUpProcessor extends INBTHolder {
                 toughnessNbt.setDouble("Amount", newToughness);
             }
 
-            saveLevelUp();
+            saveEdits();
         }
     }
 }

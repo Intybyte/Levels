@@ -70,7 +70,7 @@ public class Experience implements ExperienceEditor {
         }
 
         @Override
-        public void saveLevelUp() {
+        public void saveEdits() {
             NBTHelper.saveStackNBT(stack, nbt);
         }
     }

@@ -1,6 +1,8 @@
 package com.thexfactor117.levels.forge.client.gui;
 
+import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.nbt.INBT;
+import com.thexfactor117.levels.common.utils.RomanNumber;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.common.leveling.ItemType;
@@ -182,23 +184,41 @@ public class GuiTypeSelection extends GuiScreen {
             }
 
             int cost = 1;
-            if (!attributes.get(i).hasAttribute(nbt)) {
-                cost = attributes.get(i).getRarity().getCost();
+            AttributeBase attr = attributes.get(i);
+            if (!attr.hasAttribute(nbt)) {
+                cost = attr.getRarity().getCost();
             }
 
-            if (attributes.get(i).getAttributeTier(nbt) == 3) cost = 0;
+            if (attr.getAttributeTier(nbt) == 3) cost = 0;
             String translate = type.getBaseTranslateKey();
 
             List<String> list = new ArrayList<>();
-            list.add(attributes.get(i).getColor() + attributes.get(i).getName(nbt));
+            list.add(attr.getColor() + attr.getName(nbt));
             list.add(TextFormatting.GRAY + "Cost: " + cost + " token(s)");
             list.add("");
             list.add(I18n.format(translate + "." + i));
             list.add("");
             list.add("Tiers:");
-            list.add(" I - " + attributes.get(i).getColor() + I18n.format(translate + "." + i + ".tier1"));
-            list.add(" II - " + attributes.get(i).getColor() + I18n.format(translate + "." + i + ".tier2"));
-            list.add(" III - " + attributes.get(i).getColor() + I18n.format(translate + "." + i + ".tier3"));
+
+            int maxLevel = 3;
+            for (int level = 1; level <= maxLevel; level++) {
+                String rmn = RomanNumber.toRoman(level);
+
+                double value = 0;
+                if (attr instanceof SimpleConfigAttribute) {
+                    value = ((SimpleConfigAttribute) attr).getCalculatedValue(level);
+                }
+
+                String displayDouble = Math.abs(value % 1) > 0.01
+                        ? String.format("%.1f", value)
+                        : String.format("%.0f", value);
+
+                String translationKey = String.format("%s.%d.tier", translate, i);
+                String localized = I18n.format(translationKey, displayDouble);
+
+                list.add(" " + rmn + " - " + attr.getColor() + localized);
+            }
+
             drawHoveringText(list, mouseX + 3, mouseY + 3);
         }
     }

@@ -2,6 +2,7 @@ package com.thexfactor117.levels.common.leveling.attributes.components.config;
 
 import com.thexfactor117.levels.common.config.ConfigEntry;
 import com.thexfactor117.levels.common.config.Configs;
+import com.thexfactor117.levels.common.nbt.INBT;
 
 import java.util.Map;
 
@@ -23,6 +24,20 @@ public interface SimpleConfigAttribute extends EnableConfigAttribute {
     default double getMultiplier() {
         return Configs.getInstance().attributes.getDouble(getBaseKey() + ".multiplier");
     }
+
+    default double getCalculatedValue(int level) {
+        double baseValue = getBaseValue();
+        double multiplier = getMultiplier();
+
+        if (level == 1)
+            return baseValue;
+        else if (level == 2)
+            return baseValue * multiplier;
+        else
+            return baseValue * (Math.pow(multiplier, 2));
+    }
+
+    double getCalculatedValue(INBT nbt);
 
     default ConfigEntry getEntry() {
         Map<String, String> cfg = EnableConfigAttribute.super.getEntry().getMap();

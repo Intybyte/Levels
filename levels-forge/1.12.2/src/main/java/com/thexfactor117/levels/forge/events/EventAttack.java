@@ -298,6 +298,8 @@ public class EventAttack {
      */
     private void useAttributes(NBTTagCompound baseNbt, LivingHurtEvent event, ItemStack stack, EntityPlayer player, EntityLivingBase enemy) {
         // WEAPONS
+        //TODO: invert void parameters for correct display and extract common attributes
+
         INBT nbt = NBTHelper.toCommon(baseNbt);
         if (stack.getItem() instanceof ItemSword) {
             if (WeaponAttribute.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)

@@ -52,15 +52,7 @@ public enum ShieldAttribute implements AttributeBase, SimpleConfigAttribute {
     }
 
     public double getCalculatedValue(INBT nbt) {
-        double baseValue = getBaseValue();
-        double multiplier = getMultiplier();
-
-        if (getAttributeTier(nbt) == 1)
-            return baseValue;
-        else if (getAttributeTier(nbt) == 2)
-            return baseValue * multiplier;
-        else
-            return baseValue * (Math.pow(multiplier, 2));
+        return getCalculatedValue(getAttributeTier(nbt));
     }
 
     public static List<ShieldAttribute> getEnabled() {

@@ -2,7 +2,7 @@ package com.thexfactor117.levels.common.leveling.attributes.components;
 
 import com.thexfactor117.levels.common.nbt.INBT;
 
-public interface AttributeBase extends RomanNumeralDisplay, EnableAttribute {
+public interface AttributeBase extends RomanNumeralDisplay {
 
     /**
      * Returns true if the NBT tag compound has the specified Attribute.
@@ -53,20 +53,15 @@ public interface AttributeBase extends RomanNumeralDisplay, EnableAttribute {
         return nbt != null ? nbt.getInt(getAttributeKey()) : 0;
     }
 
-    default double getCalculatedValue(INBT nbt, double baseValue, double multiplier) {
-        if (getAttributeTier(nbt) == 1)
-            return baseValue;
-        else if (getAttributeTier(nbt) == 2)
-            return baseValue * multiplier;
-        else
-            return baseValue * (Math.pow(multiplier, 2));
+    default String getAttributeKey() {
+        return getBaseName() + "_TIER";
     }
-
-    String getAttributeKey();
 
     AttributeRarity getRarity();
 
     default String getName(INBT nbt) {
         return getCompleteName(getAttributeTier(nbt));
     }
+
+    boolean isEnabled();
 }

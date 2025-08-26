@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface EnableAttribute {
-    boolean isEnabled();
-
-    static <T extends EnableAttribute> List<T> getEnabled(T[] values) {
+    static <T extends AttributeBase> List<T> getEnabled(T[] values) {
         List<T> list = new ArrayList<>();
 
         for (T value : values) {

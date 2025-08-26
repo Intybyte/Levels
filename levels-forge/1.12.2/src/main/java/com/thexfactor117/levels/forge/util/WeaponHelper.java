@@ -56,8 +56,9 @@ public class WeaponHelper {
             return;
         }
 
-        Rarity.getRandomRarity(rand).setRarity(nbt); // sets random rarity
-        if (Rarity.getRarity(nbt) == Rarity.MYTHIC) {
+        Rarity rarityNew = Rarity.getRandomRarity(rand);
+        rarityNew.setRarity(nbt); // sets random rarity
+        if (rarityNew == Rarity.MYTHIC) {
             SPacketTitle packet = new SPacketTitle(SPacketTitle.Type.TITLE, new TextComponentString(TextFormatting.GOLD + "MYTHIC"), -1, 20, -1);
             EntityPlayerMP playermp = (EntityPlayerMP) player;
             playermp.connection.sendPacket(packet);
@@ -69,7 +70,7 @@ public class WeaponHelper {
         }
 
         new Experience(null, stack).setLevel(1);
-        baseNbt.setDouble("Multiplier", getWeightedMultiplier(Rarity.getRarity(nbt))); // adds a randomized multiplier to the item, weighted by rarity
+        baseNbt.setDouble("Multiplier", rarityNew.generateWeightedMultiplier()); // adds a randomized multiplier to the item, weighted by rarity
         baseNbt.setInteger("HideFlags", 6); // hides Attribute Modifier and Unbreakable tags
         setAttributeModifiers(baseNbt, stack); // sets up Attribute Modifiers
         NBTHelper.saveStackNBT(stack, baseNbt);
@@ -96,8 +97,8 @@ public class WeaponHelper {
 
             double baseDamage = damageModifier.getAmount() + 1; // add one to base damage for player strength
             double baseSpeed = speedModifier.getAmount();
-            double damage = getWeightedDamage(rarity, baseDamage);
-            double speed = getWeightedAttackSpeed(rarity, baseSpeed);
+            double damage = rarity.generateWeightedDamage(baseDamage);
+            double speed = rarity.generateWeightedAttackSpeed(baseSpeed);
 
             // Creates new AttributeModifier's and applies them to the stack's NBT tag compound.
             AttributeModifier attackDamage = new AttributeModifier(ATTACK_DAMAGE, "attackDamage", damage, 0);
@@ -117,8 +118,8 @@ public class WeaponHelper {
 
             double baseArmor = armorModifier.getAmount();
             double baseToughness = toughnessModifier.getAmount();
-            double newArmor = getWeightedArmor(rarity, baseArmor);
-            double newToughness = getWeightedArmorToughness(rarity, baseToughness);
+            double newArmor = rarity.getWeightedArmor(baseArmor);
+            double newToughness = rarity.generateWeightedArmorToughness(baseToughness);
 
             // Creates new AttributeModifier's and applies them to the stack's NBT tag compound.
             AttributeModifier armor = new AttributeModifier(ARMOR, "armor", newArmor, 0);
@@ -130,194 +131,6 @@ public class WeaponHelper {
             list.appendTag(toughnessNbt);
             nbt.setTag("AttributeModifiers", list);
         }
-    }
-
-    /**
-     * Returns a damage value based on the rarity and base damage of the weapon.
-     * @param rarity
-     * @param baseDamage
-     * @return
-     */
-    private static double getWeightedDamage(Rarity rarity, double baseDamage) {
-        double damage = baseDamage;
-        int range;
-
-        switch (rarity) {
-            case COMMON:
-                range = 3;
-                damage = Math.random() * range + (baseDamage - 2);
-                break;
-            case UNCOMMON:
-                range = 4;
-                damage = Math.random() * range + (baseDamage - 1);
-                break;
-            case RARE:
-                range = 5;
-                damage = Math.random() * range + (baseDamage + 1);
-                break;
-            case LEGENDARY:
-                range = 6;
-                damage = Math.random() * range + (baseDamage + 2);
-                break;
-            case MYTHIC:
-                range = 7;
-                damage = Math.random() * range + (baseDamage + 3);
-                break;
-            default:
-                break;
-        }
-
-        return damage;
-    }
-
-    /**
-     * Returns an attack speed value based on the rarity and base attack speed of the weapon.
-     * @param rarity
-     * @param baseAttackSpeed
-     * @return
-     */
-    private static double getWeightedAttackSpeed(Rarity rarity, double baseAttackSpeed) {
-        double attackSpeed = baseAttackSpeed;
-        double range;
-
-        switch (rarity) {
-            case COMMON:
-                range = 0.2;
-                attackSpeed = Math.random() * range + (baseAttackSpeed - 0.2);
-                break;
-            case UNCOMMON:
-                range = 0.3;
-                attackSpeed = Math.random() * range + (baseAttackSpeed - 0.1);
-                break;
-            case RARE:
-                range = 0.4;
-                attackSpeed = Math.random() * range + (baseAttackSpeed + 0.1);
-                break;
-            case LEGENDARY:
-                range = 0.5;
-                attackSpeed = Math.random() * range + (baseAttackSpeed + 0.2);
-                break;
-            case MYTHIC:
-                range = 0.6;
-                attackSpeed = Math.random() * range + (baseAttackSpeed + 0.3);
-                break;
-            default:
-                break;
-        }
-
-        return attackSpeed;
-    }
-
-    /**
-     * Returns an armor value based on the rarity and base armor of the armor.
-     * @param rarity
-     * @param baseArmor
-     * @return
-     */
-    private static double getWeightedArmor(Rarity rarity, double baseArmor) {
-        double armor = baseArmor;
-        double range;
-
-        switch (rarity) {
-            case COMMON:
-                range = 0.2;
-                armor = Math.random() * range + (baseArmor - 0.2);
-                break;
-            case UNCOMMON:
-                range = 0.3;
-                armor = Math.random() * range + (baseArmor - 0.1);
-                break;
-            case RARE:
-                range = 0.4;
-                armor = Math.random() * range + (baseArmor + 0.1);
-                break;
-            case LEGENDARY:
-                range = 0.5;
-                armor = Math.random() * range + (baseArmor + 0.2);
-                break;
-            case MYTHIC:
-                range = 0.6;
-                armor = Math.random() * range + (baseArmor + 0.3);
-                break;
-            default:
-                break;
-        }
-
-        return armor;
-    }
-
-    /**
-     * Returns a toughness value based on the rarity and base toughness of the armor.
-     * @param rarity
-     * @param baseToughness
-     * @return
-     */
-    private static double getWeightedArmorToughness(Rarity rarity, double baseToughness) {
-        double toughness = baseToughness;
-        double range;
-
-        switch (rarity) {
-            case COMMON:
-                range = 0.2;
-                toughness = Math.random() * range + (baseToughness - 0.2);
-                break;
-            case UNCOMMON:
-                range = 0.3;
-                toughness = Math.random() * range + (baseToughness - 0.1);
-                break;
-            case RARE:
-                range = 0.4;
-                toughness = Math.random() * range + (baseToughness + 0.1);
-                break;
-            case LEGENDARY:
-                range = 0.5;
-                toughness = Math.random() * range + (baseToughness + 0.2);
-                break;
-            case MYTHIC:
-                range = 0.6;
-                toughness = Math.random() * range + (baseToughness + 0.3);
-                break;
-            default:
-                break;
-        }
-
-        if (toughness < 0)
-            return 0;
-
-        return toughness;
-    }
-
-    /**
-     * Returns a randomized, weighted multiplier.
-     * @param rarity
-     * @return
-     */
-    private static double getWeightedMultiplier(Rarity rarity) {
-        double range = 0D;
-
-        switch (rarity) {
-            case COMMON:
-                range = 0.05;
-                break;
-            case UNCOMMON:
-                range = 0.08;
-                break;
-            case RARE:
-                range = 0.13;
-                break;
-            case LEGENDARY:
-                range = 0.2;
-                break;
-            case MYTHIC:
-                range = 0.3;
-                break;
-            default:
-                break;
-        }
-
-        double multiplier = Math.random() * range;
-
-        return multiplier;
     }
 
     private static NBTTagCompound writeAttributeModifierToNBT(IAttribute attribute, AttributeModifier modifier, EntityEquipmentSlot slot) {

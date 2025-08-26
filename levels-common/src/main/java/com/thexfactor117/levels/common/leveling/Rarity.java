@@ -71,4 +71,59 @@ public enum Rarity {
         }
     }
 
+    /*
+     * Stuff for rarity attribute calculation and similar
+     */
+
+    public double generateWeightedDamage(double baseDamage) {
+        if (this == DEFAULT) return baseDamage;
+
+        int range = this.ordinal() + 2; // common(1) + 2 = 3
+        int addAttackBase = this.ordinal() - 3; // common(1) - 3 = -2
+
+        return Math.random() * range + (baseDamage + addAttackBase);
+    }
+
+    public double generateWeightedAttackSpeed(double baseAttackSpeed) {
+        if (this == DEFAULT) return baseAttackSpeed;
+
+        double ordinalDouble = this.ordinal();
+        double range = (ordinalDouble + 1) / 10; // ( common(1) + 1 ) / 10 = 0.2
+        double addAttackSpeed = (ordinalDouble - 3) / 10; // ( common(1) -3 ) / 10 = -0.2
+
+        return Math.random() * range + (baseAttackSpeed + addAttackSpeed);
+    }
+
+    public double generateWeightedArmorToughness(double baseToughness) {
+        double result = generateWeightedAttackSpeed(baseToughness); // same calculation
+
+        if (result < 0) return 0;
+
+        return result;
+    }
+
+    public double getWeightedArmor(double baseArmor) {
+        return generateWeightedArmorToughness(baseArmor); // same calculation
+    }
+
+    /**
+     * The cubic function that calculates multiplier range
+     * where x = ordinal() - 1 (considering common as start point)
+     * was created using <a href="https://www.omnicalculator.com/statistics/cubic-regression">cubic from points</a>
+     * y = 0.0499 + 0.0235x + 0.0064x2 + 0.0008x3
+     * <br>
+     * ## POINTS USED ##:
+     * COMMON: range = 0.05
+     * UNCOMMON: range = 0.08
+     * RARE: range = 0.13
+     * LEGENDARY: range = 0.2
+     * MYTHIC: range = 0.3
+     */
+    public double generateWeightedMultiplier() {
+        double x = this.ordinal() - 1;
+
+        double range = 0.499 + 0.0235 * x + 0.0064 * Math.pow(x, 2) + 0.0008 * Math.pow(x, 3);
+
+        return Math.random() * range;
+    }
 }

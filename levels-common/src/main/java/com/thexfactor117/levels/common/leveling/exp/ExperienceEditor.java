@@ -4,6 +4,9 @@ import com.thexfactor117.levels.common.config.ConfigManager;
 import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.common.nbt.INBTHolder;
 
+/**
+ * This is just an editor, don't forget to save the INBT changes
+ */
 public interface ExperienceEditor extends INBTHolder {
 
     /**

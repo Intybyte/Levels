@@ -20,13 +20,13 @@ public class NBTHelper {
         throw new RuntimeException("NBTImpl not found");
     }
 
-    public static INBT toCommon(NBTTagCompound nbt) {
+    public static NBTImpl toCommon(NBTTagCompound nbt) {
         if (nbt == null) return null;
 
         return new NBTImpl(nbt);
     }
 
-    public static INBTList toCommon(NBTTagList nbt) {
+    public static NBTListImpl toCommon(NBTTagList nbt) {
         if (nbt == null) return null;
 
         return new NBTListImpl(nbt);

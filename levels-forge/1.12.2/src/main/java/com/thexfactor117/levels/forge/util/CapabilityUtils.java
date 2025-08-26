@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
  * @author TheXFactor117
  *
  */
+@Deprecated
 public class CapabilityUtils {
     @Nullable
     public static <T> T getCapability(@Nullable ICapabilityProvider provider, Capability<T> capability, @Nullable EnumFacing facing) {

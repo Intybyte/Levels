@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
  * @author TheXFactor117
  *
  */
+@Deprecated
 public class SimpleCapabilityProvider<HANDLER> implements ICapabilitySerializable<NBTBase> {
     private final Capability<HANDLER> capability;
     private final EnumFacing facing;

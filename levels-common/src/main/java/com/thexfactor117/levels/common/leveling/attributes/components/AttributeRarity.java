@@ -9,6 +9,11 @@ public enum AttributeRarity {
     LEGENDARY(3),
     ;
 
+    /**
+     * Represents initial cost of the attribute,
+     * after unlocking it for the first time
+     * all the upgrades cost 1 token
+     */
     private final int cost;
 
     AttributeRarity(int cost) {

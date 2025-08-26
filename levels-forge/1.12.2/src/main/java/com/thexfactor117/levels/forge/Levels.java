@@ -1,12 +1,7 @@
 package com.thexfactor117.levels.forge;
 
-import com.thexfactor117.levels.common.config.MainConfig;
 import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.forge.init.ModEvents;
-import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.WeaponAttribute;
 import com.thexfactor117.levels.forge.network.PacketAttributeSelection;
 import com.thexfactor117.levels.forge.network.PacketMythicSound;
 import com.thexfactor117.levels.forge.proxies.CommonProxy;
@@ -51,20 +46,6 @@ public class Levels {
         configDir = new File(event.getModConfigurationDirectory() + "/" + Reference.MODID);
         configDir.mkdirs();
         Configs.init(configDir);
-        Configs cfg = Configs.getInstance();
-
-        cfg.attributes
-                .processEnum(ArmorAttribute.class)
-                .processEnum(BowAttribute.class)
-                .processEnum(ShieldAttribute.class)
-                .processEnum(WeaponAttribute.class)
-                .initFile();
-
-        cfg.main
-                .process(new MainConfig())
-                .initFile();
-
-        //Config.init(configDir);
 
         ModEvents.register();
         proxy.preInit();

@@ -51,13 +51,19 @@ public class Experience implements ExperienceEditor {
 
             player.sendMessage(new TextComponentString(stack.getDisplayName() + TextFormatting.GRAY + " has leveled up to level " + TextFormatting.GOLD + this.getLevel() + TextFormatting.GRAY + "!"));
 
+            double multiplier = nbt.getDouble("Multiplier");
             if (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemAxe) {
                 // update damage and attack speed values
                 NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10); // retrieves our custom Attribute Modifier implementation
                 NBTTagCompound damageNbt = taglist.getCompoundTagAt(0);
                 NBTTagCompound speedNbt = taglist.getCompoundTagAt(1);
-                double newDamage = damageNbt.getDouble("Amount") + ((damageNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
-                double newSpeed = speedNbt.getDouble("Amount") - ((speedNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
+
+                double damageAmount = damageNbt.getDouble("Amount");
+                double speedAmount = speedNbt.getDouble("Amount");
+
+                double newDamage = damageAmount + ((damageAmount * multiplier) / 2);
+                double newSpeed = speedAmount - ((speedAmount * multiplier) / 2);
+
                 damageNbt.setDouble("Amount", newDamage);
                 speedNbt.setDouble("Amount", newSpeed);
             } else if (stack.getItem() instanceof ItemArmor) {
@@ -65,8 +71,12 @@ public class Experience implements ExperienceEditor {
                 NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10); // retrieves our custom Attribute Modifier implementation
                 NBTTagCompound armorNbt = taglist.getCompoundTagAt(0);
                 NBTTagCompound toughnessNbt = taglist.getCompoundTagAt(1);
-                double newArmor = armorNbt.getDouble("Amount") + ((armorNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
-                double newToughness = toughnessNbt.getDouble("Amount") - ((toughnessNbt.getDouble("Amount") * nbt.getDouble("Multiplier")) / 2);
+
+                double armorAmount = armorNbt.getDouble("Amount");
+                double toughnessAmount = toughnessNbt.getDouble("Amount");
+
+                double newArmor = armorAmount + ((armorAmount * multiplier) / 2);
+                double newToughness = toughnessAmount - ((toughnessAmount * multiplier) / 2);
                 armorNbt.setDouble("Amount", newArmor);
                 toughnessNbt.setDouble("Amount", newToughness);
             }

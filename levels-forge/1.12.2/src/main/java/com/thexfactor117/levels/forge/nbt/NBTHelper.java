@@ -1,8 +1,10 @@
 package com.thexfactor117.levels.forge.nbt;
 
 import com.thexfactor117.levels.common.nbt.INBT;
+import com.thexfactor117.levels.common.nbt.INBTList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 /**
  *
@@ -22,6 +24,12 @@ public class NBTHelper {
         if (nbt == null) return null;
 
         return new NBTImpl(nbt);
+    }
+
+    public static INBTList toCommon(NBTTagList nbt) {
+        if (nbt == null) return null;
+
+        return new NBTListImpl(nbt);
     }
 
     public static NBTTagCompound loadStackNBT(ItemStack stack) {

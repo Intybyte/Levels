@@ -1,9 +1,12 @@
 package com.thexfactor117.levels.forge.nbt;
 
 import com.thexfactor117.levels.common.nbt.INBT;
+import com.thexfactor117.levels.common.nbt.INBTList;
+import com.thexfactor117.levels.common.nbt.NBTType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 @Getter
 @AllArgsConstructor
@@ -28,5 +31,16 @@ public class NBTImpl implements INBT {
     @Override
     public void remove(String key) {
         nbt.removeTag(key);
+    }
+
+    @Override
+    public INBT getCompound(String key) {
+        return NBTHelper.toCommon(nbt.getCompoundTag(key));
+    }
+
+    @Override
+    public INBTList getList(String key, NBTType type) {
+        NBTTagList list = nbt.getTagList(key, type.ordinal());
+        return NBTHelper.toCommon(list);
     }
 }

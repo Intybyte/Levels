@@ -4,8 +4,7 @@ import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.common.leveling.ItemType;
-import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
-import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.forge.network.PacketAttributeSelection;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import com.thexfactor117.levels.forge.util.ItemUtil;
@@ -53,7 +52,17 @@ public class GuiTypeSelection extends GuiScreen {
         attributeButtons = new GuiButton[attributes.size()];
 
         for (int i = 0; i < attributeButtons.length; i++) {
-            attributeButtons[i] = new GuiButton(i, width / 2 - 147, 60 + (i * 20), 75, 20, attributes.get(i).getName(nbt));
+            int tier = attributes.get(i).getAttributeTier(nbt);
+
+            int maxLevel = 3;
+            String display;
+            if (tier == maxLevel) {
+                display = attributes.get(i).getBaseName() + " MAX";
+            } else {
+                display = attributes.get(i).getCompleteName(tier + 1);
+            }
+
+            attributeButtons[i] = new GuiButton(i, width / 2 - 147, 60 + (i * 20), 75, 20, display);
             this.buttonList.add(attributeButtons[i]);
             attributeButtons[i].enabled = false;
         }

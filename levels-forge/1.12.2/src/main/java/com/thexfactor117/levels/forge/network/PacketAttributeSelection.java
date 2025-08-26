@@ -74,15 +74,20 @@ public class PacketAttributeSelection implements IMessage {
                 AttributeBase attribute = attributeList.get(message.index);
 
                 INBT nbt = NBTHelper.toCommon(baseNbt);
-                if (attribute.hasAttribute(nbt)) {
-                    attribute.setAttributeTier(nbt, attribute.getAttributeTier(nbt) + 1);
-                    exp.addAttributeTokens(-1);
-                } else {
-                    int cost = attribute.getRarity().getCost();
 
-                    attribute.addAttribute(nbt);
-                    exp.addAttributeTokens(-cost);
+                int maxLevel = 3;
+                int newTier = attribute.getAttributeTier(nbt) + 1;
+                int cost = attribute.hasAttribute(nbt) ? 1 : attribute.getRarity().getCost();
 
+                boolean isEnough = cost <= exp.getAttributeTokens();
+                if (!isEnough || newTier >= maxLevel) {
+                    return; //maybe notify something weird is going on?
+                }
+
+                attribute.setAttributeTier(nbt, newTier);
+                exp.addAttributeTokens(-cost);
+
+                if (!attribute.hasAttribute(nbt)) {
                     if (attribute.getAttributeKey().contains("Unbreakable"))
                         nbt.setInt("Unbreakable", 1);
                 }

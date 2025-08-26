@@ -25,7 +25,9 @@ public enum Rarity {
 
     static {
         for (Rarity entry : values()) {
-            RARITY_RANDOM.add(entry.defaultChance, entry);
+            if (entry != DEFAULT) {
+                RARITY_RANDOM.add(entry.defaultChance, entry);
+            }
         }
     }
 

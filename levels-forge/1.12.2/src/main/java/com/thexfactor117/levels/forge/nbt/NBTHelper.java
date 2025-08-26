@@ -19,6 +19,8 @@ public class NBTHelper {
     }
 
     public static INBT toCommon(NBTTagCompound nbt) {
+        if (nbt == null) return null;
+
         return new NBTImpl(nbt);
     }
 

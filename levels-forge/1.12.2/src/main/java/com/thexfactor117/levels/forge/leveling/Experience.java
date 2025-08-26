@@ -1,6 +1,7 @@
 package com.thexfactor117.levels.forge.leveling;
 
 import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
+import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -85,77 +86,8 @@ public class Experience implements ExperienceEditor {
         }
     }
 
-    /**
-     * Returns the level of the current weapon/armor.
-     * @return level of the item
-     */
     @Override
-    public int getLevel() {
-        return nbt != null ? nbt.getInteger("LEVEL") : 1;
-    }
-
-    /**
-     * Sets the level of the current weapon/armor.
-     * @param level new level
-     */
-    @Override
-    public void setLevel(int level) {
-        if (nbt == null) {
-            return;
-        }
-
-        if (level > 0)
-            nbt.setInteger("LEVEL", level);
-        else
-            nbt.removeTag("LEVEL");
-    }
-
-    /**
-     * Returns the experience of the current weapon/armor.
-     * @return experience
-     */
-    @Override
-    public int getExperience() {
-        return nbt != null ? nbt.getInteger("EXPERIENCE") : 1;
-    }
-
-    /**
-     * Sets the experience of the current weapon/armor.
-     */
-    @Override
-    public void setExperience(int experience) {
-        if (nbt == null) {
-            return;
-        }
-
-        if (experience > 0)
-            nbt.setInteger("EXPERIENCE", experience);
-        else
-            nbt.removeTag("EXPERIENCE");
-    }
-
-    /**
-     * Sets the amount of Attribute Tokens the specific NBT tag has.
-     * @param tokens
-     */
-    @Override
-    public void setAttributeTokens(int tokens) {
-        if (nbt == null) {
-            return;
-        }
-
-        if (tokens > 0)
-            nbt.setInteger("TOKENS", tokens);
-        else
-            nbt.removeTag("TOKENS");
-    }
-
-    /**
-     * Returns how many Attribute Tokens the specific NBT tag has.
-     * @return
-     */
-    @Override
-    public int getAttributeTokens() {
-        return nbt != null ? nbt.getInteger("TOKENS") : 0;
+    public INBT getNBT() {
+        return NBTHelper.toCommon(nbt);
     }
 }

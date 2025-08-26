@@ -2,9 +2,10 @@ package com.thexfactor117.levels.forge.util;
 
 import com.google.common.collect.Multimap;
 import com.thexfactor117.levels.common.config.Configs;
+import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
-import com.thexfactor117.levels.forge.leveling.Rarity;
+import com.thexfactor117.levels.common.leveling.Rarity;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import com.thexfactor117.levels.forge.network.PacketMythicSound;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -40,11 +41,13 @@ public class WeaponHelper {
     private static final UUID ARMOR_TOUGHNESS = UUID.fromString("245507c2-cb9d-4274-81ee-ecced32dafe4");
 
     public static void create(ItemStack stack, EntityPlayer player) {
-        NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
+        NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
 
-        if (nbt == null) {
+        if (baseNbt == null) {
             return;
         }
+
+        INBT nbt = NBTHelper.toCommon(baseNbt);
 
         Rarity rarity = Rarity.getRarity(nbt);
         Random rand = player.getEntityWorld().rand;
@@ -53,7 +56,7 @@ public class WeaponHelper {
             return;
         }
 
-        Rarity.setRarity(nbt, Rarity.getRandomRarity(nbt, rand)); // sets random rarity
+        Rarity.getRandomRarity(rand).setRarity(nbt); // sets random rarity
         if (Rarity.getRarity(nbt) == Rarity.MYTHIC) {
             SPacketTitle packet = new SPacketTitle(SPacketTitle.Type.TITLE, new TextComponentString(TextFormatting.GOLD + "MYTHIC"), -1, 20, -1);
             EntityPlayerMP playermp = (EntityPlayerMP) player;
@@ -62,14 +65,14 @@ public class WeaponHelper {
         }
 
         if (Configs.getInstance().main.getBoolean("unlimitedDurability")) {
-            nbt.setInteger("Unbreakable", 1); // adds Unbreakable tag to item
+            baseNbt.setInteger("Unbreakable", 1); // adds Unbreakable tag to item
         }
 
         new Experience(null, stack).setLevel(1);
-        nbt.setDouble("Multiplier", getWeightedMultiplier(Rarity.getRarity(nbt))); // adds a randomized multiplier to the item, weighted by rarity
-        nbt.setInteger("HideFlags", 6); // hides Attribute Modifier and Unbreakable tags
-        setAttributeModifiers(nbt, stack); // sets up Attribute Modifiers
-        NBTHelper.saveStackNBT(stack, nbt);
+        baseNbt.setDouble("Multiplier", getWeightedMultiplier(Rarity.getRarity(nbt))); // adds a randomized multiplier to the item, weighted by rarity
+        baseNbt.setInteger("HideFlags", 6); // hides Attribute Modifier and Unbreakable tags
+        setAttributeModifiers(baseNbt, stack); // sets up Attribute Modifiers
+        NBTHelper.saveStackNBT(stack, baseNbt);
     }
 
     /**
@@ -79,7 +82,9 @@ public class WeaponHelper {
      */
     private static void setAttributeModifiers(NBTTagCompound nbt, ItemStack stack) {
         Item item = stack.getItem();
+        INBT inbt = NBTHelper.toCommon(nbt);
 
+        Rarity rarity = Rarity.getRarity(inbt);
         if (item instanceof ItemSword || item instanceof ItemAxe) {
             // retrieves the default attributes, like damage and attack speed.
             @SuppressWarnings("deprecation")
@@ -91,8 +96,8 @@ public class WeaponHelper {
 
             double baseDamage = damageModifier.getAmount() + 1; // add one to base damage for player strength
             double baseSpeed = speedModifier.getAmount();
-            double damage = getWeightedDamage(Rarity.getRarity(nbt), baseDamage);
-            double speed = getWeightedAttackSpeed(Rarity.getRarity(nbt), baseSpeed);
+            double damage = getWeightedDamage(rarity, baseDamage);
+            double speed = getWeightedAttackSpeed(rarity, baseSpeed);
 
             // Creates new AttributeModifier's and applies them to the stack's NBT tag compound.
             AttributeModifier attackDamage = new AttributeModifier(ATTACK_DAMAGE, "attackDamage", damage, 0);
@@ -112,8 +117,8 @@ public class WeaponHelper {
 
             double baseArmor = armorModifier.getAmount();
             double baseToughness = toughnessModifier.getAmount();
-            double newArmor = getWeightedArmor(Rarity.getRarity(nbt), baseArmor);
-            double newToughness = getWeightedArmorToughness(Rarity.getRarity(nbt), baseToughness);
+            double newArmor = getWeightedArmor(rarity, baseArmor);
+            double newToughness = getWeightedArmorToughness(rarity, baseToughness);
 
             // Creates new AttributeModifier's and applies them to the stack's NBT tag compound.
             AttributeModifier armor = new AttributeModifier(ARMOR, "armor", newArmor, 0);

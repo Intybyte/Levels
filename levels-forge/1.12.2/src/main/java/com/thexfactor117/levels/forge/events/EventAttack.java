@@ -4,7 +4,7 @@ import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.common.leveling.ItemType;
-import com.thexfactor117.levels.forge.leveling.Rarity;
+import com.thexfactor117.levels.common.leveling.Rarity;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
@@ -55,10 +55,7 @@ public class EventAttack {
             NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
             if (stack != null && nbt != null && stack.getItem() instanceof ItemSword) {
-                addExperience(nbt, stack, enemy);
-                useRarity(nbt, stack, false);
-                useAttributes(nbt, event, stack, player, enemy);
-                attemptLevel(nbt, stack, player);
+                processHit(event, nbt, stack, enemy, player);
             }
         } else if (source instanceof EntityLivingBase && event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
@@ -69,10 +66,7 @@ public class EventAttack {
                     NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
                     if (stack != null && nbt != null && stack.getItem() instanceof ItemArmor) {
-                        addExperience(nbt, stack, enemy);
-                        useRarity(nbt, stack, false);
-                        useAttributes(nbt, event, stack, player, enemy);
-                        attemptLevel(nbt, stack, player);
+                        processHit(event, nbt, stack, enemy, player);
                     }
                 }
 
@@ -81,10 +75,7 @@ public class EventAttack {
                     NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
                     if (stack != null && nbt != null && player.getActiveHand() == EnumHand.OFF_HAND) {
-                        addExperience(nbt, stack, enemy);
-                        useRarity(nbt, stack, false);
-                        useAttributes(nbt, event, stack, player, enemy);
-                        attemptLevel(nbt, stack, player);
+                        processHit(event, nbt, stack, enemy, player);
                     }
                 }
             }
@@ -99,10 +90,7 @@ public class EventAttack {
                 NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
                 if (player != null && enemy != null && stack != null && nbt != null && stack.getItem() instanceof ItemBow) {
-                    addExperience(nbt, stack, enemy);
-                    useRarity(nbt, stack, false);
-                    useAttributes(nbt, event, stack, player, enemy);
-                    attemptLevel(nbt, stack, player);
+                    processHit(event, nbt, stack, enemy, player);
                 }
             } else if (arrow.shootingEntity instanceof EntityLivingBase) {
                 EntityPlayer player = (EntityPlayer) event.getEntityLiving();
@@ -113,10 +101,7 @@ public class EventAttack {
                         NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
                         if (stack != null && nbt != null && stack.getItem() instanceof ItemArmor) {
-                            addExperience(nbt, stack, enemy);
-                            useRarity(nbt, stack, false);
-                            useAttributes(nbt, event, stack, player, enemy);
-                            attemptLevel(nbt, stack, player);
+                            processHit(event, nbt, stack, enemy, player);
                         }
                     }
 
@@ -125,15 +110,19 @@ public class EventAttack {
                         NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
                         if (stack != null && nbt != null && player.getActiveHand() == EnumHand.OFF_HAND) {
-                            addExperience(nbt, stack, enemy);
-                            useRarity(nbt, stack, false);
-                            useAttributes(nbt, event, stack, player, enemy);
-                            attemptLevel(nbt, stack, player);
+                            processHit(event, nbt, stack, enemy, player);
                         }
                     }
                 }
             }
         }
+    }
+
+    private void processHit(LivingHurtEvent event, NBTTagCompound nbt, ItemStack stack, EntityLivingBase enemy, EntityPlayer player) {
+        addExperience(nbt, stack, enemy);
+        useRarity(nbt, stack, false);
+        useAttributes(nbt, event, stack, player, enemy);
+        attemptLevel(nbt, stack, player);
     }
 
     /**
@@ -225,7 +214,8 @@ public class EventAttack {
      * @param stack
      */
     private void useRarity(NBTTagCompound nbt, ItemStack stack, boolean death) {
-        Rarity rarity = Rarity.getRarity(nbt);
+        INBT inbt = NBTHelper.toCommon(nbt);
+        Rarity rarity = Rarity.getRarity(inbt);
 
         if (rarity == Rarity.DEFAULT) {
             return;

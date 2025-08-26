@@ -4,11 +4,13 @@ import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.common.leveling.ItemType;
-import com.thexfactor117.levels.forge.leveling.Rarity;
+import com.thexfactor117.levels.common.leveling.Rarity;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
+import com.thexfactor117.levels.forge.util.I18nUtil;
 import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
@@ -38,21 +40,27 @@ public class EventTooltip {
     public void onTooltip(ItemTooltipEvent event) {
         ArrayList<String> tooltip = (ArrayList<String>) event.getToolTip();
         ItemStack stack = event.getItemStack();
-        NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
+        NBTTagCompound baseNbt = NBTHelper.loadStackNBT(stack);
 
-        if (stack != null && nbt != null) {
-            if (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemArmor || stack.getItem() instanceof ItemBow || stack.getItem() instanceof ItemShield || stack.getItem() instanceof ItemTool) {
-                Rarity rarity = Rarity.getRarity(nbt);
+        if (stack == null || baseNbt == null) {
+            return;
+        }
 
-                if (rarity != Rarity.DEFAULT) {
-                    addTooltips(tooltip, stack, nbt);
-                }
-            }
+        ItemType type = ItemUtil.type(stack.getItem());
+        if (type == null && !(stack.getItem() instanceof ItemTool)) {
+            return;
+        }
+
+        INBT nbt = NBTHelper.toCommon(baseNbt);
+        Rarity rarity = Rarity.getRarity(nbt);
+        if (rarity != Rarity.DEFAULT) {
+            addTooltips(tooltip, stack, baseNbt);
         }
     }
 
     private void addTooltips(ArrayList<String> tooltip, ItemStack stack, NBTTagCompound baseNbt) {
-        Rarity rarity = Rarity.getRarity(baseNbt);
+        INBT nbt = NBTHelper.toCommon(baseNbt);
+        Rarity rarity = Rarity.getRarity(nbt);
 
         NBTTagList taglist = baseNbt.getTagList("AttributeModifiers", 10);
         NBTTagCompound damageNbt = taglist.getCompoundTagAt(0);
@@ -76,7 +84,7 @@ public class EventTooltip {
         }
 
         // rarity
-        tooltip.add(rarity.getColor() + TextFormatting.ITALIC + rarity.getName()); // rarity
+        tooltip.add(rarity.getColor() + TextFormatting.ITALIC + I18nUtil.getRarity(rarity)); // rarity
 
         Experience exp = new Experience(null, stack);
         int level = exp.getLevel();
@@ -115,7 +123,7 @@ public class EventTooltip {
         }
 
         List<? extends AttributeBase> attributes = type.attributes();
-        INBT nbt = NBTHelper.toCommon(baseNbt);
+
         for (AttributeBase attribute : attributes) {
             if (attribute.hasAttribute(nbt))
                 tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));

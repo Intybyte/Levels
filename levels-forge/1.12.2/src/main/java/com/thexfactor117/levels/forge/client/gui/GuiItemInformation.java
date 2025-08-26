@@ -5,10 +5,11 @@ import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.common.leveling.ItemType;
-import com.thexfactor117.levels.forge.leveling.Rarity;
+import com.thexfactor117.levels.common.leveling.Rarity;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
 import com.thexfactor117.levels.forge.util.GuiHandler;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
+import com.thexfactor117.levels.forge.util.I18nUtil;
 import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
@@ -106,11 +107,12 @@ public class GuiItemInformation extends GuiScreen {
      * @param nbt
      */
     private void drawStrings(ItemStack stack, NBTTagCompound nbt) {
-        Rarity rarity = Rarity.getRarity(nbt);
+        INBT inbt = NBTHelper.toCommon(nbt);
+        Rarity rarity = Rarity.getRarity(inbt);
         Experience exp = new Experience(null, stack);
 
         drawCenteredString(fontRenderer, stack.getDisplayName(), width / 2, 20, rarity.getHex());
-        drawString(fontRenderer, I18n.format("levels.misc.rarity") + ": " + rarity.getName(), width / 2 - 50, 40, rarity.getHex());
+        drawString(fontRenderer, I18n.format("levels.misc.rarity") + ": " + I18nUtil.getRarity(rarity), width / 2 - 50, 40, rarity.getHex());
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes"), width / 2, 80, 0xFFFFFF);
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.tokens") + ": " + exp.getAttributeTokens(), width / 2 - 112, 100, 0xFFFFFF);
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.current"), width / 2 + 112, 100, 0xFFFFFF);
@@ -131,7 +133,7 @@ public class GuiItemInformation extends GuiScreen {
         }
 
         List<? extends AttributeBase> attributes = type.attributes();
-        INBT inbt = NBTHelper.toCommon(nbt);
+
         for (AttributeBase attribute : attributes) {
             if (attribute.hasAttribute(inbt)) {
                 k++;

@@ -22,12 +22,17 @@ public class NBTListImpl implements INBTList {
     }
 
     @Override
-    public void remove(Integer key) {
-        nbt.removeTag(key);
+    public double getDouble(Integer key) {
+        return nbt.getDoubleAt(key);
     }
 
     @Override
     public INBT getCompound(Integer key) {
         return NBTHelper.toCommon(nbt.getCompoundTagAt(key));
+    }
+
+    @Override
+    public void remove(Integer key) {
+        nbt.removeTag(key);
     }
 }

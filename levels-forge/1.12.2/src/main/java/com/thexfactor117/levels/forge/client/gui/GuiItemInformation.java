@@ -109,7 +109,7 @@ public class GuiItemInformation extends GuiScreen {
     private void drawStrings(ItemStack stack, NBTTagCompound nbt) {
         INBT inbt = NBTHelper.toCommon(nbt);
         Rarity rarity = Rarity.getRarity(inbt);
-        Experience exp = new Experience(null, stack);
+        Experience exp = new Experience(stack);
 
         drawCenteredString(fontRenderer, stack.getDisplayName(), width / 2, 20, rarity.getHex());
         drawString(fontRenderer, I18n.format("levels.misc.rarity") + ": " + I18nUtil.getRarity(rarity), width / 2 - 50, 40, rarity.getHex());

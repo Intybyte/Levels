@@ -175,14 +175,14 @@ public class EventAttack {
     private void addExperience(NBTTagCompound nbt, ItemStack stack, EntityLivingBase enemy) {
         int maxLevel = Configs.getInstance().main.getInt("maxLevel");
 
-        if (!(new Experience(null, stack).getLevel() < maxLevel)) {
+        if (!(new Experience(stack).getLevel() < maxLevel)) {
             return;
         }
 
         // DEV
         boolean isDev = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
 
-        Experience exp = new Experience(null, stack);
+        Experience exp = new Experience(stack);
         if (isDev) {
             exp.addExperience(200);
         }
@@ -227,7 +227,7 @@ public class EventAttack {
         int repairDurability;
 
         boolean isUnlimitedDurability = Configs.getInstance().main.getBoolean("unlimitedDurability");
-        Experience exp = new Experience(null, stack);
+        Experience exp = new Experience(stack);
         ItemType type = ItemUtil.type(stack.getItem());
         switch (rarity) {
             case UNCOMMON: // 6% chance of adding 1-3 experience points; 6% chance of not using durability
@@ -388,7 +388,7 @@ public class EventAttack {
      * @param player
      */
     private void attemptLevel(NBTTagCompound nbt, ItemStack stack, EntityPlayer player) {
-        new Experience(player, stack).levelUp();
+        new Experience(stack).new LevelUp(player).levelUp();
         NBTHelper.saveStackNBT(stack, nbt);
     }
 }

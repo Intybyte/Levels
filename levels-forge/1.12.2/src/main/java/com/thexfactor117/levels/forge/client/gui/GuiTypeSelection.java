@@ -75,7 +75,7 @@ public class GuiTypeSelection extends GuiScreen {
             return;
         }
 
-        Experience exp = new Experience(null, stack);
+        Experience exp = new Experience(stack);
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes"), width / 2, 20, 0xFFFFFF);
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.tokens") + ": " + exp.getAttributeTokens(), width / 2 - 112, 40, 0xFFFFFF);
         drawCenteredString(fontRenderer, I18n.format("levels.misc.attributes.current"), width / 2 + 112, 40, 0xFFFFFF);
@@ -108,7 +108,7 @@ public class GuiTypeSelection extends GuiScreen {
             return;
         }
 
-        Experience exp = new Experience(null, stack);
+        Experience exp = new Experience(stack);
         if (exp.getAttributeTokens() <= 0) {
             return;
         }
@@ -128,7 +128,7 @@ public class GuiTypeSelection extends GuiScreen {
      * @param stack
      */
     private void displayButtons(ItemStack stack) {
-        Experience exp = new Experience(null, stack);
+        Experience exp = new Experience(stack);
 
         if (exp.getAttributeTokens() <= 0) {
             for (GuiButton attributeButton : attributeButtons) {

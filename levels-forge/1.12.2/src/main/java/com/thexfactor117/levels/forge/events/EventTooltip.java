@@ -10,7 +10,6 @@ import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import com.thexfactor117.levels.forge.util.I18nUtil;
 import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
@@ -86,7 +85,7 @@ public class EventTooltip {
         // rarity
         tooltip.add(rarity.getColor() + TextFormatting.ITALIC + I18nUtil.getRarity(rarity)); // rarity
 
-        Experience exp = new Experience(null, stack);
+        Experience exp = new Experience(stack);
         int level = exp.getLevel();
         // level & experience
         if (exp.isMaxLevel()) {

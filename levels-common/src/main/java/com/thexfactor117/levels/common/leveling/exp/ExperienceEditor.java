@@ -6,8 +6,6 @@ import com.thexfactor117.levels.common.nbt.INBTHolder;
 
 public interface ExperienceEditor extends INBTHolder {
 
-    void levelUp();
-
     /**
      * Returns the level of the current weapon/armor.
      * @return level of the item

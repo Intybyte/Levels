@@ -28,7 +28,6 @@ import net.minecraft.util.text.TextFormatting;
 
 import java.util.Collection;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  *
@@ -66,7 +65,7 @@ public class WeaponHelper {
             baseNbt.setInteger("Unbreakable", 1); // adds Unbreakable tag to item
         }
 
-        new Experience(null, stack).setLevel(1);
+        new Experience(stack).setLevel(1);
         baseNbt.setDouble("Multiplier", rarityNew.generateWeightedMultiplier()); // adds a randomized multiplier to the item, weighted by rarity
         baseNbt.setInteger("HideFlags", 6); // hides Attribute Modifier and Unbreakable tags
         setAttributeModifiers(baseNbt, stack); // sets up Attribute Modifiers

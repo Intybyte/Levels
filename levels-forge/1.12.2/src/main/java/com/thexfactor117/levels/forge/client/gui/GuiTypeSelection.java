@@ -130,7 +130,8 @@ public class GuiTypeSelection extends GuiScreen {
     private void displayButtons(ItemStack stack) {
         Experience exp = new Experience(stack);
 
-        if (exp.getAttributeTokens() <= 0) {
+        int tokens = exp.getAttributeTokens();
+        if (tokens <= 0) {
             for (GuiButton attributeButton : attributeButtons) {
                 attributeButton.enabled = false;
             }
@@ -140,53 +141,25 @@ public class GuiTypeSelection extends GuiScreen {
         NBTTagCompound nbtBase = stack.getTagCompound();
         INBT nbt = NBTHelper.toCommon(nbtBase);
         for (int i = 0; i < attributeButtons.length; i++) {
-            boolean isLevel3 = attributes.get(i).getAttributeTier(nbt) == 3;
+            AttributeBase attribute = attributes.get(i);
+            boolean hasAttribute = attribute.hasAttribute(nbt);
+            boolean isMaxLevel = attribute.getAttributeTier(nbt) == 3;
+            int cost = attribute.getRarity().getCost();
 
-            /*
-             * Enable Uncommon attributes UNLESS already added to nbt AND are not already tier 3.
-             * Enable ALL attributes that have already been added UNLESS they are at tier 3.
-             */
-            if (exp.getAttributeTokens() == 1) {
-                if (attributes.get(i).getRarity() == AttributeRarity.UNCOMMON && !isLevel3)
-                    attributeButtons[i].enabled = true;
+            boolean shouldEnable;
 
-                if (attributes.get(i).hasAttribute(nbt))
-                    attributeButtons[i].enabled = !isLevel3;
-            }
-
-            /*
-             * Enable UNCOMMON AND RARE attributes UNLESS already added to nbt AND are not already tier 3.
-             * Enable ALL attributes that have already been added UNLESS they are at tier 3.
-             */
-            if (exp.getAttributeTokens() == 2) {
-
-
-                if ((attributes.get(i).getRarity() == AttributeRarity.RARE || attributes.get(i).getRarity() == AttributeRarity.UNCOMMON) && !attributes.get(i).hasAttribute(nbt))
-                    attributeButtons[i].enabled = true;
-
+            if (isMaxLevel) {
+                // Never enable tier 3 attributes
+                shouldEnable = false;
+            } else if (hasAttribute) {
+                // Always enable existing attribute unless at tier 3
+                shouldEnable = true;
             } else {
-                if (attributes.get(i).getRarity() == AttributeRarity.RARE && !attributes.get(i).hasAttribute(nbt))
-                    attributeButtons[i].enabled = false;
-
+                // Only allow adding attributes if tokens >= cost
+                shouldEnable = tokens >= cost;
             }
-            if (attributes.get(i).hasAttribute(nbt))
-                attributeButtons[i].enabled = !isLevel3;
 
-            /*
-             * Enable ALL attributes UNLESS already added to nbt AND are not already tier 3.
-             * Enable ALL attributes that have already been added.
-             */
-            if (exp.getAttributeTokens() >= 3) {
-                if (!attributes.get(i).hasAttribute(nbt))
-                    attributeButtons[i].enabled = true;
-
-            } else {
-                if (attributes.get(i).getRarity() == AttributeRarity.LEGENDARY && !attributes.get(i).hasAttribute(nbt))
-                    attributeButtons[i].enabled = false;
-
-            }
-            if (attributes.get(i).hasAttribute(nbt))
-                attributeButtons[i].enabled = !isLevel3;
+            attributeButtons[i].enabled = shouldEnable;
         }
     }
 

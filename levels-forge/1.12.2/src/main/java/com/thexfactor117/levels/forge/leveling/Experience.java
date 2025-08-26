@@ -55,9 +55,9 @@ public class Experience implements ExperienceEditor {
             player.sendMessage(new TextComponentString(stack.getDisplayName() + TextFormatting.GRAY + " has leveled up to level " + TextFormatting.GOLD + this.getLevel() + TextFormatting.GRAY + "!"));
 
             double multiplier = nbt.getDouble("Multiplier");
+            NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10); // retrieves our custom Attribute Modifier implementation
             if (stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemAxe) {
                 // update damage and attack speed values
-                NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10); // retrieves our custom Attribute Modifier implementation
                 NBTTagCompound damageNbt = taglist.getCompoundTagAt(0);
                 NBTTagCompound speedNbt = taglist.getCompoundTagAt(1);
 
@@ -71,7 +71,6 @@ public class Experience implements ExperienceEditor {
                 speedNbt.setDouble("Amount", newSpeed);
             } else if (stack.getItem() instanceof ItemArmor) {
                 // update armor and armor toughness values
-                NBTTagList taglist = nbt.getTagList("AttributeModifiers", 10); // retrieves our custom Attribute Modifier implementation
                 NBTTagCompound armorNbt = taglist.getCompoundTagAt(0);
                 NBTTagCompound toughnessNbt = taglist.getCompoundTagAt(1);
 

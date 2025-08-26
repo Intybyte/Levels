@@ -23,11 +23,13 @@ public class Experience implements ExperienceEditor {
     private final EntityPlayer player;
     private final ItemStack stack;
     private final NBTTagCompound nbt;
+    private final INBT inbt;
 
     public Experience(EntityPlayer player, ItemStack stack) {
         this.player = player;
         this.stack = stack;
         this.nbt = stack.getTagCompound();
+        this.inbt = NBTHelper.toCommon(nbt);
     }
 
     /**
@@ -88,6 +90,6 @@ public class Experience implements ExperienceEditor {
 
     @Override
     public INBT getNBT() {
-        return NBTHelper.toCommon(nbt);
+        return this.inbt;
     }
 }

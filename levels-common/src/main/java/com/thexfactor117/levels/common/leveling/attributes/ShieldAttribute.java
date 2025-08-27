@@ -1,5 +1,6 @@
 package com.thexfactor117.levels.common.leveling.attributes;
 
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.components.EnableAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
@@ -60,6 +61,11 @@ public enum ShieldAttribute implements AttributeBase, SimpleConfigAttribute {
 
     public double getCalculatedValue(INBT nbt) {
         return getCalculatedValue(getAttributeTier(nbt));
+    }
+
+    @Override
+    public ItemType[] getAllowedTypes() {
+        return new ItemType[] { ItemType.SHIELD };
     }
 
     public static List<ShieldAttribute> getEnabled() {

@@ -1,6 +1,7 @@
 package com.thexfactor117.levels.common.leveling.attributes.components;
 
 import com.thexfactor117.levels.common.color.LegacyTextColor;
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.LevelConfigAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.display.Formatter;
@@ -75,6 +76,8 @@ public interface AttributeBase extends RomanNumeralDisplay {
     boolean isEnabled();
 
     String getTranslationKey();
+
+    ItemType[] getAllowedTypes();
 
     default List<String> getUpgradeSummary(INBT nbt, Formatter formatter) {
         int maxLevel = LevelConfigAttribute.getMaxLevel(this);

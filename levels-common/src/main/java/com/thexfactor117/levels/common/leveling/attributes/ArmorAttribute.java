@@ -1,5 +1,6 @@
 package com.thexfactor117.levels.common.leveling.attributes;
 
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.components.EnableAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
@@ -57,6 +58,11 @@ public enum ArmorAttribute implements AttributeBase, SimpleConfigAttribute {
     @Override
     public String getTranslationKey() {
         return "levels.attributes.armors.info." + ordinal();
+    }
+
+    @Override
+    public ItemType[] getAllowedTypes() {
+        return new ItemType[] { ItemType.ARMOR };
     }
 
     public double getCalculatedValue(INBT nbt) {

@@ -74,6 +74,84 @@ public enum Rarity {
     }
 
     /*
+     * Stuff for calculating xp and repair, previously called "useRarity"
+     */
+
+
+    /**
+     * Calculates bonus XP based on rarity and if it was a death/kill event.
+     *
+     * @return The amount of XP to add, or 0 if none.
+     */
+    public int generateExperience() {
+        if (this == Rarity.DEFAULT) return 0;
+
+        int chanceRoll, xp;
+
+        switch (this) {
+            case UNCOMMON: // 1 in 15 chance to add 1–3 XP
+                chanceRoll = (int) (Math.random() * 15);
+                xp = (int) (Math.random() * 3 + 1);
+                return chanceRoll == 0 ? xp : 0;
+
+            case RARE: // 1 in 10 chance to add 1–5 XP
+                chanceRoll = (int) (Math.random() * 10);
+                xp = (int) (Math.random() * 5 + 1);
+                return chanceRoll == 0 ? xp : 0;
+
+            case LEGENDARY: // 1 in 7 chance to add 3–7 XP
+                chanceRoll = (int) (Math.random() * 7);
+                xp = (int) (Math.random() * 5 + 3);
+                return chanceRoll == 0 ? xp : 0;
+
+            case MYTHIC: // 1 in 5 chance to add 3–10 XP
+                chanceRoll = (int) (Math.random() * 5);
+                xp = (int) (Math.random() * 8 + 3);
+                return chanceRoll == 0 ? xp : 0;
+
+            default:
+                return 0;
+        }
+    }
+
+
+    /**
+     * Calculates durability repair bonus based on rarity and usage event.
+     *
+     * @return Durability points to *repair* (subtract from damage), or 0 if none.
+     */
+    public int generateRarityRepair() {
+        if (this == Rarity.DEFAULT) return 0;
+
+        int chanceRoll, repair;
+
+        switch (this) {
+            case UNCOMMON: // 1 in 15 chance to negate 1 durability loss
+                chanceRoll = (int) (Math.random() * 15);
+                return chanceRoll == 0 ? 1 : 0;
+
+            case RARE: // 1 in 10 chance to negate 1 durability + repair 0–1
+                chanceRoll = (int) (Math.random() * 10);
+                repair = (int) (Math.random() * 2);
+                return chanceRoll == 0 ? (1 + repair) : 0;
+
+            case LEGENDARY: // 1 in 7 chance to negate 1 durability + repair 1–3
+                chanceRoll = (int) (Math.random() * 7);
+                repair = (int) (Math.random() * 3 + 1);
+                return chanceRoll == 0 ? (1 + repair) : 0;
+
+            case MYTHIC: // 1 in 5 chance to negate 1 durability + repair 1–5
+                chanceRoll = (int) (Math.random() * 5);
+                repair = (int) (Math.random() * 5 + 1);
+                return chanceRoll == 0 ? (1 + repair) : 0;
+
+            default:
+                return 0;
+        }
+    }
+
+
+    /*
      * Stuff for rarity attribute calculation and similar
      */
 

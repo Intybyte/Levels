@@ -219,70 +219,18 @@ public class EventAttack {
             return;
         }
 
-        int randomAddXp;
-        int addedXp;
-        int randomDurabilityDamage;
-        int repairDurability;
-
         boolean isUnlimitedDurability = Configs.getInstance().main.getBoolean("unlimitedDurability");
         Experience exp = new Experience(stack);
         ItemType type = ItemUtil.type(stack.getItem());
-        switch (rarity) {
-            case UNCOMMON: // 6% chance of adding 1-3 experience points; 6% chance of not using durability
-                if (type != null && death) {
-                    randomAddXp = (int) (Math.random() * 15);
-                    addedXp = (int) (Math.random() * 3 + 1);
-                    if (randomAddXp == 0) exp.addExperience(addedXp);
-                }
 
-                if (!isUnlimitedDurability && !death) {
-                    randomDurabilityDamage = (int) (Math.random() * 15);
-                    if (randomDurabilityDamage == 0) stack.setItemDamage(stack.getItemDamage() - 1);
-                }
+        if (type != null && death) {
+            int addedXp = rarity.generateExperience();
+            exp.addExperience(addedXp);
+        }
 
-                break;
-            case RARE: // 10% chance of adding 1-5 experience points; 10% chance of not using durability AND gaining an additional durability point
-                if (type != null && death) {
-                    randomAddXp = (int) (Math.random() * 10);
-                    addedXp = (int) (Math.random() * 5 + 1);
-                    if (randomAddXp == 0) exp.addExperience(addedXp);
-                }
-
-                if (!isUnlimitedDurability && !death) {
-                    randomDurabilityDamage = (int) (Math.random() * 10);
-                    repairDurability = (int) (Math.random() * 2);
-                    if (randomDurabilityDamage == 0) stack.setItemDamage(stack.getItemDamage() - (1 + repairDurability));
-                }
-
-                break;
-            case LEGENDARY: // 14% chance of adding 3-5 experience points; 14% chance of not using durability AND gaining 1-3 durability points
-                if (type != null && death) {
-                    randomAddXp = (int) (Math.random() * 7);
-                    addedXp = (int) (Math.random() * 5 + 3);
-                    if (randomAddXp == 0) exp.addExperience(addedXp);
-                }
-
-                if (!isUnlimitedDurability && !death) {
-                    randomDurabilityDamage = (int) (Math.random() * 7);
-                    repairDurability = (int) (Math.random() * 3 + 1);
-                    if (randomDurabilityDamage == 0) stack.setItemDamage(stack.getItemDamage() - (1 + repairDurability));
-                }
-
-                break;
-            case MYTHIC: // 20% chance of adding 3-10 experience points; 20% chance of not using durability AND gaining 1-5 durability points
-                if (type != null && death) {
-                    randomAddXp = (int) (Math.random() * 5);
-                    addedXp = (int) (Math.random() * 8 + 3);
-                    if (randomAddXp == 0) exp.addExperience(addedXp);
-                }
-
-                if (!isUnlimitedDurability && !death) {
-                    randomDurabilityDamage = (int) (Math.random() * 5);
-                    repairDurability = (int) (Math.random() * 5 + 1);
-                    if (randomDurabilityDamage == 0) stack.setItemDamage(stack.getItemDamage() - (1 + repairDurability));
-                }
-
-                break;
+        if (!isUnlimitedDurability && !death) {
+            int repairDurability = rarity.generateRarityRepair();
+            stack.setItemDamage(stack.getItemDamage() - repairDurability);
         }
     }
 

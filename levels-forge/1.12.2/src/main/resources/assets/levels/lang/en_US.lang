@@ -28,6 +28,12 @@ levels.attributes.any.poison.tier=%s seconds
 levels.attributes.any.durable=Your weapon becomes slightly more durable than usual.
 levels.attributes.any.durable.tier=%s durability points
 
+levels.attributes.any.soul_bound=Your weapon stays in your inventory on death.
+levels.attributes.any.soul_bound.tier=Item remains in inventory on death.
+
+levels.attributes.any.unbreakable=Your weapon will never break or degrade.
+levels.attributes.any.unbreakable.tier=Item will never degrade or break.
+
 ###
 ## WEAPONS
 ###

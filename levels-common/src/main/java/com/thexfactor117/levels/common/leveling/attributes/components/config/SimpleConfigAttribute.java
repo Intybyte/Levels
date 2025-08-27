@@ -27,12 +27,8 @@ public interface SimpleConfigAttribute extends LevelConfigAttribute {
         double baseValue = getBaseValue();
         double multiplier = getMultiplier();
 
-        if (level == 1)
-            return baseValue;
-        else if (level == 2)
-            return baseValue * multiplier;
-        else
-            return baseValue * (Math.pow(multiplier, 2));
+        double overallMultiplier = Math.pow(multiplier, level - 1);
+        return baseValue * overallMultiplier;
     }
 
     double getCalculatedValue(INBT nbt);

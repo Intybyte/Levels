@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class EnumProcessor {
+public class FieldProcessor {
 
     // Cache for method handles per enum class
     private static final ConcurrentHashMap<Class<? extends Enum<?>>, MethodHandle> enumCache = new ConcurrentHashMap<>();
@@ -20,7 +20,7 @@ public class EnumProcessor {
     private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
 
     @SuppressWarnings("unchecked")
-    public static <T extends Enum<?>> T[] getValues(Class<T> clazz) {
+    private static <T extends Enum<?>> T[] getValues(Class<T> clazz) {
         try {
             // Try to get cached method handle
             MethodHandle handle = enumCache.computeIfAbsent(clazz, key -> {
@@ -47,8 +47,18 @@ public class EnumProcessor {
      * @param clazz Class to analyze
      * @return field values
      */
-    public static <T> List<T> getValues(Class<T> wanted, Class<?> clazz) {
+    public static <T> List<T> getFields(Class<T> wanted, Class<?> clazz) {
         List<T> list = new ArrayList<>();
+
+        if (clazz.isEnum())  {
+            Class<? extends Enum<?>> enumClass = (Class<? extends Enum<?>>) clazz;
+            for (Enum<?> constant : getValues(enumClass)) {
+                if (wanted.isInstance(constant)) {
+                    list.add(wanted.cast(constant));
+                }
+            }
+            return list;
+        }
 
         for (Field field : clazz.getDeclaredFields()) {
             int modifiers = field.getModifiers();
@@ -80,11 +90,11 @@ public class EnumProcessor {
         return list;
     }
 
-    public static <T> List<T> getValues(Class<T> wanted, Class<?>... clazz) {
+    public static <T> List<T> getFields(Class<T> wanted, Class<?>... clazz) {
         List<T> list = new ArrayList<>();
 
         for (Class<?> clazzLoop : clazz) {
-            list.addAll(getValues(wanted, clazzLoop));
+            list.addAll(getFields(wanted, clazzLoop));
         }
 
         return list;

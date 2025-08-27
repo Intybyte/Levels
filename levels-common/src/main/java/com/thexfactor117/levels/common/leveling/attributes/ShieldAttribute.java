@@ -53,6 +53,11 @@ public enum ShieldAttribute implements AttributeBase, SimpleConfigAttribute {
         return SimpleConfigAttribute.super.isEnabled();
     }
 
+    @Override
+    public String getTranslationKey() {
+        return "levels.attributes.shields.info." + ordinal();
+    }
+
     public double getCalculatedValue(INBT nbt) {
         return getCalculatedValue(getAttributeTier(nbt));
     }

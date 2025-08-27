@@ -8,7 +8,7 @@ import com.thexfactor117.levels.common.leveling.Rarity;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.SwordAttribute;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.entity.Entity;
@@ -248,26 +248,26 @@ public class EventAttack {
 
         INBT nbt = NBTHelper.toCommon(baseNbt);
         if (stack.getItem() instanceof ItemSword) {
-            if (WeaponAttribute.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.setFire((int) WeaponAttribute.FIRE.getCalculatedValue(nbt)); // 25% chance; tiers: (4 second, 5 second, 6 second)
-            if (WeaponAttribute.FROST.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, (int) WeaponAttribute.FROST.getCalculatedValue(nbt), 10)); // 25% chance; tiers: (1 second, 1.5 second, 2.25 second)
-            if (WeaponAttribute.POISON.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.POISON, (int) WeaponAttribute.POISON.getCalculatedValue(nbt), WeaponAttribute.POISON.getAttributeTier(nbt))); // 25% chance; tiers: (7 second, 10.5 second, 15.75 second)
-            if (WeaponAttribute.DURABLE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                stack.setItemDamage(stack.getItemDamage() - (int) WeaponAttribute.DURABLE.getCalculatedValue(nbt)); // 25% chance; tiers: (1 point, 2 point, 4 point)
-            if (WeaponAttribute.ABSORB.hasAttribute(nbt) && (int) (Math.random() * 5) == 0)
-                player.setHealth(player.getHealth() + (float) (event.getAmount() * WeaponAttribute.ABSORB.getCalculatedValue(nbt))); // 14% chance; returns half the damage dealt back as health; tiers: (25%, 37.5%, 56.25%)
-            if (WeaponAttribute.VOID.hasAttribute(nbt) && (int) (Math.random() * WeaponAttribute.VOID.getCalculatedValue(nbt)) == 0)
+            if (SwordAttribute.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+                enemy.setFire((int) SwordAttribute.FIRE.getCalculatedValue(nbt)); // 25% chance; tiers: (4 second, 5 second, 6 second)
+            if (SwordAttribute.FROST.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+                enemy.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, (int) SwordAttribute.FROST.getCalculatedValue(nbt), 10)); // 25% chance; tiers: (1 second, 1.5 second, 2.25 second)
+            if (SwordAttribute.POISON.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+                enemy.addPotionEffect(new PotionEffect(MobEffects.POISON, (int) SwordAttribute.POISON.getCalculatedValue(nbt), SwordAttribute.POISON.getAttributeTier(nbt))); // 25% chance; tiers: (7 second, 10.5 second, 15.75 second)
+            if (SwordAttribute.DURABLE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+                stack.setItemDamage(stack.getItemDamage() - (int) SwordAttribute.DURABLE.getCalculatedValue(nbt)); // 25% chance; tiers: (1 point, 2 point, 4 point)
+            if (SwordAttribute.ABSORB.hasAttribute(nbt) && (int) (Math.random() * 5) == 0)
+                player.setHealth(player.getHealth() + (float) (event.getAmount() * SwordAttribute.ABSORB.getCalculatedValue(nbt))); // 14% chance; returns half the damage dealt back as health; tiers: (25%, 37.5%, 56.25%)
+            if (SwordAttribute.VOID.hasAttribute(nbt) && (int) (Math.random() * SwordAttribute.VOID.getCalculatedValue(nbt)) == 0)
                 enemy.setHealth(0.001F); // tiers: (6% chance, 8% chance, 1125%% chance); sets enemies health to something small, so damage kills enemy in one hit
 
-            if (WeaponAttribute.CRITICAL.hasAttribute(nbt) && (int) (Math.random() * 5) == 0) {
-                float bonus = (float) (event.getAmount() * WeaponAttribute.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)
+            if (SwordAttribute.CRITICAL.hasAttribute(nbt) && (int) (Math.random() * 5) == 0) {
+                float bonus = (float) (event.getAmount() * SwordAttribute.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)
                 event.setAmount(event.getAmount() + bonus);
             }
 
-            if (WeaponAttribute.CHAINED.hasAttribute(nbt) && (int) (Math.random() * 10) == 0) {
-                double radius = WeaponAttribute.CHAINED.getCalculatedValue(nbt);
+            if (SwordAttribute.CHAINED.hasAttribute(nbt) && (int) (Math.random() * 10) == 0) {
+                double radius = SwordAttribute.CHAINED.getCalculatedValue(nbt);
                 World world = enemy.getEntityWorld();
                 List<EntityLivingBase> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.posX - radius, player.posY - radius, player.posZ - radius, player.posX + radius, player.posY + radius, player.posZ + radius));
                 Iterator<EntityLivingBase> iterator = entityList.iterator();

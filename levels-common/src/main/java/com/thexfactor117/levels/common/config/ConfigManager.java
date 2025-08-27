@@ -1,12 +1,13 @@
 package com.thexfactor117.levels.common.config;
 
-import com.thexfactor117.levels.common.utils.EnumProcessor;
+import com.thexfactor117.levels.common.utils.FieldProcessor;
 import lombok.Getter;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -29,8 +30,18 @@ public class ConfigManager implements ConfigMap {
         return this;
     }
 
-    public final <T extends Enum<?> & ConfigEntryHolder> ConfigManager processEnum(Class<T> enumClazz) {
-        process(EnumProcessor.getValues(enumClazz));
+    public final <T extends ConfigEntryHolder> ConfigManager process(Collection<T> args) {
+        for (T arg : args) {
+            map.putAll(arg.getEntry().getMap());
+        }
+
+        return this;
+    }
+
+    public final <T extends ConfigEntryHolder> ConfigManager processClazz(Class<T> clazz) {
+        process(
+                FieldProcessor.getFields(ConfigEntryHolder.class, clazz)
+        );
         return this;
     }
 

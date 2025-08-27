@@ -1,6 +1,15 @@
 package com.thexfactor117.levels.common.leveling.attributes.components;
 
+import com.thexfactor117.levels.common.color.LegacyTextColor;
+import com.thexfactor117.levels.common.leveling.attributes.components.config.LevelConfigAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.display.Formatter;
+import com.thexfactor117.levels.common.leveling.attributes.display.RomanNumeralDisplay;
 import com.thexfactor117.levels.common.nbt.INBT;
+import com.thexfactor117.levels.common.utils.RomanNumber;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface AttributeBase extends RomanNumeralDisplay {
 
@@ -64,4 +73,47 @@ public interface AttributeBase extends RomanNumeralDisplay {
     }
 
     boolean isEnabled();
+
+    String getTranslationKey();
+
+    default List<String> getUpgradeSummary(INBT nbt, Formatter formatter) {
+        int maxLevel = LevelConfigAttribute.getMaxLevel(this);
+
+        int cost = 1;
+        if (!this.hasAttribute(nbt)) {
+            cost = this.getRarity().getCost();
+        }
+
+        if (this.getAttributeTier(nbt) >= maxLevel) cost = 0;
+
+        String translate = this.getTranslationKey();
+
+        List<String> list = new ArrayList<>();
+        list.add(this.getColor() + this.getName(nbt));
+        list.add(LegacyTextColor.GRAY + "Cost: " + cost + " token(s)");
+        list.add("");
+        list.add(formatter.format(translate));
+        list.add("");
+        list.add("Tiers:");
+
+        for (int level = 1; level <= maxLevel; level++) {
+            String rmn = RomanNumber.toRoman(level);
+
+            double value = 0;
+            if (this instanceof SimpleConfigAttribute) {
+                value = ((SimpleConfigAttribute) this).getCalculatedValue(level);
+            }
+
+            String displayDouble = Math.abs(value % 1) > 0.01
+                    ? String.format("%.1f", value)
+                    : String.format("%.0f", value);
+
+            String tierTranslationKey = String.format("%s.tier", translate);
+            String localized = formatter.format(tierTranslationKey, displayDouble);
+
+            list.add(" " + rmn + " - " + this.getColor() + localized);
+        }
+
+        return list;
+    }
 }

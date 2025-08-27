@@ -58,6 +58,11 @@ public enum BowAttribute implements AttributeBase, SimpleConfigAttribute {
         return SimpleConfigAttribute.super.isEnabled();
     }
 
+    @Override
+    public String getTranslationKey() {
+        return "levels.attributes.bows.info." + ordinal();
+    }
+
     public double getCalculatedValue(INBT nbt) {
         return getCalculatedValue(getAttributeTier(nbt));
     }

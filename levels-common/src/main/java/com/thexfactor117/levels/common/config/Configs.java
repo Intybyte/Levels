@@ -3,7 +3,7 @@ package com.thexfactor117.levels.common.config;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.WeaponAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.SwordAttribute;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -26,10 +26,10 @@ public class Configs {
             instance = new Configs(file);
 
             instance.attributes
-                    .processEnum(ArmorAttribute.class)
-                    .processEnum(BowAttribute.class)
-                    .processEnum(ShieldAttribute.class)
-                    .processEnum(WeaponAttribute.class)
+                    .processClazz(ArmorAttribute.class)
+                    .processClazz(BowAttribute.class)
+                    .processClazz(ShieldAttribute.class)
+                    .processClazz(SwordAttribute.class)
                     .initFile();
 
             instance.main

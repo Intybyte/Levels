@@ -16,7 +16,7 @@ import java.util.List;
  *
  */
 @Getter
-public enum WeaponAttribute implements AttributeBase, SimpleConfigAttribute {
+public enum SwordAttribute implements AttributeBase, SimpleConfigAttribute {
     FIRE("Fire", LegacyTextColor.RED, AttributeRarity.UNCOMMON, 4, 1.25, 3),
     FROST("Frost", LegacyTextColor.AQUA, AttributeRarity.UNCOMMON, 20, 1.5, 3),
     POISON("Poison", LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON, 20 * 7, 1.5, 3),
@@ -39,7 +39,7 @@ public enum WeaponAttribute implements AttributeBase, SimpleConfigAttribute {
     private final double defaultMultiplier;
     private final int defaultMaxLevel;
 
-    WeaponAttribute(String baseName, LegacyTextColor color, AttributeRarity rarity, double defaultBaseValue, double defaultMultiplier, int defaultMaxLevel) {
+    SwordAttribute(String baseName, LegacyTextColor color, AttributeRarity rarity, double defaultBaseValue, double defaultMultiplier, int defaultMaxLevel) {
         this.baseName = baseName;
         this.color = color.toString();
         this.hexColor = color.getHex();
@@ -56,11 +56,16 @@ public enum WeaponAttribute implements AttributeBase, SimpleConfigAttribute {
         return SimpleConfigAttribute.super.isEnabled();
     }
 
+    @Override
+    public String getTranslationKey() {
+        return "levels.attributes.weapons.info." + ordinal();
+    }
+
     public double getCalculatedValue(INBT nbt) {
         return getCalculatedValue(getAttributeTier(nbt));
     }
 
-    public static List<WeaponAttribute> getEnabled() {
+    public static List<SwordAttribute> getEnabled() {
         return EnableAttribute.getEnabled(values());
     }
 }

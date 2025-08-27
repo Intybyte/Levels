@@ -186,41 +186,8 @@ public class GuiTypeSelection extends GuiScreen {
                 continue;
             }
 
-            int cost = 1;
             AttributeBase attr = attributes.get(i);
-            if (!attr.hasAttribute(nbt)) {
-                cost = attr.getRarity().getCost();
-            }
-
-            int maxLevel = LevelConfigAttribute.getMaxLevel(attr);
-            if (attr.getAttributeTier(nbt) >= maxLevel) cost = 0;
-            String translate = type.getBaseTranslateKey();
-
-            List<String> list = new ArrayList<>();
-            list.add(attr.getColor() + attr.getName(nbt));
-            list.add(TextFormatting.GRAY + "Cost: " + cost + " token(s)");
-            list.add("");
-            list.add(I18n.format(translate + "." + i));
-            list.add("");
-            list.add("Tiers:");
-
-            for (int level = 1; level <= maxLevel; level++) {
-                String rmn = RomanNumber.toRoman(level);
-
-                double value = 0;
-                if (attr instanceof SimpleConfigAttribute) {
-                    value = ((SimpleConfigAttribute) attr).getCalculatedValue(level);
-                }
-
-                String displayDouble = Math.abs(value % 1) > 0.01
-                        ? String.format("%.1f", value)
-                        : String.format("%.0f", value);
-
-                String translationKey = String.format("%s.%d.tier", translate, i);
-                String localized = I18n.format(translationKey, displayDouble);
-
-                list.add(" " + rmn + " - " + attr.getColor() + localized);
-            }
+            List<String> list = attr.getUpgradeSummary(nbt, I18n::format);
 
             drawHoveringText(list, mouseX + 3, mouseY + 3);
         }

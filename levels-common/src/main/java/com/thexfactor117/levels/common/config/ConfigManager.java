@@ -38,7 +38,7 @@ public class ConfigManager implements ConfigMap {
         return this;
     }
 
-    public final <T extends ConfigEntryHolder> ConfigManager processClazz(Class<T> clazz) {
+    public final <T> ConfigManager processClazz(Class<T> clazz) {
         process(
                 FieldProcessor.getFields(ConfigEntryHolder.class, clazz)
         );

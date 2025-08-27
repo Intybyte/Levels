@@ -1,9 +1,7 @@
 package com.thexfactor117.levels.forge.client.gui;
 
 import com.thexfactor117.levels.common.leveling.attributes.components.config.LevelConfigAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.nbt.INBT;
-import com.thexfactor117.levels.common.utils.RomanNumber;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.common.leveling.ItemType;
@@ -18,14 +16,12 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.config.HoverChecker;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GuiTypeSelection extends GuiScreen {
@@ -35,7 +31,7 @@ public class GuiTypeSelection extends GuiScreen {
 
     public GuiTypeSelection(ItemType type) {
         this.type = type;
-        this.attributes = type.attributes();
+        this.attributes = type.enabledAttributes();
     }
 
     @SideOnly(Side.CLIENT)

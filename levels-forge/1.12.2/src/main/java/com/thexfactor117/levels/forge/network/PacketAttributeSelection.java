@@ -1,5 +1,6 @@
 package com.thexfactor117.levels.forge.network;
 
+import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.LevelConfigAttribute;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
@@ -71,7 +72,7 @@ public class PacketAttributeSelection implements IMessage {
 
                 Experience exp = new Experience(stack);
 
-                List<? extends AttributeBase> attributeList = type.attributes();
+                List<? extends AttributeBase> attributeList = type.enabledAttributes();
                 AttributeBase attribute = attributeList.get(message.index);
 
                 INBT nbt = NBTHelper.toCommon(baseNbt);
@@ -88,9 +89,8 @@ public class PacketAttributeSelection implements IMessage {
                 attribute.setAttributeTier(nbt, newTier);
                 exp.addAttributeTokens(-cost);
 
-                if (!attribute.hasAttribute(nbt)) {
-                    if (attribute.getAttributeKey().contains("Unbreakable"))
-                        nbt.setInt("Unbreakable", 1);
+                if (!attribute.hasAttribute(nbt) && AnyAttributes.UNBREAKABLE.equals(attribute)) {
+                    nbt.setInt("Unbreakable", 1);
                 }
             };
         }

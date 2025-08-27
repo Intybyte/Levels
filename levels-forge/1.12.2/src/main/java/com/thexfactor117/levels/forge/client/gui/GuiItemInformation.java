@@ -132,7 +132,7 @@ public class GuiItemInformation extends GuiScreen {
             return;
         }
 
-        List<? extends AttributeBase> attributes = type.attributes();
+        List<? extends AttributeBase> attributes = type.enabledAttributes();
 
         for (AttributeBase attribute : attributes) {
             if (attribute.hasAttribute(inbt)) {

@@ -15,15 +15,9 @@ import lombok.Getter;
  */
 @Getter
 public enum SwordAttribute implements AttributeBase, SimpleConfigAttribute {
-    FIRE("Fire", LegacyTextColor.RED, AttributeRarity.UNCOMMON, 4, 1.25, 3),
-    FROST("Frost", LegacyTextColor.AQUA, AttributeRarity.UNCOMMON, 20, 1.5, 3),
-    POISON("Poison", LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON, 20 * 7, 1.5, 3),
-    DURABLE("Durable", LegacyTextColor.GRAY, AttributeRarity.UNCOMMON, 1, 2, 3),
     ABSORB("Absorb", LegacyTextColor.GREEN, AttributeRarity.RARE, 0.25, 1.5, 3),
-    SOUL_BOUND("Soul Bound", LegacyTextColor.DARK_PURPLE, AttributeRarity.RARE, 0, 0, 1),
     CRITICAL("Critical", LegacyTextColor.BLUE, AttributeRarity.RARE, 0.2, 1.5, 3),
     CHAINED("Chained", LegacyTextColor.WHITE, AttributeRarity.LEGENDARY,10, 1, 1),
-    UNBREAKABLE("Unbreakable", LegacyTextColor.GRAY, AttributeRarity.LEGENDARY, 0, 0, 1),
     VOID("Void", LegacyTextColor.DARK_GRAY, AttributeRarity.LEGENDARY, 15, 0.8, 3);
 
     private final String baseKey;

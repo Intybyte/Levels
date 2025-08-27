@@ -1,6 +1,7 @@
 package com.thexfactor117.levels.forge;
 
 import com.thexfactor117.levels.common.config.Configs;
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.forge.init.ModEvents;
 import com.thexfactor117.levels.forge.network.PacketAttributeSelection;
 import com.thexfactor117.levels.forge.network.PacketMythicSound;
@@ -46,6 +47,7 @@ public class Levels {
         configDir = new File(event.getModConfigurationDirectory() + "/" + Reference.MODID);
         configDir.mkdirs();
         Configs.init(configDir);
+        ItemType.init();
 
         ModEvents.register();
         proxy.preInit();

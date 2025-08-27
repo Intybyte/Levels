@@ -1,11 +1,8 @@
 package com.thexfactor117.levels.forge.events.attributes;
 
+import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.common.leveling.ItemType;
-import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.SwordAttribute;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,7 +47,7 @@ public class EventSoulBound {
             }
 
             INBT nbt = NBTHelper.toCommon(baseNbt);
-            if (SwordAttribute.SOUL_BOUND.hasAttribute(nbt) || ArmorAttribute.SOUL_BOUND.hasAttribute(nbt) || BowAttribute.SOUL_BOUND.hasAttribute(nbt) || ShieldAttribute.SOUL_BOUND.hasAttribute(nbt)) {
+            if (AnyAttributes.SOUL_BOUND.hasAttribute(nbt)) {
                 event.getDrops().remove(i);
                 player.inventory.addItemStackToInventory(stack);
             }

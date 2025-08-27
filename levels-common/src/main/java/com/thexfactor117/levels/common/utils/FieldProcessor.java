@@ -71,7 +71,7 @@ public class FieldProcessor {
             Map<String, MethodHandle> methodCache = cache.computeIfAbsent(clazz, key -> new HashMap<>());
             MethodHandle handle = methodCache.computeIfAbsent(name, key -> {
                 try {
-                    return lookup.findGetter(clazz, field.getName(), field.getType());
+                    return lookup.findStaticGetter(clazz, field.getName(), field.getType());
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }

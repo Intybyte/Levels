@@ -1,13 +1,13 @@
 package com.thexfactor117.levels.forge.events;
 
 import com.thexfactor117.levels.common.config.Configs;
+import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.Rarity;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
-import com.thexfactor117.levels.common.leveling.attributes.ShieldAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.SwordAttribute;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import com.thexfactor117.levels.forge.util.ItemUtil;
@@ -247,15 +247,23 @@ public class EventAttack {
         //TODO: invert void parameters for correct display and extract common attributes
 
         INBT nbt = NBTHelper.toCommon(baseNbt);
+
+        //region Any attributes
+        if (AnyAttributes.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+            enemy.setFire((int) AnyAttributes.FIRE.getCalculatedValue(nbt));
+
+        if (AnyAttributes.FROST.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+            enemy.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, (int) AnyAttributes.FROST.getCalculatedValue(nbt), 10));
+
+        if (AnyAttributes.POISON.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+            enemy.addPotionEffect(new PotionEffect(MobEffects.POISON, (int) AnyAttributes.POISON.getCalculatedValue(nbt), AnyAttributes.POISON.getAttributeTier(nbt)));
+
+        if (AnyAttributes.DURABLE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+            stack.setItemDamage(stack.getItemDamage() - (int) AnyAttributes.DURABLE.getCalculatedValue(nbt));
+        //endregion
+
+
         if (stack.getItem() instanceof ItemSword) {
-            if (SwordAttribute.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.setFire((int) SwordAttribute.FIRE.getCalculatedValue(nbt)); // 25% chance; tiers: (4 second, 5 second, 6 second)
-            if (SwordAttribute.FROST.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, (int) SwordAttribute.FROST.getCalculatedValue(nbt), 10)); // 25% chance; tiers: (1 second, 1.5 second, 2.25 second)
-            if (SwordAttribute.POISON.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.POISON, (int) SwordAttribute.POISON.getCalculatedValue(nbt), SwordAttribute.POISON.getAttributeTier(nbt))); // 25% chance; tiers: (7 second, 10.5 second, 15.75 second)
-            if (SwordAttribute.DURABLE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                stack.setItemDamage(stack.getItemDamage() - (int) SwordAttribute.DURABLE.getCalculatedValue(nbt)); // 25% chance; tiers: (1 point, 2 point, 4 point)
             if (SwordAttribute.ABSORB.hasAttribute(nbt) && (int) (Math.random() * 5) == 0)
                 player.setHealth(player.getHealth() + (float) (event.getAmount() * SwordAttribute.ABSORB.getCalculatedValue(nbt))); // 14% chance; returns half the damage dealt back as health; tiers: (25%, 37.5%, 56.25%)
             if (SwordAttribute.VOID.hasAttribute(nbt) && (int) (Math.random() * SwordAttribute.VOID.getCalculatedValue(nbt)) == 0)
@@ -284,30 +292,15 @@ public class EventAttack {
 
         // ARMOR
         if (stack.getItem() instanceof ItemArmor) {
-            if (ArmorAttribute.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.setFire((int) ArmorAttribute.FIRE.getCalculatedValue(nbt)); // 25% chance; tiers: (4 second, 5 second, 6 second)
-            if (ArmorAttribute.FROST.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, (int) ArmorAttribute.FROST.getCalculatedValue(nbt), 10)); // 25% chance; tiers: (1 second, 1.5 second, 2.25 second)
-            if (ArmorAttribute.POISON.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.POISON, (int) ArmorAttribute.POISON.getCalculatedValue(nbt), ArmorAttribute.POISON.getAttributeTier(nbt))); // 25% chance; tiers: (7 second, 10.5 second, 15.75 second)
-            if (ArmorAttribute.DURABLE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                stack.setItemDamage(stack.getItemDamage() - (int) ArmorAttribute.DURABLE.getCalculatedValue(nbt)); // 25% chance; tiers: (1 point, 2 point, 4 point)
             if (ArmorAttribute.MAGICAL.hasAttribute(nbt) && event.getSource().isMagicDamage())
                 event.setAmount((float) (event.getAmount() * ArmorAttribute.MAGICAL.getCalculatedValue(nbt))); // tiers: (20%, 30%, 45%)
         }
 
         // BOW
         if (stack.getItem() instanceof ItemBow) {
-            if (BowAttribute.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.setFire((int) BowAttribute.FIRE.getCalculatedValue(nbt)); // 25% chance; tiers: (4 second, 5 second, 6 second)
-            if (BowAttribute.FROST.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, (int) BowAttribute.FROST.getCalculatedValue(nbt), 10)); // 25% chance; tiers: (1 second, 1.5 second, 2.25 second)
-            if (BowAttribute.POISON.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.POISON, (int) BowAttribute.POISON.getCalculatedValue(nbt), BowAttribute.POISON.getAttributeTier(nbt))); // 25% chance; tiers: (7 second, 10.5 second, 15.75 second)
-            if (BowAttribute.DURABLE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                stack.setItemDamage(stack.getItemDamage() - (int) BowAttribute.DURABLE.getCalculatedValue(nbt)); // 25% chance; tiers: (1 point, 2 point, 4 point)
             if (BowAttribute.ABSORB.hasAttribute(nbt) && (int) (Math.random() * 5) == 0)
                 player.setHealth(player.getHealth() + (float) (event.getAmount() * BowAttribute.ABSORB.getCalculatedValue(nbt))); // 14% chance; returns half the damage dealt back as health; tiers: (25%, 37.5%, 56.25%)
+
             if (BowAttribute.VOID.hasAttribute(nbt) && (int) (Math.random() * BowAttribute.VOID.getCalculatedValue(nbt)) == 0)
                 enemy.setHealth(0.001F); // tiers: (6% chance, 8% chance, 1125%% chance); sets enemies health to something small, so damage kills enemy in one hit
 
@@ -315,18 +308,6 @@ public class EventAttack {
                 float bonus = (float) (event.getAmount() * BowAttribute.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)
                 event.setAmount(event.getAmount() + bonus);
             }
-        }
-
-        // SHIELD
-        if (stack.getItem() instanceof ItemShield) {
-            if (ShieldAttribute.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.setFire((int) ShieldAttribute.FIRE.getCalculatedValue(nbt)); // 25% chance; tiers: (4 second, 5 second, 6 second)
-            if (ShieldAttribute.FROST.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, (int) ShieldAttribute.FROST.getCalculatedValue(nbt), 10)); // 25% chance; tiers: (1 second, 1.5 second, 2.25 second)
-            if (ShieldAttribute.POISON.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                enemy.addPotionEffect(new PotionEffect(MobEffects.POISON, (int) ShieldAttribute.POISON.getCalculatedValue(nbt), ShieldAttribute.POISON.getAttributeTier(nbt))); // 25% chance; tiers: (7 second, 10.5 second, 15.75 second)
-            if (ShieldAttribute.DURABLE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
-                stack.setItemDamage(stack.getItemDamage() - (int) ShieldAttribute.DURABLE.getCalculatedValue(nbt)); // 25% chance; tiers: (1 point, 2 point, 4 point)
         }
     }
 

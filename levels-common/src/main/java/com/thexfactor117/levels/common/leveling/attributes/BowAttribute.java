@@ -2,15 +2,12 @@ package com.thexfactor117.levels.common.leveling.attributes;
 
 import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
-import com.thexfactor117.levels.common.leveling.attributes.components.EnableAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.color.LegacyTextColor;
 ;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
 import com.thexfactor117.levels.common.nbt.INBT;
 import lombok.Getter;
-
-import java.util.List;
 
 /**
  *
@@ -71,9 +68,5 @@ public enum BowAttribute implements AttributeBase, SimpleConfigAttribute {
 
     public double getCalculatedValue(INBT nbt) {
         return getCalculatedValue(getAttributeTier(nbt));
-    }
-
-    public static List<BowAttribute> getEnabled() {
-        return EnableAttribute.getEnabled(values());
     }
 }

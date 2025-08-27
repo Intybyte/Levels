@@ -18,17 +18,17 @@ import java.util.List;
  */
 @Getter
 public enum BowAttribute implements AttributeBase, SimpleConfigAttribute {
-    FIRE("Fire", LegacyTextColor.RED, AttributeRarity.UNCOMMON, 4, 1.25),
-    FROST("Frost", LegacyTextColor.AQUA, AttributeRarity.UNCOMMON, 20, 1.5),
-    POISON("Poison", LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON, 20 * 7, 1.5),
-    DURABLE("Durable", LegacyTextColor.GRAY, AttributeRarity.UNCOMMON, 1, 2),
-    ABSORB("Absorb", LegacyTextColor.GREEN, AttributeRarity.RARE, 0.25, 1.5),
-    SOUL_BOUND("Soul Bound", LegacyTextColor.DARK_PURPLE, AttributeRarity.RARE, 0, 0),
-    CRITICAL("Critical", LegacyTextColor.BLUE, AttributeRarity.RARE, 0.2, 1.5),
-    RECOVER("Recover", LegacyTextColor.DARK_AQUA, AttributeRarity.RARE, 0, 0),
-    BARRAGE("Barrage", LegacyTextColor.DARK_RED, AttributeRarity.LEGENDARY, 3, 1.5),
-    UNBREAKABLE("Unbreakable", LegacyTextColor.GRAY, AttributeRarity.LEGENDARY, 0, 0),
-    VOID("Void", LegacyTextColor.DARK_GRAY, AttributeRarity.LEGENDARY, 15, 0.8);
+    FIRE("Fire", LegacyTextColor.RED, AttributeRarity.UNCOMMON, 4, 1.25, 3),
+    FROST("Frost", LegacyTextColor.AQUA, AttributeRarity.UNCOMMON, 20, 1.5, 3),
+    POISON("Poison", LegacyTextColor.DARK_GREEN, AttributeRarity.UNCOMMON, 20 * 7, 1.5, 3),
+    DURABLE("Durable", LegacyTextColor.GRAY, AttributeRarity.UNCOMMON, 1, 2, 3),
+    ABSORB("Absorb", LegacyTextColor.GREEN, AttributeRarity.RARE, 0.25, 1.5, 3),
+    SOUL_BOUND("Soul Bound", LegacyTextColor.DARK_PURPLE, AttributeRarity.RARE, 0, 0, 1),
+    CRITICAL("Critical", LegacyTextColor.BLUE, AttributeRarity.RARE, 0.2, 1.5, 3),
+    RECOVER("Recover", LegacyTextColor.DARK_AQUA, AttributeRarity.RARE, 0, 0, 1),
+    BARRAGE("Barrage", LegacyTextColor.DARK_RED, AttributeRarity.LEGENDARY, 3, 1.5, 3),
+    UNBREAKABLE("Unbreakable", LegacyTextColor.GRAY, AttributeRarity.LEGENDARY, 0, 0, 1),
+    VOID("Void", LegacyTextColor.DARK_GRAY, AttributeRarity.LEGENDARY, 15, 0.8, 3);
 
     private final String baseKey;
 
@@ -39,14 +39,16 @@ public enum BowAttribute implements AttributeBase, SimpleConfigAttribute {
 
     private final double defaultBaseValue;
     private final double defaultMultiplier;
+    private final int defaultMaxLevel;
 
-    BowAttribute(String baseName, LegacyTextColor color, AttributeRarity rarity, double defaultBaseValue, double defaultMultiplier) {
+    BowAttribute(String baseName, LegacyTextColor color, AttributeRarity rarity, double defaultBaseValue, double defaultMultiplier, int defaultMaxLevel) {
         this.baseName = baseName;
         this.color = color.toString();
         this.hexColor = color.getHex();
         this.rarity = rarity;
         this.defaultBaseValue = defaultBaseValue;
         this.defaultMultiplier = defaultMultiplier;
+        this.defaultMaxLevel = defaultMaxLevel;
 
         this.baseKey = SimpleConfigAttribute.keyOf(this);
     }

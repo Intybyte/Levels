@@ -1,5 +1,6 @@
 package com.thexfactor117.levels.forge.client.gui;
 
+import com.thexfactor117.levels.common.leveling.attributes.components.config.LevelConfigAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.common.utils.RomanNumber;
@@ -54,14 +55,16 @@ public class GuiTypeSelection extends GuiScreen {
         attributeButtons = new GuiButton[attributes.size()];
 
         for (int i = 0; i < attributeButtons.length; i++) {
-            int tier = attributes.get(i).getAttributeTier(nbt);
+            AttributeBase attr = attributes.get(i);
+            int tier = attr.getAttributeTier(nbt);
 
-            int maxLevel = 3;
+            int maxLevel = LevelConfigAttribute.getMaxLevel(attr);
+
             String display;
             if (tier == maxLevel) {
-                display = attributes.get(i).getBaseName() + " MAX";
+                display = attr.getBaseName() + " MAX";
             } else {
-                display = attributes.get(i).getCompleteName(tier + 1);
+                display = attr.getCompleteName(tier + 1);
             }
 
             attributeButtons[i] = new GuiButton(i, width / 2 - 147, 60 + (i * 20), 75, 20, display);
@@ -154,13 +157,13 @@ public class GuiTypeSelection extends GuiScreen {
         for (int i = 0; i < attributeButtons.length; i++) {
             AttributeBase attribute = attributes.get(i);
             boolean hasAttribute = attribute.hasAttribute(nbt);
-            boolean isMaxLevel = attribute.getAttributeTier(nbt) == 3;
+            boolean isMaxLevel = attribute.getAttributeTier(nbt) >= LevelConfigAttribute.getMaxLevel(attribute);
             int cost = attribute.getRarity().getCost();
 
             boolean shouldEnable;
 
             if (isMaxLevel) {
-                // Never enable tier 3 attributes
+                // Never enable max level attributes
                 shouldEnable = false;
             } else if (hasAttribute) {
                 // Always enable existing attribute unless at tier 3
@@ -189,7 +192,8 @@ public class GuiTypeSelection extends GuiScreen {
                 cost = attr.getRarity().getCost();
             }
 
-            if (attr.getAttributeTier(nbt) == 3) cost = 0;
+            int maxLevel = LevelConfigAttribute.getMaxLevel(attr);
+            if (attr.getAttributeTier(nbt) >= maxLevel) cost = 0;
             String translate = type.getBaseTranslateKey();
 
             List<String> list = new ArrayList<>();
@@ -200,7 +204,6 @@ public class GuiTypeSelection extends GuiScreen {
             list.add("");
             list.add("Tiers:");
 
-            int maxLevel = 3;
             for (int level = 1; level <= maxLevel; level++) {
                 String rmn = RomanNumber.toRoman(level);
 

@@ -4,9 +4,7 @@ import com.thexfactor117.levels.common.config.ConfigEntry;
 import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.common.nbt.INBT;
 
-import java.util.Map;
-
-public interface SimpleConfigAttribute extends EnableConfigAttribute {
+public interface SimpleConfigAttribute extends LevelConfigAttribute {
 
     static String keyOf(Enum<?> enm) {
         return enm.getClass().getSimpleName() + "." +  enm.name().toLowerCase();
@@ -40,12 +38,10 @@ public interface SimpleConfigAttribute extends EnableConfigAttribute {
     double getCalculatedValue(INBT nbt);
 
     default ConfigEntry getEntry() {
-        Map<String, String> cfg = EnableConfigAttribute.super.getEntry().getMap();
-        cfg.put(getBaseKey() + ".base_value", String.valueOf(getDefaultBaseValue()));
-        cfg.put(getBaseKey() + ".multiplier", String.valueOf(getDefaultMultiplier()));
+        ConfigEntry cfg = LevelConfigAttribute.super.getEntry();
+        cfg.set(getBaseKey() + ".base_value", String.valueOf(getDefaultBaseValue()));
+        cfg.set(getBaseKey() + ".multiplier", String.valueOf(getDefaultMultiplier()));
 
-        return new ConfigEntry(
-                cfg
-        );
+        return cfg;
     }
 }

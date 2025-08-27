@@ -4,19 +4,26 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class EnumProcessor {
 
     // Cache for method handles per enum class
-    private static final ConcurrentHashMap<Class<? extends Enum<?>>, MethodHandle> cache = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Class<? extends Enum<?>>, MethodHandle> enumCache = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Class<?>, Map<String, MethodHandle>> cache = new ConcurrentHashMap<>();
     private static final MethodHandles.Lookup lookup = MethodHandles.lookup();
 
     @SuppressWarnings("unchecked")
     public static <T extends Enum<?>> T[] getValues(Class<T> clazz) {
         try {
             // Try to get cached method handle
-            MethodHandle handle = cache.computeIfAbsent(clazz, key -> {
+            MethodHandle handle = enumCache.computeIfAbsent(clazz, key -> {
                 try {
                     Class<?> arrayClazz = Array.newInstance(key, 0).getClass();
 
@@ -30,5 +37,56 @@ public class EnumProcessor {
         } catch (Throwable t) {
             throw new RuntimeException("Failed to invoke 'values' method on enum class: " + clazz.getName(), t);
         }
+    }
+
+    /**
+     * Analyzes static fields of a specific type
+     *
+     *
+     * @param wanted Class or superclass of fields wanted
+     * @param clazz Class to analyze
+     * @return field values
+     */
+    public static <T> List<T> getValues(Class<T> wanted, Class<?> clazz) {
+        List<T> list = new ArrayList<>();
+
+        for (Field field : clazz.getDeclaredFields()) {
+            int modifiers = field.getModifiers();
+            if (!Modifier.isStatic(modifiers)) {
+                continue;
+            }
+
+            String name = field.getName();
+
+            Map<String, MethodHandle> methodCache = cache.computeIfAbsent(clazz, key -> new HashMap<>());
+            MethodHandle handle = methodCache.computeIfAbsent(name, key -> {
+                try {
+                    return lookup.findGetter(clazz, field.getName(), field.getType());
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+            Object value;
+            try {
+                value = handle.invoke();
+                if (wanted.isInstance(value)) {
+                    list.add(wanted.cast(value));
+                }
+            } catch (Throwable ignored) {
+            }
+        }
+
+        return list;
+    }
+
+    public static <T> List<T> getValues(Class<T> wanted, Class<?>... clazz) {
+        List<T> list = new ArrayList<>();
+
+        for (Class<?> clazzLoop : clazz) {
+            list.addAll(getValues(wanted, clazzLoop));
+        }
+
+        return list;
     }
 }

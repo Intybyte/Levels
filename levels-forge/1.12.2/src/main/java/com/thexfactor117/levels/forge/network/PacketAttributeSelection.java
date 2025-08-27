@@ -1,5 +1,6 @@
 package com.thexfactor117.levels.forge.network;
 
+import com.thexfactor117.levels.common.leveling.attributes.components.config.LevelConfigAttribute;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.common.leveling.ItemType;
@@ -75,7 +76,7 @@ public class PacketAttributeSelection implements IMessage {
 
                 INBT nbt = NBTHelper.toCommon(baseNbt);
 
-                int maxLevel = 3;
+                int maxLevel = LevelConfigAttribute.getMaxLevel(attribute);
                 int newTier = attribute.getAttributeTier(nbt) + 1;
                 int cost = attribute.hasAttribute(nbt) ? 1 : attribute.getRarity().getCost();
 

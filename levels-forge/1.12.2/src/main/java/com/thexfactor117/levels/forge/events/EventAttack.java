@@ -173,9 +173,7 @@ public class EventAttack {
      * @param enemy
      */
     private void addExperience(NBTTagCompound nbt, ItemStack stack, EntityLivingBase enemy) {
-        int maxLevel = Configs.getInstance().main.getInt("maxLevel");
-
-        if (!(new Experience(stack).getLevel() < maxLevel)) {
+        if (new Experience(stack).isMaxLevel()) {
             return;
         }
 
@@ -321,7 +319,7 @@ public class EventAttack {
             }
 
             if (WeaponAttribute.CHAINED.hasAttribute(nbt) && (int) (Math.random() * 10) == 0) {
-                double radius = 10;
+                double radius = WeaponAttribute.CHAINED.getCalculatedValue(nbt);
                 World world = enemy.getEntityWorld();
                 List<EntityLivingBase> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.posX - radius, player.posY - radius, player.posZ - radius, player.posX + radius, player.posY + radius, player.posZ + radius));
                 Iterator<EntityLivingBase> iterator = entityList.iterator();

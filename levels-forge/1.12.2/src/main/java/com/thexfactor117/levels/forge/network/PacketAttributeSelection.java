@@ -81,7 +81,7 @@ public class PacketAttributeSelection implements IMessage {
                 int cost = attribute.hasAttribute(nbt) ? 1 : attribute.getRarity().getCost();
 
                 boolean isEnough = cost <= exp.getAttributeTokens();
-                if (!isEnough || newTier >= maxLevel) {
+                if (!isEnough || newTier > maxLevel) {
                     return; //maybe notify something weird is going on?
                 }
 

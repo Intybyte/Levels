@@ -7,6 +7,7 @@ import lombok.Getter;
 import net.minecraft.nbt.NBTTagList;
 
 @Getter
+@Deprecated
 @AllArgsConstructor
 public class NBTListImpl implements INBTList {
     private final NBTTagList nbt;

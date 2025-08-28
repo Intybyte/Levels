@@ -47,10 +47,4 @@ public class NBTImpl implements INBT {
     public INBT getCompound(String key) {
         return NBTHelper.toCommon(nbt.getCompoundTag(key));
     }
-
-    @Override
-    public INBTList getList(String key, NBTType type) {
-        NBTTagList list = nbt.getTagList(key, type.ordinal());
-        return NBTHelper.toCommon(list);
-    }
 }

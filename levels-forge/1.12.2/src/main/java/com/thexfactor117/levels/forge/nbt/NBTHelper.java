@@ -25,12 +25,6 @@ public class NBTHelper {
         return new NBTImpl(nbt);
     }
 
-    public static NBTListImpl toCommon(NBTTagList nbt) {
-        if (nbt == null) return null;
-
-        return new NBTListImpl(nbt);
-    }
-
     public static NBTTagCompound loadStackNBT(ItemStack stack) {
         return stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
     }

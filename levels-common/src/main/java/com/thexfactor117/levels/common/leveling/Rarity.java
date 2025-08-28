@@ -23,6 +23,8 @@ public enum Rarity {
 
     public static final RandomCollection<Rarity> RARITY_RANDOM = new RandomCollection<>();
 
+    public static final String RARITY_KEY = "levels:rarity";
+
     static {
         for (Rarity entry : values()) {
             if (entry != DEFAULT) {
@@ -60,7 +62,7 @@ public enum Rarity {
      * @return
      */
     public static Rarity getRarity(INBT nbt) {
-        return nbt != null && nbt.hasKey("RARITY") ? Rarity.values()[nbt.getInt("RARITY")] : DEFAULT;
+        return nbt != null && nbt.hasKey(RARITY_KEY) ? Rarity.values()[nbt.getInt(RARITY_KEY)] : DEFAULT;
     }
 
     /**
@@ -69,7 +71,7 @@ public enum Rarity {
      */
     public void setRarity(INBT nbt) {
         if (nbt != null) {
-            nbt.setInt("RARITY", this.ordinal());
+            nbt.setInt(RARITY_KEY, this.ordinal());
         }
     }
 

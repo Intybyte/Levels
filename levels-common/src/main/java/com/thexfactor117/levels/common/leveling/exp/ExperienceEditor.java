@@ -9,12 +9,16 @@ import com.thexfactor117.levels.common.nbt.INBTHolder;
  */
 public interface ExperienceEditor extends INBTHolder {
 
+    String LEVEL_KEY = "levels:level"; 
+    String EXPERIENCE_KEY = "levels:experience";
+    String TOKENS_KEY = "levels:tokens";
+    
     /**
      * Returns the level of the current weapon/armor.
      * @return level of the item
      */
     default int getLevel() {
-        return getNBT() != null ? getNBT().getInt("LEVEL") : 1;
+        return getNBT() != null ? getNBT().getInt(LEVEL_KEY) : 1;
     }
 
     /**
@@ -27,9 +31,9 @@ public interface ExperienceEditor extends INBTHolder {
         }
 
         if (level > 0)
-            getNBT().setInt("LEVEL", level);
+            getNBT().setInt(LEVEL_KEY, level);
         else
-            getNBT().remove("LEVEL");
+            getNBT().remove(LEVEL_KEY);
     }
 
     default boolean isMaxLevel() {
@@ -41,7 +45,7 @@ public interface ExperienceEditor extends INBTHolder {
      * @return experience
      */
     default int getExperience() {
-        return getNBT() != null ? getNBT().getInt("EXPERIENCE") : 1;
+        return getNBT() != null ? getNBT().getInt(EXPERIENCE_KEY) : 1;
     }
 
     /**
@@ -53,9 +57,9 @@ public interface ExperienceEditor extends INBTHolder {
         }
 
         if (experience > 0)
-            getNBT().setInt("EXPERIENCE", experience);
+            getNBT().setInt(EXPERIENCE_KEY, experience);
         else
-            getNBT().remove("EXPERIENCE");
+            getNBT().remove(EXPERIENCE_KEY);
     }
 
     default void addExperience(int experience) {
@@ -67,7 +71,7 @@ public interface ExperienceEditor extends INBTHolder {
      * @return
      */
     default int getAttributeTokens() {
-        return getNBT() != null ? getNBT().getInt("TOKENS") : 0;
+        return getNBT() != null ? getNBT().getInt(TOKENS_KEY) : 0;
     }
 
     /**
@@ -80,9 +84,9 @@ public interface ExperienceEditor extends INBTHolder {
         }
 
         if (tokens > 0)
-            getNBT().setInt("TOKENS", tokens);
+            getNBT().setInt(TOKENS_KEY, tokens);
         else
-            getNBT().remove("TOKENS");
+            getNBT().remove(TOKENS_KEY);
     }
 
     default void addAttributeTokens(int toAdd) {

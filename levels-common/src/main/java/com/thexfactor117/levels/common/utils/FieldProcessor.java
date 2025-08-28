@@ -51,6 +51,7 @@ public class FieldProcessor {
         List<T> list = new ArrayList<>();
 
         if (clazz.isEnum())  {
+            @SuppressWarnings("unchecked")
             Class<? extends Enum<?>> enumClass = (Class<? extends Enum<?>>) clazz;
             for (Enum<?> constant : getValues(enumClass)) {
                 if (wanted.isInstance(constant)) {
@@ -60,23 +61,28 @@ public class FieldProcessor {
             return list;
         }
 
-        for (Field field : clazz.getDeclaredFields()) {
-            int modifiers = field.getModifiers();
-            if (!Modifier.isStatic(modifiers)) {
-                continue;
+        Map<String, MethodHandle> methodCache = cache.computeIfAbsent(clazz, key -> {
+            Map<String, MethodHandle> newMap = new HashMap<>();
+            for (Field field : clazz.getDeclaredFields()) {
+                int modifiers = field.getModifiers();
+                if (!Modifier.isStatic(modifiers)) {
+                    continue;
+                }
+
+                final String name = field.getName();
+                newMap.computeIfAbsent(name, key2 -> {
+                    try {
+                        return lookup.findStaticGetter(clazz, name, field.getType());
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
 
-            String name = field.getName();
+            return newMap;
+        });
 
-            Map<String, MethodHandle> methodCache = cache.computeIfAbsent(clazz, key -> new HashMap<>());
-            MethodHandle handle = methodCache.computeIfAbsent(name, key -> {
-                try {
-                    return lookup.findStaticGetter(clazz, field.getName(), field.getType());
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-
+        for (MethodHandle handle : methodCache.values()) {
             Object value;
             try {
                 value = handle.invoke();

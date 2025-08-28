@@ -5,6 +5,7 @@ import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.SwordAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.WeaponAttributes;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.utils.FieldProcessor;
 import lombok.AllArgsConstructor;
@@ -34,10 +35,6 @@ public class FieldProcessorTest {
     void test_getValue() {
         List<MockEnum> variable = FieldProcessor.getFields(MockEnum.class, MockEnum.class);
 
-        for (MockEnum entry : variable) {
-            System.out.println(entry);
-        }
-
         assertEquals(variable.size(), MockEnum.values().length);
     }
 
@@ -45,20 +42,12 @@ public class FieldProcessorTest {
     void test_getValue_withInterface() {
         List<ObtainName> variable = FieldProcessor.getFields(ObtainName.class, MockEnum.class);
 
-        for (ObtainName entry : variable) {
-            System.out.println(entry.getName());
-        }
-
         assertEquals(variable.size(), MockEnum.values().length);
     }
 
     @Test
     void test_getFields_onAnyAttributes() {
         List<AttributeBase> variables = FieldProcessor.getFields(AttributeBase.class, AnyAttributes.class);
-
-        for (AttributeBase attr : variables) {
-            System.out.println(attr.getBaseName());
-        }
 
         assertEquals(1, variables.stream().filter( it ->
                 it.getBaseName().equals("Fire")
@@ -72,7 +61,8 @@ public class FieldProcessorTest {
                 SwordAttribute.class,
                 ArmorAttribute.class,
                 BowAttribute.class,
-                AnyAttributes.class
+                AnyAttributes.class,
+                WeaponAttributes.class
         );
 
         for (AttributeBase attr : list) {

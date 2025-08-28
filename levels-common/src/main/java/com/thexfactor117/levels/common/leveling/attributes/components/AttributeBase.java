@@ -107,11 +107,15 @@ public interface AttributeBase extends RomanNumeralDisplay {
                 value = ((SimpleConfigAttribute) this).getCalculatedValue(level);
             }
 
+            String tierTranslationKey = String.format("%s.tier", translate);
+            if (formatter.format(tierTranslationKey).contains("%s%%")) {
+                value *= 100;
+            }
+
             String displayDouble = Math.abs(value % 1) > 0.01
                     ? String.format("%.1f", value)
                     : String.format("%.0f", value);
 
-            String tierTranslationKey = String.format("%s.tier", translate);
             String localized = formatter.format(tierTranslationKey, displayDouble);
 
             list.add(" " + rmn + " - " + this.getColor() + localized);

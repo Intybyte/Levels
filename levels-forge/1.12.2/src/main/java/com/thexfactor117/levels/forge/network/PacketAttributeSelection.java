@@ -1,11 +1,11 @@
 package com.thexfactor117.levels.forge.network;
 
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.LevelConfigAttribute;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
-import com.thexfactor117.levels.common.leveling.ItemType;
-import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import com.thexfactor117.levels.forge.util.ItemUtil;
 import io.netty.buffer.ByteBuf;

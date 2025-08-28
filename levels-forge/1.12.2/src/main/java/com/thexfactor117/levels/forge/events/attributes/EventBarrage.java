@@ -1,7 +1,7 @@
 package com.thexfactor117.levels.forge.events.attributes;
 
-import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
+import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;

@@ -3,7 +3,6 @@ package com.thexfactor117.levels.forge.leveling;
 import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
 import com.thexfactor117.levels.common.leveling.exp.LevelUpProcessor;
 import com.thexfactor117.levels.common.nbt.INBT;
-import com.thexfactor117.levels.common.nbt.INBTList;
 import com.thexfactor117.levels.common.nbt.NBTType;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
 import lombok.AllArgsConstructor;

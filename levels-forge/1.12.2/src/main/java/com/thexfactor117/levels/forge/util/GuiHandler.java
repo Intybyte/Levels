@@ -1,8 +1,8 @@
 package com.thexfactor117.levels.forge.util;
 
+import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.forge.client.gui.GuiItemInformation;
 import com.thexfactor117.levels.forge.client.gui.GuiTypeSelection;
-import com.thexfactor117.levels.common.leveling.ItemType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;

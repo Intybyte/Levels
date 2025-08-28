@@ -1,21 +1,19 @@
 package com.thexfactor117.levels.common.leveling;
 
 import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
-import com.thexfactor117.levels.common.leveling.attributes.WeaponAttributes;
-import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.SwordAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.WeaponAttributes;
+import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.utils.FieldProcessor;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Used to get all the enabled attributes of an item

@@ -1,6 +1,5 @@
 package utils;
 
-import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
@@ -16,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FieldProcessorTest {
     public interface ObtainName {

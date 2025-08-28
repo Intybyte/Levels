@@ -1,7 +1,5 @@
 package config;
 
-import com.thexfactor117.levels.common.config.ConfigEntry;
-import com.thexfactor117.levels.common.config.ConfigEntryHolder;
 import com.thexfactor117.levels.common.config.ConfigManager;
 import com.thexfactor117.levels.common.config.MainConfig;
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class MainConfigTest {
 

@@ -3,8 +3,6 @@ package config;
 import com.thexfactor117.levels.common.config.ConfigEntry;
 import com.thexfactor117.levels.common.config.ConfigEntryHolder;
 import com.thexfactor117.levels.common.config.ConfigManager;
-import com.thexfactor117.levels.common.config.MainConfig;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;

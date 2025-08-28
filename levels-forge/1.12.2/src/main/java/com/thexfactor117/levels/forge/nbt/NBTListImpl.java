@@ -22,6 +22,7 @@ public class NBTListImpl implements INBTList {
         return nbt.getIntAt(key);
     }
 
+    /*
     @Override
     public double getDouble(Integer key) {
         return nbt.getDoubleAt(key);
@@ -30,7 +31,7 @@ public class NBTListImpl implements INBTList {
     @Override
     public INBT getCompound(Integer key) {
         return NBTHelper.toCommon(nbt.getCompoundTagAt(key));
-    }
+    }*/
 
     @Override
     public void remove(Integer key) {

@@ -8,9 +8,9 @@ interface BaseINBTGetter<T> {
      */
     int getInt(T key);
 
-    double getDouble(T key);
+    //double getDouble(T key);
 
     void remove(T key);
 
-    INBT getCompound(T key);
+    //INBT getCompound(T key);
 }

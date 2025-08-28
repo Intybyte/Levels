@@ -16,11 +16,8 @@ import lombok.Getter;
  */
 @Getter
 public enum BowAttribute implements AttributeBase, SimpleConfigAttribute {
-    ABSORB("Absorb", LegacyTextColor.GREEN, AttributeRarity.RARE, 0.25, 1.5, 3),
-    CRITICAL("Critical", LegacyTextColor.BLUE, AttributeRarity.RARE, 0.2, 1.5, 3),
     RECOVER("Recover", LegacyTextColor.DARK_AQUA, AttributeRarity.RARE, 0, 0, 1),
-    BARRAGE("Barrage", LegacyTextColor.DARK_RED, AttributeRarity.LEGENDARY, 3, 1.5, 3),
-    VOID("Void", LegacyTextColor.DARK_GRAY, AttributeRarity.LEGENDARY, 15, 0.8, 3);
+    BARRAGE("Barrage", LegacyTextColor.DARK_RED, AttributeRarity.LEGENDARY, 3, 1.5, 3);
 
     private final String baseKey;
 

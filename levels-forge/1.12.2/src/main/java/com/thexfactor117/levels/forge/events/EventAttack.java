@@ -2,6 +2,7 @@ package com.thexfactor117.levels.forge.events;
 
 import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
+import com.thexfactor117.levels.common.leveling.attributes.WeaponAttributes;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.common.leveling.ItemType;
@@ -262,18 +263,22 @@ public class EventAttack {
             stack.setItemDamage(stack.getItemDamage() - (int) AnyAttributes.DURABLE.getCalculatedValue(nbt));
         //endregion
 
+        //region Weapon attributes
+        if (WeaponAttributes.ABSORB.hasAttribute(nbt) && (int) (Math.random() * 5) == 0)
+            player.setHealth(player.getHealth() + (float) (event.getAmount() * WeaponAttributes.ABSORB.getCalculatedValue(nbt)));
+
+        // TODO: invert this for correct display but same functionality
+        // tiers: (6% chance, 8% chance, 1125%% chance); sets enemies health to something small, so damage kills enemy in one hit
+        if (WeaponAttributes.VOID.hasAttribute(nbt) && (int) (Math.random() * WeaponAttributes.VOID.getCalculatedValue(nbt)) == 0)
+            enemy.setHealth(0.001F);
+
+        if (WeaponAttributes.CRITICAL.hasAttribute(nbt) && (int) (Math.random() * 5) == 0) {
+            float bonus = (float) (event.getAmount() * WeaponAttributes.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)
+            event.setAmount(event.getAmount() + bonus);
+        }
+        //endregion
 
         if (stack.getItem() instanceof ItemSword) {
-            if (SwordAttribute.ABSORB.hasAttribute(nbt) && (int) (Math.random() * 5) == 0)
-                player.setHealth(player.getHealth() + (float) (event.getAmount() * SwordAttribute.ABSORB.getCalculatedValue(nbt))); // 14% chance; returns half the damage dealt back as health; tiers: (25%, 37.5%, 56.25%)
-            if (SwordAttribute.VOID.hasAttribute(nbt) && (int) (Math.random() * SwordAttribute.VOID.getCalculatedValue(nbt)) == 0)
-                enemy.setHealth(0.001F); // tiers: (6% chance, 8% chance, 1125%% chance); sets enemies health to something small, so damage kills enemy in one hit
-
-            if (SwordAttribute.CRITICAL.hasAttribute(nbt) && (int) (Math.random() * 5) == 0) {
-                float bonus = (float) (event.getAmount() * SwordAttribute.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)
-                event.setAmount(event.getAmount() + bonus);
-            }
-
             if (SwordAttribute.CHAINED.hasAttribute(nbt) && (int) (Math.random() * 10) == 0) {
                 double radius = SwordAttribute.CHAINED.getCalculatedValue(nbt);
                 World world = enemy.getEntityWorld();
@@ -294,20 +299,6 @@ public class EventAttack {
         if (stack.getItem() instanceof ItemArmor) {
             if (ArmorAttribute.MAGICAL.hasAttribute(nbt) && event.getSource().isMagicDamage())
                 event.setAmount((float) (event.getAmount() * ArmorAttribute.MAGICAL.getCalculatedValue(nbt))); // tiers: (20%, 30%, 45%)
-        }
-
-        // BOW
-        if (stack.getItem() instanceof ItemBow) {
-            if (BowAttribute.ABSORB.hasAttribute(nbt) && (int) (Math.random() * 5) == 0)
-                player.setHealth(player.getHealth() + (float) (event.getAmount() * BowAttribute.ABSORB.getCalculatedValue(nbt))); // 14% chance; returns half the damage dealt back as health; tiers: (25%, 37.5%, 56.25%)
-
-            if (BowAttribute.VOID.hasAttribute(nbt) && (int) (Math.random() * BowAttribute.VOID.getCalculatedValue(nbt)) == 0)
-                enemy.setHealth(0.001F); // tiers: (6% chance, 8% chance, 1125%% chance); sets enemies health to something small, so damage kills enemy in one hit
-
-            if (BowAttribute.CRITICAL.hasAttribute(nbt) && (int) (Math.random() * 5) == 0) {
-                float bonus = (float) (event.getAmount() * BowAttribute.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)
-                event.setAmount(event.getAmount() + bonus);
-            }
         }
     }
 

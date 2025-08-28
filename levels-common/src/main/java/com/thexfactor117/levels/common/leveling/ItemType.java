@@ -1,6 +1,7 @@
 package com.thexfactor117.levels.common.leveling;
 
 import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
+import com.thexfactor117.levels.common.leveling.attributes.WeaponAttributes;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
@@ -35,14 +36,18 @@ public enum ItemType {
                 SwordAttribute.class,
                 ArmorAttribute.class,
                 BowAttribute.class,
-                AnyAttributes.class
+                AnyAttributes.class,
+                WeaponAttributes.class
         );
-
 
         for (ItemType type : values()) {
             ATTRIBUTE_MAPPER.put(type, new ArrayList<>());
         }
 
+        processAttributes(list);
+    }
+
+    public static void processAttributes(List<AttributeBase> list) {
         for (AttributeBase attr : list) {
             for (ItemType type : attr.getAllowedTypes()) {
                 ATTRIBUTE_MAPPER.get(type).add(attr);

@@ -4,6 +4,7 @@ import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.SwordAttribute;
+import com.thexfactor117.levels.common.leveling.attributes.WeaponAttributes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -30,6 +31,7 @@ public class Configs {
                     .processClazz(BowAttribute.class)
                     .processClazz(SwordAttribute.class)
                     .processClazz(AnyAttributes.class)
+                    .processClazz(WeaponAttributes.class)
                     .initFile();
 
             instance.main

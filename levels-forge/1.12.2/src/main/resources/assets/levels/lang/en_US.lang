@@ -34,94 +34,36 @@ levels.attributes.any.soul_bound.tier=Item remains in inventory on death.
 levels.attributes.any.unbreakable=Your weapon will never break or degrade.
 levels.attributes.any.unbreakable.tier=Item will never degrade or break.
 
+levels.attributes.weapon.critical=Percentage chance at performing a critical strike.
+levels.attributes.weapon.critical.tier=%s%%
+
+levels.attributes.weapon.absorb=Absorb a portion of the damage dealt as health.
+levels.attributes.weapon.absorb.tier=%s%%
+
+levels.attributes.weapon.void=There is a slight chance at instantly killing the enemy.
+levels.attributes.weapon.void.tier=%s%% chance
+
+
 ###
 ## WEAPONS
 ###
 
-levels.attributes.weapons.info.0=Sets enemies on fire for a short time.
-levels.attributes.weapons.info.1=Stuns enemies for a short time.
-levels.attributes.weapons.info.2=Poisons enemies for a short time.
-levels.attributes.weapons.info.3=Your weapon becomes slightly more durable than usual.
-levels.attributes.weapons.info.4=Absorb a portion of the damage dealt as health.
-levels.attributes.weapons.info.5=Your weapon stays in your inventory on death.
-levels.attributes.weapons.info.6=Percentage chance at performing a critical strike.
-levels.attributes.weapons.info.7=Percentage chance for enemies within a certain radius to take half the damage as well.
-levels.attributes.weapons.info.8=Your weapon will never break or degrade.
-levels.attributes.weapons.info.9=There is a slight chance at instantly killing the enemy.
-
-levels.attributes.weapons.info.0.tier=%s seconds
-levels.attributes.weapons.info.1.tier=%s seconds
-levels.attributes.weapons.info.2.tier=%s seconds
-levels.attributes.weapons.info.3.tier=%s durability points
-levels.attributes.weapons.info.4.tier=%s%%
-levels.attributes.weapons.info.5.tier=Item remains in inventory on death.
-levels.attributes.weapons.info.6.tier=%s%%
-levels.attributes.weapons.info.7.tier=%s blocks
-levels.attributes.weapons.info.8.tier=Item will never degrade or break.
-levels.attributes.weapons.info.9.tier=%s%% chance
+levels.attributes.weapons.info.0=Percentage chance for enemies within a certain radius to take half the damage as well.
+levels.attributes.weapons.info.0.tier=%s blocks
 
 ###
 ## ARMOR
 ###
 
-levels.attributes.armors.info.0=Sets enemies on fire for a short time.
-levels.attributes.armors.info.1=Stuns enemies for a short time.
-levels.attributes.armors.info.2=Poisons enemies for a short time.
-levels.attributes.armors.info.3=Your armor becomes slightly more durable than usual.
-levels.attributes.armors.info.4=Increases your resistance to magical attacks (potions, etc...).
-levels.attributes.armors.info.5=Your armor stays in your inventory on death.
-levels.attributes.armors.info.6=Your armor will never break or degrade.
-
-levels.attributes.armors.info.0.tier=%s seconds
-levels.attributes.armors.info.1.tier=%s seconds
-levels.attributes.armors.info.2.tier=%s seconds
-levels.attributes.armors.info.3.tier=%s points
-levels.attributes.armors.info.4.tier=%s%%
-levels.attributes.armors.info.5.tier=Item remains in inventory on death.
-levels.attributes.armors.info.6.tier=Item will never degrade or break.
+levels.attributes.armors.info.0=Increases your resistance to magical attacks (potions, etc...).
+levels.attributes.armors.info.0.tier=%s%%
 
 ###
 ## BOW
 ###
 
-levels.attributes.bows.info.0=Sets enemies on fire for a short time.
-levels.attributes.bows.info.1=Stuns enemies for a short time.
-levels.attributes.bows.info.2=Poisons enemies for a short time.
-levels.attributes.bows.info.3=Your bow becomes slightly more durable than usual.
-levels.attributes.bows.info.4=Absorb a portion of the damage dealt in health.
-levels.attributes.bows.info.5=Your bow stays in your inventory on death.
-levels.attributes.bows.info.6=Percentage chance at performing a critical strike.
-levels.attributes.bows.info.7=Percentage chance for enemies to drop arrows.
-levels.attributes.bows.info.8=Your bow fires multiple arrows at the enemy. Only consumes one arrow.
-levels.attributes.bows.info.9=Your bow will never break or degrade.
-levels.attributes.bows.info.10=There is a slight chance at instantly killing the enemy.
+levels.attributes.bows.info.0=Percentage chance for enemies to drop arrows.
+levels.attributes.bows.info.1=Your bow fires multiple arrows at the enemy. Only consumes one arrow.
 
-levels.attributes.bows.info.0.tier=%s seconds
-levels.attributes.bows.info.1.tier=%s seconds
-levels.attributes.bows.info.2.tier=%s seconds
-levels.attributes.bows.info.3.tier=%s points
-levels.attributes.bows.info.4.tier=%s%%
-levels.attributes.bows.info.5.tier=Item remains in inventory on death.
-levels.attributes.bows.info.6.tier=%s%%
-levels.attributes.bows.info.7.tier=0-%s arrows
-levels.attributes.bows.info.8.tier=%s arrows
-levels.attributes.bows.info.9.tier=Item will never degrade or break.
-levels.attributes.bows.info.10.tier=%s%% chance
-
-###
-## SHIELD
-###
-
-levels.attributes.shields.info.0=Sets enemies on fire for a short time.
-levels.attributes.shields.info.1=Stuns enemies for a short time.
-levels.attributes.shields.info.2=Poisons enemies for a short time.
-levels.attributes.shields.info.3=Your armor becomes slightly more durable than usual.
-levels.attributes.shields.info.4=Your armor stays in your inventory on death.
-levels.attributes.shields.info.5=Your armor will never break or degrade.
-
-levels.attributes.shields.info.0.tier=%s seconds
-levels.attributes.shields.info.1.tier=%s seconds
-levels.attributes.shields.info.2.tier=%s seconds
-levels.attributes.shields.info.3.tier=%s points
-levels.attributes.shields.info.4.tier=Item remains in inventory on death.
-levels.attributes.shields.info.5.tier=Item will never degrade or break.
+levels.attributes.bows.info.0.tier=0-%s arrows
+levels.attributes.bows.info.1.tier=%s arrows

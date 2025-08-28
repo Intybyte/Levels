@@ -231,7 +231,9 @@ public class EventAttack {
 
         if (!isUnlimitedDurability && !death) {
             int repairDurability = rarity.generateRarityRepair();
-            stack.setItemDamage(stack.getItemDamage() - repairDurability);
+            stack.setItemDamage(
+                    Math.max(stack.getItemDamage() - repairDurability, 0)
+            );
         }
     }
 
@@ -267,10 +269,12 @@ public class EventAttack {
         if (WeaponAttributes.ABSORB.hasAttribute(nbt) && (int) (Math.random() * 5) == 0)
             player.setHealth(player.getHealth() + (float) (event.getAmount() * WeaponAttributes.ABSORB.getCalculatedValue(nbt)));
 
-        // TODO: invert this for correct display but same functionality
         // tiers: (6% chance, 8% chance, 1125%% chance); sets enemies health to something small, so damage kills enemy in one hit
-        if (WeaponAttributes.VOID.hasAttribute(nbt) && (int) (Math.random() * WeaponAttributes.VOID.getCalculatedValue(nbt)) == 0)
-            enemy.setHealth(0.001F);
+        if (WeaponAttributes.VOID.hasAttribute(nbt)) {
+            double chance = WeaponAttributes.VOID.getCalculatedValue(nbt);
+            if (Math.random() <= chance)
+                enemy.setHealth(0.001F);
+        }
 
         if (WeaponAttributes.CRITICAL.hasAttribute(nbt) && (int) (Math.random() * 5) == 0) {
             float bonus = (float) (event.getAmount() * WeaponAttributes.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)

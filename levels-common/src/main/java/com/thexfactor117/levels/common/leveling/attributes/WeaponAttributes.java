@@ -52,8 +52,8 @@ public class WeaponAttributes {
                                 .textColor(LegacyTextColor.DARK_GRAY)
                                 .build()
                 )
-                .defaultBaseValue(15)
-                .defaultMultiplier(0.8)
+                .defaultBaseValue(0.06666666666666666666666)
+                .defaultMultiplier(1.25)
                 .build();
     }
 

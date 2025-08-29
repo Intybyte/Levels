@@ -1,8 +1,13 @@
 package com.thexfactor117.levels.common.leveling.exp;
 
+import com.thexfactor117.levels.common.color.LegacyTextColor;
 import com.thexfactor117.levels.common.config.ConfigManager;
 import com.thexfactor117.levels.common.config.Configs;
+import com.thexfactor117.levels.common.leveling.attributes.display.Formatter;
 import com.thexfactor117.levels.common.nbt.INBTHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is just an editor, don't forget to save the INBT changes
@@ -96,5 +101,20 @@ public interface ExperienceEditor extends INBTHolder {
     static int getNextLevelExperience(int currentLevel) {
         ConfigManager cfg = Configs.getInstance().main;
         return (int) (Math.pow(currentLevel, cfg.getDouble("expExponent")) * cfg.getDouble("expMultiplier"));
+    }
+
+    default List<String> displayExp(Formatter formatter) {
+        List<String> display = new ArrayList<>();
+        int level = this.getLevel();
+        // level & experience
+        if (this.isMaxLevel()) {
+            display.add(LegacyTextColor.GRAY + formatter.format("levels.misc.level") + ": " + formatter.format("levels.misc.max")); // max level
+            display.add(LegacyTextColor.GRAY + formatter.format("levels.misc.experience") + ": " + formatter.format("levels.misc.max"));
+        } else {
+            display.add(LegacyTextColor.GRAY + formatter.format("levels.misc.level") + ": " + level); // level
+            display.add(LegacyTextColor.GRAY + formatter.format("levels.misc.experience") + ": " + this.getExperience() + " / " + ExperienceEditor.getNextLevelExperience(level));
+        }
+
+        return display;
     }
 }

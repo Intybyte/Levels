@@ -6,6 +6,7 @@ import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.SwordAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.WeaponAttributes;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
+import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.common.utils.FieldProcessor;
 import lombok.Getter;
 
@@ -73,5 +74,18 @@ public enum ItemType {
 
     public List<AttributeBase> attributesRaw() {
         return ATTRIBUTE_MAPPER.get(this);
+    }
+
+    public List<String> displayAttributes(INBT nbt) {
+        List<String> attributeDisplay = new ArrayList<>();
+        List<AttributeBase> attributes = this.enabledAttributes();
+
+        for (AttributeBase attribute : attributes) {
+            if (attribute.hasAttribute(nbt))
+                attributeDisplay.add(" " + attribute.getColor() + attribute.getName(nbt));
+        }
+
+        attributeDisplay.add("");
+        return attributeDisplay;
     }
 }

@@ -83,18 +83,10 @@ public class EventTooltip {
         }
 
         // rarity
-        tooltip.add(rarity.getColor() + TextFormatting.ITALIC + I18nUtil.getRarity(rarity)); // rarity
+        tooltip.add(rarity.getDisplay(I18n::format)); // rarity
 
         Experience exp = new Experience(stack);
-        int level = exp.getLevel();
-        // level & experience
-        if (exp.isMaxLevel()) {
-            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + I18n.format("levels.misc.max")); // max level
-            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + I18n.format("levels.misc.max"));
-        } else {
-            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.level") + ": " + level); // level
-            tooltip.add(TextFormatting.GRAY + I18n.format("levels.misc.experience") + ": " + exp.getExperience() + " / " + ExperienceEditor.getNextLevelExperience(level));
-        }
+        tooltip.addAll(exp.displayExp(I18n::format));
 
         // durability
         if (baseNbt.getInteger("Unbreakable") == 1)
@@ -121,13 +113,6 @@ public class EventTooltip {
             return;
         }
 
-        List<? extends AttributeBase> attributes = type.enabledAttributes();
-
-        for (AttributeBase attribute : attributes) {
-            if (attribute.hasAttribute(nbt))
-                tooltip.add(" " + attribute.getColor() + attribute.getName(nbt));
-        }
-
-        tooltip.add("");
+        tooltip.addAll(type.displayAttributes(nbt));
     }
 }

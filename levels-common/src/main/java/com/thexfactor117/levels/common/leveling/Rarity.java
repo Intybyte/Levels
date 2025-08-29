@@ -2,6 +2,7 @@ package com.thexfactor117.levels.common.leveling;
 
 import com.thexfactor117.levels.common.collections.RandomCollection;
 import com.thexfactor117.levels.common.color.LegacyTextColor;
+import com.thexfactor117.levels.common.leveling.attributes.display.Formatter;
 import com.thexfactor117.levels.common.nbt.INBT;
 import lombok.Getter;
 
@@ -45,6 +46,10 @@ public enum Rarity {
         this.defaultChance = chance;
         this.backgroundColor = backgroundColor;
         this.borderColor = borderColor;
+    }
+
+    public String getDisplay(Formatter formatter) {
+        return color + LegacyTextColor.Style.ITALIC + formatter.format("levels.rarities." + ordinal());
     }
 
     /**

@@ -5,6 +5,7 @@ include("levels-forge-1.12.2")
 project(":levels-forge-1.12.2").projectDir = file("./levels-forge/1.12.2")
 
 include("levels-common")
+include("levels-bukkit")
 
 pluginManagement {
     repositories {

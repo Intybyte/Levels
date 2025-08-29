@@ -16,6 +16,15 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+    // Generate sources and javadocs jars when building and publishing
+    withSourcesJar()
+    withJavadocJar()
+}
+
 tasks.test {
     useJUnitPlatform()
 }

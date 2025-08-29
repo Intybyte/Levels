@@ -108,9 +108,6 @@ public interface AttributeBase extends RomanNumeralDisplay {
             }
 
             String tierTranslationKey = String.format("%s.tier", translate);
-            if (formatter.format(tierTranslationKey).contains("%s%%")) {
-                value *= 100;
-            }
 
             String displayDouble = Math.abs(value % 1) > 0.01
                     ? String.format("%.1f", value)

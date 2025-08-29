@@ -64,7 +64,7 @@ public interface AttributeBase extends RomanNumeralDisplay {
     }
 
     default String getAttributeKey() {
-        return "levels:" + getBaseName().toLowerCase() + "_tier";
+        return "levels:" + getBaseName().toLowerCase().replace(' ', '_') + "_tier";
     }
 
     AttributeRarity getRarity();

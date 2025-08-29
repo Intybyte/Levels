@@ -1,16 +1,14 @@
 package com.thexfactor117.levels.common.config;
 
+import com.thexfactor117.levels.common.utils.PropertiesUtil;
 import com.thexfactor117.levels.common.utils.FieldProcessor;
 import lombok.Getter;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 @Getter
 public class ConfigManager implements ConfigMap {
@@ -55,7 +53,7 @@ public class ConfigManager implements ConfigMap {
         }
 
         boolean modified = false;
-        Map<String, String> available = loadFile();
+        Map<String, String> available = PropertiesUtil.loadFile(file);
         for (Map.Entry<String, String> single : map.entrySet()) {
             if (!available.containsKey(single.getKey())) { // filter out already existing ones
                 available.put(single.getKey(), single.getValue());
@@ -63,45 +61,15 @@ public class ConfigManager implements ConfigMap {
             }
         }
 
-        if (modified) saveFile(available);
+        if (modified) PropertiesUtil.saveFile(available, file);
         map = available;
     }
 
     public void save() {
-        saveFile(map);
+        PropertiesUtil.saveFile(map, file);
     }
 
     public void reload() {
-        map = loadFile();
-    }
-
-    private void saveFile(Map<String, String> toSave) {
-        Properties properties = new Properties();
-        properties.putAll(toSave);
-        try (FileWriter writer = new FileWriter(file)) {
-            properties.store(writer, "Saved Config");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private Map<String, String> loadFile() {
-        if (!file.exists()) {
-            return new HashMap<>();
-        }
-
-        Properties properties = new Properties();
-        try (FileReader reader = new FileReader(file)) {
-            properties.load(reader);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Map<String, String> map = new HashMap<>();
-        for (String name : properties.stringPropertyNames()) {
-            map.put(name, properties.getProperty(name));
-        }
-
-        return map;
+        map = PropertiesUtil.loadFile(file);
     }
 }

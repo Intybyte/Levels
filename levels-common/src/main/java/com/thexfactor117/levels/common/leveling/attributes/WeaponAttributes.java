@@ -19,7 +19,8 @@ public class WeaponAttributes {
 
         LevelAttribute.LevelAttributeBuilder builder = LevelAttribute.builder()
                 .defaultMaxLevel(3)
-                .defaultMultiplier(1.5);
+                .defaultMultiplier(1.5)
+                .defaultChance(20.0);
 
         CRITICAL = builder.wrappedAttribute(
                         simpleBuilder
@@ -52,8 +53,9 @@ public class WeaponAttributes {
                                 .textColor(LegacyTextColor.DARK_GRAY)
                                 .build()
                 )
-                .defaultBaseValue(0.06666666666666666666666)
+                .defaultBaseValue(6.666666666666666666666)
                 .defaultMultiplier(1.25)
+                .defaultChance(-1)
                 .build();
     }
 

@@ -223,23 +223,22 @@ public class EventAttack implements Listener {
     private void useAttributes(EntityDamageByEntityEvent event, ItemStack stack, ItemMeta meta, Player player, LivingEntity enemy) {
         // WEAPONS
 
-        //TODO: fix percentages display
         INBT nbt = NBTHelper.toCommon(meta.getPersistentDataContainer());
 
         //region Any attributes
-        if (AnyAttributes.FIRE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+        if (AnyAttributes.FIRE.hasAttribute(nbt) && AnyAttributes.FIRE.rollChance())
             enemy.setFireTicks((int) AnyAttributes.FIRE.getCalculatedValue(nbt) * 20);
 
-        if (AnyAttributes.FROST.hasAttribute(nbt) && (int) (Math.random() * 4) == 0) {
+        if (AnyAttributes.FROST.hasAttribute(nbt) && AnyAttributes.FROST.rollChance()) {
             int calculated = (int) AnyAttributes.FROST.getCalculatedValue(nbt);
             enemy.addPotionEffect(new PotionEffect(XPotion.SLOWNESS.getPotionEffectType(), calculated, 10));
             enemy.setFreezeTicks(calculated * 4);
         }
 
-        if (AnyAttributes.POISON.hasAttribute(nbt) && (int) (Math.random() * 4) == 0)
+        if (AnyAttributes.POISON.hasAttribute(nbt) && AnyAttributes.POISON.rollChance())
             enemy.addPotionEffect(new PotionEffect(XPotion.POISON.getPotionEffectType(), (int) AnyAttributes.POISON.getCalculatedValue(nbt), AnyAttributes.POISON.getAttributeTier(nbt)));
 
-        if (AnyAttributes.DURABLE.hasAttribute(nbt) && (int) (Math.random() * 4) == 0) {
+        if (AnyAttributes.DURABLE.hasAttribute(nbt) && AnyAttributes.DURABLE.rollChance()) {
             int repair = (int) AnyAttributes.DURABLE.getCalculatedValue(nbt);
             StackUtil.safeRepair(meta, repair);
         }
@@ -247,17 +246,17 @@ public class EventAttack implements Listener {
 
         double dmgAmount = event.getDamage();
         //region Weapon attributes
-        if (WeaponAttributes.ABSORB.hasAttribute(nbt) && (int) (Math.random() * 5) == 0)
+        if (WeaponAttributes.ABSORB.hasAttribute(nbt) && WeaponAttributes.ABSORB.rollChance())
             player.setHealth(player.getHealth() + (float) (dmgAmount * WeaponAttributes.ABSORB.getCalculatedValue(nbt)));
 
         // tiers: (6% chance, 8% chance, 1125%% chance); sets enemies health to something small, so damage kills enemy in one hit
         if (WeaponAttributes.VOID.hasAttribute(nbt)) {
             double chance = WeaponAttributes.VOID.getCalculatedValue(nbt);
-            if (Math.random() <= chance)
+            if (Math.random() * 100.0 <= chance)
                 enemy.setHealth(0.001F);
         }
 
-        if (WeaponAttributes.CRITICAL.hasAttribute(nbt) && (int) (Math.random() * 5) == 0) {
+        if (WeaponAttributes.CRITICAL.hasAttribute(nbt) && WeaponAttributes.CRITICAL.rollChance()) {
             float bonus = (float) (dmgAmount * WeaponAttributes.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)
             event.setDamage(dmgAmount + bonus);
         }
@@ -265,7 +264,7 @@ public class EventAttack implements Listener {
 
         Material type = stack.getType();
         if (ItemUtil.isSword(type)) {
-            if (SwordAttribute.CHAINED.hasAttribute(nbt) && (int) (Math.random() * 10) == 0) {
+            if (SwordAttribute.CHAINED.hasAttribute(nbt) && SwordAttribute.CHAINED.rollChance()) {
                 double radius = SwordAttribute.CHAINED.getCalculatedValue(nbt);
                 World world = enemy.getWorld();
                 Collection<Entity> entityCollection = world.getNearbyEntities(player.getLocation(), radius, radius, radius, LivingEntity.class::isInstance);

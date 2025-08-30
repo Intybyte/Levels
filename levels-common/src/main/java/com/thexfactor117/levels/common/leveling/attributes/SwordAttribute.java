@@ -1,12 +1,16 @@
 package com.thexfactor117.levels.common.leveling.attributes;
 
 import com.thexfactor117.levels.common.color.LegacyTextColor;
+import com.thexfactor117.levels.common.config.ConfigEntry;
 import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
+import com.thexfactor117.levels.common.leveling.attributes.components.config.ChanceConfigAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.nbt.INBT;
 import lombok.Getter;
+
+import java.util.Map;
 
 /**
  *
@@ -14,8 +18,8 @@ import lombok.Getter;
  *
  */
 @Getter
-public enum SwordAttribute implements AttributeBase, SimpleConfigAttribute {
-    CHAINED("Chained", LegacyTextColor.WHITE, AttributeRarity.LEGENDARY,10, 1, 1);
+public enum SwordAttribute implements AttributeBase, SimpleConfigAttribute, ChanceConfigAttribute {
+    CHAINED("Chained", LegacyTextColor.WHITE, AttributeRarity.LEGENDARY,10, 1, 1, 10.0);
 
     private final String baseKey;
 
@@ -28,7 +32,9 @@ public enum SwordAttribute implements AttributeBase, SimpleConfigAttribute {
     private final double defaultMultiplier;
     private final int defaultMaxLevel;
 
-    SwordAttribute(String baseName, LegacyTextColor color, AttributeRarity rarity, double defaultBaseValue, double defaultMultiplier, int defaultMaxLevel) {
+    private final double defaultChance;
+
+    SwordAttribute(String baseName, LegacyTextColor color, AttributeRarity rarity, double defaultBaseValue, double defaultMultiplier, int defaultMaxLevel, double defaultChance) {
         this.baseName = baseName;
         this.color = color.toString();
         this.hexColor = color.getHex();
@@ -36,8 +42,20 @@ public enum SwordAttribute implements AttributeBase, SimpleConfigAttribute {
         this.defaultBaseValue = defaultBaseValue;
         this.defaultMultiplier = defaultMultiplier;
         this.defaultMaxLevel = defaultMaxLevel;
+        this.defaultChance = defaultChance;
 
         this.baseKey = SimpleConfigAttribute.keyOf(this);
+    }
+
+    @Override
+    public ConfigEntry getEntry() {
+        ConfigEntry entry = SimpleConfigAttribute.super.getEntry();
+        ConfigEntry entryChance = ChanceConfigAttribute.super.getEntry();
+
+        Map<String, String> map = entryChance.getMap();
+        map.putAll(entry.getMap());
+
+        return new ConfigEntry(map);
     }
 
     @Override

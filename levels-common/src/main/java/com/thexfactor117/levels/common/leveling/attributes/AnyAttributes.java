@@ -27,7 +27,8 @@ public class AnyAttributes {
                 .allowedTypes(ItemType.values());
 
         LevelAttribute.LevelAttributeBuilder builder = LevelAttribute.builder()
-                .defaultMaxLevel(3);
+                .defaultMaxLevel(3)
+                .defaultChance(25.0);
 
         FIRE = builder.wrappedAttribute(
                 simpleBuilder

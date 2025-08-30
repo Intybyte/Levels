@@ -30,7 +30,7 @@ public class WeaponAttributes {
                                 .textColor(LegacyTextColor.BLUE)
                                 .build()
                 )
-                .defaultBaseValue(0.2)
+                .defaultBaseValue(20.0)
                 .build();
 
         ABSORB = builder.wrappedAttribute(
@@ -41,7 +41,7 @@ public class WeaponAttributes {
                                 .textColor(LegacyTextColor.GREEN)
                                 .build()
                 )
-                .defaultBaseValue(0.25)
+                .defaultBaseValue(25.0)
                 .build();
 
         simpleBuilder = simpleBuilder.rarity(AttributeRarity.LEGENDARY);

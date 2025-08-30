@@ -174,14 +174,14 @@ public class EventAttack {
      * @param enemy
      */
     private void addExperience(NBTTagCompound nbt, ItemStack stack, EntityLivingBase enemy) {
-        if (new Experience(stack).isMaxLevel()) {
+        Experience exp = new Experience(stack);
+        if (exp.isMaxLevel()) {
             return;
         }
 
         // DEV
         boolean isDev = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
 
-        Experience exp = new Experience(stack);
         if (isDev) {
             exp.addExperience(200);
         }
@@ -266,8 +266,11 @@ public class EventAttack {
         //endregion
 
         //region Weapon attributes
-        if (WeaponAttributes.ABSORB.hasAttribute(nbt) && WeaponAttributes.ABSORB.rollChance())
-            player.setHealth(player.getHealth() + (float) (event.getAmount() * WeaponAttributes.ABSORB.getCalculatedValue(nbt)));
+        float dmgAmount = event.getAmount();
+        if (WeaponAttributes.ABSORB.hasAttribute(nbt) && WeaponAttributes.ABSORB.rollChance()) {
+            float regenAmount = (float) (dmgAmount * WeaponAttributes.ABSORB.getCalculatedValue(nbt) / 100.0);
+            player.setHealth(player.getHealth() + regenAmount);
+        }
 
         // tiers: (6% chance, 8% chance, 1125%% chance); sets enemies health to something small, so damage kills enemy in one hit
         if (WeaponAttributes.VOID.hasAttribute(nbt)) {
@@ -277,8 +280,8 @@ public class EventAttack {
         }
 
         if (WeaponAttributes.CRITICAL.hasAttribute(nbt) && WeaponAttributes.CRITICAL.rollChance()) {
-            float bonus = (float) (event.getAmount() * WeaponAttributes.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)
-            event.setAmount(event.getAmount() + bonus);
+            float bonus = (float) (dmgAmount * WeaponAttributes.CRITICAL.getCalculatedValue(nbt) / 100.0); // 20% chance; tiers: (20%, 30%, 45%)
+            event.setAmount(dmgAmount + bonus);
         }
         //endregion
 
@@ -293,7 +296,7 @@ public class EventAttack {
                     Entity entity = iterator.next();
 
                     if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && !(entity instanceof EntityAnimal)) {
-                        entity.attackEntityFrom(DamageSource.causePlayerDamage(player), event.getAmount() / 2);
+                        entity.attackEntityFrom(DamageSource.causePlayerDamage(player), dmgAmount / 2);
                     }
                 }
             }
@@ -302,7 +305,7 @@ public class EventAttack {
         // ARMOR
         if (stack.getItem() instanceof ItemArmor) {
             if (ArmorAttribute.MAGICAL.hasAttribute(nbt) && event.getSource().isMagicDamage())
-                event.setAmount((float) (event.getAmount() * ArmorAttribute.MAGICAL.getCalculatedValue(nbt))); // tiers: (20%, 30%, 45%)
+                event.setAmount((float) (dmgAmount * ArmorAttribute.MAGICAL.getCalculatedValue(nbt) / 100.0)); // tiers: (20%, 30%, 45%)
         }
     }
 

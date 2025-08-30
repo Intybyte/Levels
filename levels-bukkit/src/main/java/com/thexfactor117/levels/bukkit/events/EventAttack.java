@@ -246,8 +246,10 @@ public class EventAttack implements Listener {
 
         double dmgAmount = event.getDamage();
         //region Weapon attributes
-        if (WeaponAttributes.ABSORB.hasAttribute(nbt) && WeaponAttributes.ABSORB.rollChance())
-            player.setHealth(player.getHealth() + (float) (dmgAmount * WeaponAttributes.ABSORB.getCalculatedValue(nbt)));
+        if (WeaponAttributes.ABSORB.hasAttribute(nbt) && WeaponAttributes.ABSORB.rollChance()) {
+            float regenAmount = (float) (dmgAmount * WeaponAttributes.ABSORB.getCalculatedValue(nbt) / 100.0);
+            player.setHealth(player.getHealth() + regenAmount);
+        }
 
         // tiers: (6% chance, 8% chance, 1125%% chance); sets enemies health to something small, so damage kills enemy in one hit
         if (WeaponAttributes.VOID.hasAttribute(nbt)) {
@@ -257,7 +259,7 @@ public class EventAttack implements Listener {
         }
 
         if (WeaponAttributes.CRITICAL.hasAttribute(nbt) && WeaponAttributes.CRITICAL.rollChance()) {
-            float bonus = (float) (dmgAmount * WeaponAttributes.CRITICAL.getCalculatedValue(nbt)); // 20% chance; tiers: (20%, 30%, 45%)
+            float bonus = (float) (dmgAmount * WeaponAttributes.CRITICAL.getCalculatedValue(nbt) / 100.0); // 20% chance; tiers: (20%, 30%, 45%)
             event.setDamage(dmgAmount + bonus);
         }
         //endregion
@@ -283,7 +285,7 @@ public class EventAttack implements Listener {
         if (ItemUtil.isArmor(type)) {
             double magicDmg = event.getDamage(EntityDamageEvent.DamageModifier.MAGIC);
             if (ArmorAttribute.MAGICAL.hasAttribute(nbt) && ((int) Math.floor(magicDmg)) == 0)
-                event.setDamage(EntityDamageEvent.DamageModifier.MAGIC, (float) (magicDmg * ArmorAttribute.MAGICAL.getCalculatedValue(nbt))); // tiers: (20%, 30%, 45%)
+                event.setDamage(EntityDamageEvent.DamageModifier.MAGIC, (float) (magicDmg * ArmorAttribute.MAGICAL.getCalculatedValue(nbt) / 100.0)); // tiers: (20%, 30%, 45%)
         }
     }
 

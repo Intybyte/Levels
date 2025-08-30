@@ -15,7 +15,7 @@ import lombok.Getter;
  */
 @Getter
 public enum ArmorAttribute implements AttributeBase, SimpleConfigAttribute {
-    MAGICAL("Magical", LegacyTextColor.BLUE, AttributeRarity.RARE, 0.2, 1.5, 3);
+    MAGICAL("Magical", LegacyTextColor.BLUE, AttributeRarity.RARE, 20.0, 1.5, 3);
 
     private final String baseKey;
 

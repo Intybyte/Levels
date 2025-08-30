@@ -2,6 +2,7 @@ package com.thexfactor117.levels.bukkit.events;
 
 import com.thexfactor117.levels.bukkit.util.ItemUtil;
 import com.thexfactor117.levels.bukkit.util.WeaponHelper;
+import com.thexfactor117.levels.common.config.ConfigManager;
 import com.thexfactor117.levels.common.config.Configs;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -20,9 +21,13 @@ public class EventCreateWeapon implements Runnable {
 
     @Override
     public void run() {
-        Set<NamespacedKey> blackList = Configs.getInstance().main.getStringSet("itemBlackList")
+        ConfigManager main = Configs.getInstance().main;
+
+        Set<NamespacedKey> blackList = main.getStringSet("itemBlackList")
                 .stream().map(NamespacedKey::fromString)
                 .collect(Collectors.toSet());
+
+        boolean patchCustom = main.getBoolean("patchCustomItems");
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             for (ItemStack stack : player.getInventory()) {
@@ -46,7 +51,7 @@ public class EventCreateWeapon implements Runnable {
                                 type, Bukkit.getItemFactory()::getItemMeta
                         )
                     );
-                } else if (!stack.getItemMeta().getPersistentDataContainer().isEmpty()) {
+                } else if (!patchCustom && !stack.getItemMeta().getPersistentDataContainer().isEmpty()) {
                     continue; // don't modify other plugin stuff, might create problems otherwise
                 }
 

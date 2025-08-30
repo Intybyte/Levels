@@ -1,5 +1,6 @@
 package com.thexfactor117.levels.bukkit;
 
+import com.thexfactor117.levels.bukkit.config.BukkitConfig;
 import com.thexfactor117.levels.bukkit.events.EventAttack;
 import com.thexfactor117.levels.bukkit.events.EventCreateWeapon;
 import com.thexfactor117.levels.bukkit.events.attributes.EventBarrage;
@@ -29,6 +30,7 @@ public final class LevelsPlugin extends JavaPlugin {
         //add localization stuff
         Configs.getInstance().main
                 .process(Localization.getLocalization())
+                .process(new BukkitConfig())
                 .initFile();
 
         PluginManager pm = this.getServer().getPluginManager();

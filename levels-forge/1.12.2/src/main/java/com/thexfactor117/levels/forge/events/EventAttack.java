@@ -49,72 +49,70 @@ public class EventAttack {
     @SubscribeEvent
     public void onAttack(LivingHurtEvent event) {
         Entity source = event.getSource().getImmediateSource();
+        EntityLivingBase victim = event.getEntityLiving();
+
+        if (source == null) {
+            return;
+        }
+
         if (source instanceof EntityPlayer && !(source instanceof FakePlayer)) {
             EntityPlayer player = (EntityPlayer) source;
-            EntityLivingBase enemy = event.getEntityLiving();
+            EntityLivingBase enemy = victim;
             ItemStack stack = player.inventory.getCurrentItem();
             NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
-            if (stack != null && nbt != null && stack.getItem() instanceof ItemSword) {
+            if (nbt != null && stack.getItem() instanceof ItemSword) {
                 processHit(event, nbt, stack, enemy, player);
             }
-        } else if (source instanceof EntityLivingBase && event.getEntityLiving() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+        } else if (source instanceof EntityLivingBase && victim instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) victim;
             EntityLivingBase enemy = (EntityLivingBase) source;
 
-            if (enemy != null && player != null) {
-                for (ItemStack stack : player.inventory.armorInventory) {
-                    NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
-
-                    if (stack != null && nbt != null && stack.getItem() instanceof ItemArmor) {
-                        processHit(event, nbt, stack, enemy, player);
-                    }
-                }
-
-                if (player.inventory.offHandInventory.get(0).getItem() instanceof ItemShield) {
-                    ItemStack stack = player.inventory.offHandInventory.get(0);
-                    NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
-
-                    if (stack != null && nbt != null && player.getActiveHand() == EnumHand.OFF_HAND) {
-                        processHit(event, nbt, stack, enemy, player);
-                    }
-                }
-            }
+            processArmorHit(event, player, enemy);
         }
         else if (source instanceof EntityArrow) {
             EntityArrow arrow = (EntityArrow) source;
 
-            if (arrow.shootingEntity instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) arrow.shootingEntity;
-                EntityLivingBase enemy = event.getEntityLiving();
+            Entity shooter = arrow.shootingEntity;
+            if (shooter == null) {
+                return;
+            }
+
+            if (shooter instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) shooter;
+                EntityLivingBase enemy = victim;
                 ItemStack stack = player.inventory.getCurrentItem();
                 NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
-                if (player != null && enemy != null && stack != null && nbt != null && stack.getItem() instanceof ItemBow) {
+                if (enemy != null && nbt != null && stack.getItem() instanceof ItemBow) {
                     processHit(event, nbt, stack, enemy, player);
                 }
-            } else if (arrow.shootingEntity instanceof EntityLivingBase) {
-                EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-                EntityLivingBase enemy = (EntityLivingBase) arrow.shootingEntity;
+            } else if (shooter instanceof EntityLivingBase) {
+                EntityPlayer player = (EntityPlayer) victim;
+                EntityLivingBase enemy = (EntityLivingBase) shooter;
 
-                if (player != null && enemy != null) {
-                    for (ItemStack stack : player.inventory.armorInventory) {
-                        NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
-
-                        if (stack != null && nbt != null && stack.getItem() instanceof ItemArmor) {
-                            processHit(event, nbt, stack, enemy, player);
-                        }
-                    }
-
-                    if (player.inventory.offHandInventory.get(0).getItem() instanceof ItemShield) {
-                        ItemStack stack = player.inventory.offHandInventory.get(0);
-                        NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
-
-                        if (stack != null && nbt != null && player.getActiveHand() == EnumHand.OFF_HAND) {
-                            processHit(event, nbt, stack, enemy, player);
-                        }
-                    }
+                if (player != null) {
+                    processArmorHit(event, player, enemy);
                 }
+            }
+        }
+    }
+
+    private void processArmorHit(LivingHurtEvent event, EntityPlayer player, EntityLivingBase enemy) {
+        for (ItemStack stack : player.inventory.armorInventory) {
+            NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
+
+            if (nbt != null && stack.getItem() instanceof ItemArmor) {
+                processHit(event, nbt, stack, enemy, player);
+            }
+        }
+
+        ItemStack shield = player.inventory.offHandInventory.get(0);
+        if (shield.getItem() instanceof ItemShield) {
+            NBTTagCompound nbt = NBTHelper.loadStackNBT(shield);
+
+            if (nbt != null && player.getActiveHand() == EnumHand.OFF_HAND) {
+                processHit(event, nbt, shield, enemy, player);
             }
         }
     }
@@ -133,30 +131,35 @@ public class EventAttack {
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event) {
         Entity source = event.getSource().getTrueSource();
+        if (source == null) {
+            return;
+        }
+
         if (source instanceof EntityPlayer && !(source instanceof FakePlayer)) {
             EntityPlayer player = (EntityPlayer) source;
             EntityLivingBase enemy = event.getEntityLiving();
             ItemStack stack = player.inventory.getCurrentItem();
             NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
-            if (player != null && enemy != null && stack != null && nbt != null && stack.getItem() instanceof ItemSword) {
-                addExperience(nbt, stack, enemy);
-                useRarity(nbt, stack, true);
-                attemptLevel(nbt, stack, player);
+            if (enemy != null && nbt != null && stack.getItem() instanceof ItemSword) {
+                processDeath(nbt, stack, enemy, player);
             }
         } else if (source instanceof EntityArrow) {
             EntityArrow arrow = (EntityArrow) source;
 
-            if (arrow.shootingEntity instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) arrow.shootingEntity;
+            Entity shooter = arrow.shootingEntity;
+            if (shooter == null) {
+                return;
+            }
+
+            if (shooter instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) shooter;
                 EntityLivingBase enemy = event.getEntityLiving();
                 ItemStack stack = player.inventory.getCurrentItem();
                 NBTTagCompound nbt = NBTHelper.loadStackNBT(stack);
 
-                if (player != null && enemy != null && stack != null && nbt != null && stack.getItem() instanceof ItemBow) {
-                    addExperience(nbt, stack, enemy);
-                    useRarity(nbt, stack, true);
-                    attemptLevel(nbt, stack, player);
+                if (enemy != null && nbt != null && stack.getItem() instanceof ItemBow) {
+                    processDeath(nbt, stack, enemy, player);
 
                     INBT inbt = NBTHelper.toCommon(nbt);
                     if (BowAttribute.RECOVER.hasAttribute(inbt)) {
@@ -165,6 +168,12 @@ public class EventAttack {
                 }
             }
         }
+    }
+
+    private void processDeath(NBTTagCompound nbt, ItemStack stack, EntityLivingBase enemy, EntityPlayer player) {
+        addExperience(nbt, stack, enemy);
+        useRarity(nbt, stack, true);
+        attemptLevel(nbt, stack, player);
     }
 
     /**

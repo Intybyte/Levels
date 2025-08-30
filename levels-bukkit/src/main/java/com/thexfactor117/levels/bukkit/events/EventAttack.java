@@ -29,6 +29,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.Collection;
 
@@ -41,101 +42,104 @@ public class EventAttack implements Listener {
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent event) {
         Entity source = event.getDamager();
-        boolean dead = event.getEntity().isDead();
+        Entity victim = event.getEntity();
+        boolean dead = victim.isDead();
 
         if (!dead) {
-            if (source instanceof Player && event.getEntity() instanceof LivingEntity) {
-                Player player = (Player) source;
-                LivingEntity enemy = (LivingEntity) event.getEntity();
+            if (source instanceof Player player && victim instanceof LivingEntity enemy) {
                 ItemStack stack = player.getInventory().getItemInMainHand();
 
-                if (stack.getType().toString().contains("SWORD")) {
+                if (ItemUtil.isSword(stack.getType())) {
                     processHit(event, stack, enemy, player);
                 }
 
-            } else if (source instanceof LivingEntity && event.getEntity() instanceof Player) {
-                Player player = (Player) event.getEntity();
+            } else if (source instanceof LivingEntity && victim instanceof Player) {
+                Player player = (Player) victim;
                 LivingEntity enemy = (LivingEntity) source;
 
-                for (ItemStack stack : player.getInventory().getArmorContents()) {
-                    if (stack != null) {
-                        processHit(event, stack, enemy, player);
-                    }
-                }
-
-                ItemStack shield = player.getInventory().getItemInOffHand();
-                if (shield.getType() == Material.SHIELD) {
-                    if (player.isHandRaised()) {
-                        processHit(event, shield, enemy, player);
-                    }
-                }
-            } else if (source instanceof Arrow && event.getEntity() instanceof LivingEntity) {
+                processArmorHit(event, player, enemy);
+            } else if (source instanceof Arrow && victim instanceof LivingEntity) {
                 Arrow arrow = (Arrow) source;
 
-                if (arrow.getShooter() instanceof Player) {
-                    Player player = (Player) arrow.getShooter();
-                    LivingEntity enemy = (LivingEntity) event.getEntity();
+                ProjectileSource shooter = arrow.getShooter();
+                if (shooter == null) {
+                    return;
+                }
+
+                if (shooter instanceof Player) {
+                    Player player = (Player) shooter;
+                    LivingEntity enemy = (LivingEntity) victim;
                     ItemStack stack = player.getInventory().getItemInMainHand();
 
                     if (stack.getType() == Material.BOW) {
                         processHit(event, stack, enemy, player);
                     }
-                } else if (arrow.getShooter() instanceof LivingEntity && event.getEntity() instanceof Player) {
-                    Player player = (Player) event.getEntity();
-                    LivingEntity enemy = (LivingEntity) arrow.getShooter();
+                } else if (shooter instanceof LivingEntity && victim instanceof Player) {
+                    Player player = (Player) victim;
+                    LivingEntity enemy = (LivingEntity) shooter;
 
-                    if (player != null && enemy != null) {
-                        for (ItemStack stack : player.getInventory().getArmorContents()) {
-                            if (stack != null) {
-                                processHit(event, stack, enemy, player);
-                            }
-                        }
-
-                        ItemStack shield = player.getInventory().getItemInOffHand();
-                        if (shield.getType() == Material.SHIELD) {
-                            if (player.isHandRaised()) {
-                                processHit(event, shield, enemy, player);
-                            }
-                        }
-                    }
+                    processArmorHit(event, player, enemy);
                 }
             }
         } else {
-            if (source instanceof Player && event.getEntity() instanceof LivingEntity) {
+            if (source instanceof Player && victim instanceof LivingEntity) {
                 Player player = (Player) source;
-                LivingEntity enemy = (LivingEntity) event.getEntity();
+                LivingEntity enemy = (LivingEntity) victim;
                 ItemStack stack = player.getInventory().getItemInMainHand();
                 ItemMeta meta = stack.getItemMeta();
 
-                if (meta != null && stack.getType().toString().contains("SWORD")) {
-                    addExperience(stack, meta, enemy);
-                    useRarity(stack, meta, true);
-                    attemptLevel(stack, meta, player);
+                if (meta != null && ItemUtil.isSword(stack.getType())) {
+                    processDeath(stack, meta, enemy, player);
 
                     stack.setItemMeta(meta);
                 }
             } else if (source instanceof Arrow) {
                 Arrow arrow = (Arrow) source;
+                ProjectileSource shooter = arrow.getShooter();
+                if (shooter == null) {
+                    return;
+                }
 
-                if (arrow.getShooter() instanceof Player && event.getEntity() instanceof LivingEntity) {
-                    Player player = (Player) arrow.getShooter();
-                    LivingEntity enemy = (LivingEntity) event.getEntity();
+                if (shooter instanceof Player && victim instanceof LivingEntity) {
+                    Player player = (Player) shooter;
+                    LivingEntity enemy = (LivingEntity) victim;
                     ItemStack stack = player.getInventory().getItemInMainHand();
                     ItemMeta meta = stack.getItemMeta();
 
-                    if (meta != null && stack.getType() == Material.BOW) {
-                        addExperience(stack, meta, enemy);
-                        useRarity(stack, meta, true);
-                        attemptLevel(stack, meta, player);
-
-                        INBT inbt = NBTHelper.toCommon(meta.getPersistentDataContainer());
-                        if (BowAttribute.RECOVER.hasAttribute(inbt)) {
-                            enemy.getLocation().getWorld().dropItem(enemy.getLocation(), new ItemStack(Material.ARROW, (int) (Math.random() * 2)) );
-                        }
-
-                        stack.setItemMeta(meta);
+                    if (meta == null || stack.getType() != Material.BOW) {
+                        return;
                     }
+
+                    processDeath(stack, meta, enemy, player);
+
+                    INBT inbt = NBTHelper.toCommon(meta.getPersistentDataContainer());
+                    if (BowAttribute.RECOVER.hasAttribute(inbt)) {
+                        enemy.getLocation().getWorld().dropItem(enemy.getLocation(), new ItemStack(Material.ARROW, (int) (Math.random() * 2)) );
+                    }
+
+                    stack.setItemMeta(meta);
                 }
+            }
+        }
+    }
+
+    private void processDeath(ItemStack stack, ItemMeta meta, LivingEntity enemy, Player player) {
+        addExperience(stack, meta, enemy);
+        useRarity(stack, meta, true);
+        attemptLevel(stack, meta, player);
+    }
+
+    private void processArmorHit(EntityDamageByEntityEvent event, Player player, LivingEntity enemy) {
+        for (ItemStack stack : player.getInventory().getArmorContents()) {
+            if (stack != null) {
+                processHit(event, stack, enemy, player);
+            }
+        }
+
+        ItemStack shield = player.getInventory().getItemInOffHand();
+        if (shield.getType() == Material.SHIELD) {
+            if (player.isHandRaised()) {
+                processHit(event, shield, enemy, player);
             }
         }
     }

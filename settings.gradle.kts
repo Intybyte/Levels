@@ -1,14 +1,10 @@
 import org.gradle.kotlin.dsl.maven
 
 rootProject.name = "Levels-Main"
-include("levels-forge-1.12.2")
-project(":levels-forge-1.12.2").projectDir = file("./levels-forge/1.12.2")
-
-include("levels-common")
-include("levels-bukkit")
 
 pluginManagement {
     repositories {
+        mavenCentral()
         gradlePluginPortal()
         maven("https://jenkins.usrv.eu:8081/nexus/content/repositories/releases/")
         maven {
@@ -19,5 +15,29 @@ pluginManagement {
             name = "GTNH Maven"
             url = uri("https://nexus.gtnewhorizons.com/repository/public/")
         }
+        maven("https://maven.fabricmc.net/")
+        maven("https://maven.architectury.dev/")
+        maven("https://files.minecraftforge.net/maven/")
     }
 }
+
+include("levels-common")
+
+include("levels-forge-1.12.2")
+project(":levels-forge-1.12.2").projectDir = file("./levels-forge/1.12.2")
+
+include("levels-bukkit")
+
+val arc1165 = "levels-architectury-1.16.5"
+val arcFolder1165 = "levels-architectury/1.16.5"
+
+include(":$arc1165")
+project(":$arc1165").projectDir = file(arcFolder1165)
+
+include(":$arc1165:common")
+include(":$arc1165:fabric")
+include(":$arc1165:forge")
+
+project(":$arc1165:common").projectDir = file("$arcFolder1165/common")
+project(":$arc1165:fabric").projectDir = file("$arcFolder1165/fabric")
+project(":$arc1165:forge").projectDir = file("$arcFolder1165/forge")

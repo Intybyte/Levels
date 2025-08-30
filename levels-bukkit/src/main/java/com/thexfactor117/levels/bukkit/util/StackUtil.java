@@ -92,7 +92,7 @@ public class StackUtil {
             return itemStack.getItemMeta().getDisplayName();
         }
 
-        return capitalizeFully(itemStack.getType().name().replace("_", " ").toLowerCase());
+        return capitalizeFully(itemStack.getType().name().toLowerCase());
     }
 
     private static String capitalizeFully(String name) {

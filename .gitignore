@@ -1,5 +1,6 @@
 .idea/**
-/levels-forge/1.12.2/.idea/**
+/forge/1.12.2/.idea/**
+**/.gradle/**
 /bin/
 /.classpath
 /.gradle

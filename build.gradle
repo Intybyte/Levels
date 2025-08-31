@@ -67,10 +67,4 @@ allprojects { subproject ->
 
     }
 
-    def name = transformProjectPath(subproject.path)
-    tasks.withType(Jar).configureEach {
-        archiveBaseName.set("levels-$name")
-        archiveVersion.set("3.0.0")
-        archiveClassifier.set("") // optional, remove if you want
-    }
 }

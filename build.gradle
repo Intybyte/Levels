@@ -23,8 +23,8 @@ test {
     useJUnitPlatform()
 }
 
-subprojects.findAll { it.name.contains("1.16.5") }.subprojects.each { subproject ->
-    subproject.with {
+allprojects { subproject ->
+    if(subproject.path.contains("1.16.5")) {
         apply plugin: 'dev.architectury.loom'
         apply plugin: 'architectury-plugin'
         apply plugin: 'maven-publish'
@@ -57,5 +57,6 @@ subprojects.findAll { it.name.contains("1.16.5") }.subprojects.each { subproject
         tasks.withType(JavaCompile).configureEach {
             it.options.release = 8
         }
+
     }
 }

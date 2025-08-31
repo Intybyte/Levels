@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'dev.architectury.loom' version '1.11-SNAPSHOT' // match your version
+    id 'architectury-plugin' version '3.4-SNAPSHOT'
+    id 'maven-publish'
+}
+
+def project_mcVersion = '1.16.5'
+def fabric_loader_version = "0.14.25"
+def architectury_api_version = "1.32.67"
+
+repositories {
+    maven {
+        url 'https://maven.minecraftforge.net/'
+    }
+    maven {
+        url 'https://files.minecraftforge.net/maven/'
+    }
+    maven {
+        url 'https://maven.fabricmc.net/'
+    }
+    maven {
+        url 'https://maven.architectury.dev/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "net.minecraft:minecraft:${project_mcVersion}"
+    mappings loom.officialMojangMappings()
+
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "me.shedaniel:architectury:${architectury_api_version}"
+}

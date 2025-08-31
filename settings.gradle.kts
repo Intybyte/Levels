@@ -28,15 +28,15 @@ pluginManagement {
     }
 }
 
-include("levels-common")
+include("common")
 
-include("levels-forge-1.12.2")
-project(":levels-forge-1.12.2").projectDir = file("./levels-forge/1.12.2")
+include("forge-1.12.2")
+project(":forge-1.12.2").projectDir = file("./forge/1.12.2")
 
-include("levels-bukkit")
+include("bukkit")
 
-val arc1165 = "levels-architectury-1.16.5"
-val arcFolder1165 = "levels-architectury/1.16.5"
+val arc1165 = "architectury-1.16.5"
+val arcFolder1165 = "architectury/1.16.5"
 
 include(":$arc1165")
 project(":$arc1165").projectDir = file(arcFolder1165)

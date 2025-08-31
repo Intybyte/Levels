@@ -19,6 +19,12 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+String transformProjectPath(String path) {
+    // Remove leading colon and replace remaining colons with dashes
+    return path.replaceFirst("^:", "").replace(":", "-")
+}
+
+
 test {
     useJUnitPlatform()
 }
@@ -59,5 +65,12 @@ allprojects { subproject ->
             it.options.release = 8
         }
 
+    }
+
+    def name = transformProjectPath(subproject.path)
+    tasks.withType(Jar).configureEach {
+        archiveBaseName.set("levels-$name")
+        archiveVersion.set("3.0.0")
+        archiveClassifier.set("") // optional, remove if you want
     }
 }

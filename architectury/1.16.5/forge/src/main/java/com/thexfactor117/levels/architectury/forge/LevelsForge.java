@@ -1,7 +1,7 @@
 package com.thexfactor117.levels.architectury.forge;
 
 import com.thexfactor117.levels.architectury.Levels;
-import dev.architectury.platform.forge.EventBuses;
+import me.shedaniel.architectury.platform.forge.EventBuses;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 

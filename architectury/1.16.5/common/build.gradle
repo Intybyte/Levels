@@ -1,6 +1,10 @@
 def fabric_loader_version = "0.14.25"
 def architectury_api_version = "1.32.67"
 
+architectury {
+    common(["forge", "fabric"])
+}
+
 repositories {
     maven {
         url 'https://maven.minecraftforge.net/'

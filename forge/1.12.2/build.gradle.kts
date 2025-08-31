@@ -102,7 +102,7 @@ dependencies {
     // api(rfg.deobf("curse.maven:ic2-242638:2353971"))
     // Example: grab the ic2 jar from libs/ in the workspace and deobfuscate
     // api(rfg.deobf(project.files("libs/ic2.jar")))
-    implementation(project(":levels-common"))
+    implementation(project(":common"))
 }
 
 // Publishing to a Maven repository
@@ -138,7 +138,7 @@ tasks.withType<JavaCompile>().configureEach {
 
 tasks.named<Jar>("jar") {
     // Add compiled classes from levels-common to this mod's jar
-    from(project(":levels-common").sourceSets["main"].output)
+    from(project(":common").sourceSets["main"].output)
 }
 
 tasks.processIdeaSettings.configure {

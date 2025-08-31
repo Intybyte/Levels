@@ -31,8 +31,8 @@ dependencies {
 
     modImplementation "me.shedaniel:architectury-forge:$rootProject.architectury_api_version"
 
-    common(project(path: ':levels-architectury-1.16.5:common', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':levels-architectury-1.16.5:common', configuration: 'transformProductionForge')
+    common(project(path: ':architectury-1.16.5:common', configuration: 'namedElements')) { transitive false }
+    shadowBundle project(path: ':architectury-1.16.5:common', configuration: 'transformProductionForge')
 }
 
 processResources {

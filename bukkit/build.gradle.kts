@@ -4,7 +4,7 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 plugins {
     java
     id("io.freefair.lombok") version "8.14.2"
-    id("com.gradleup.shadow") version "9.1.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
@@ -62,7 +62,7 @@ val inuviFinalList = invuiArtifacts.map { "$invuiGroup:$it:$invuiVersion" }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
-    implementation(project(":levels-common"))
+    implementation(project(":common"))
     implementation("com.github.cryptomorin:XSeries:13.3.3")
 
     inuviFinalList.forEach(::implementation)
@@ -83,7 +83,7 @@ tasks.named<ShadowJar>("shadowJar") {
     relocate("xyz.xenondevs.inventoryaccess", "$mainPackage.libs.inventoryaccess")
 
     dependencies {
-        include(project(":levels-common"))
+        include(project(":common"))
         include(dependency("com.github.cryptomorin:XSeries"))
         invuiArtifacts.forEach {
             include(dependency("$invuiGroup:$it"))

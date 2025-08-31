@@ -1,11 +1,3 @@
-plugins {
-    id 'java'
-    id 'dev.architectury.loom' version '1.11-SNAPSHOT' // match your version
-    id 'architectury-plugin' version '3.4-SNAPSHOT'
-    id 'maven-publish'
-    id 'com.github.johnrengelman.shadow'
-}
-
 loom {
     forge {
         mixinConfig "levels.mixins.json"
@@ -35,9 +27,6 @@ configurations {
 }
 
 dependencies {
-    minecraft "net.minecraft:minecraft:1.16.5"
-    mappings loom.officialMojangMappings()
-
     forge "net.minecraftforge:forge:$rootProject.forge_version"
 
     modImplementation "me.shedaniel:architectury-forge:$rootProject.architectury_api_version"

@@ -1,11 +1,3 @@
-plugins {
-    id 'java'
-    id 'dev.architectury.loom' version '1.11-SNAPSHOT' // match your version
-    id 'architectury-plugin' version '3.4-SNAPSHOT'
-    id 'maven-publish'
-    id 'com.github.johnrengelman.shadow'
-}
-
 architectury {
     platformSetupLoomIde()
     fabric()
@@ -43,9 +35,6 @@ def fabric_api_version = "0.42.0+1.16"
 def architectury_api_version = "1.32.67"
 
 dependencies {
-    minecraft "net.minecraft:minecraft:1.16.5"
-    mappings loom.officialMojangMappings()
-
     modImplementation "net.fabricmc:fabric-loader:$fabric_loader_version"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_api_version"

@@ -28,6 +28,7 @@ allprojects { subproject ->
         apply plugin: 'dev.architectury.loom'
         apply plugin: 'architectury-plugin'
         apply plugin: 'maven-publish'
+        apply plugin: 'com.github.johnrengelman.shadow'
 
         architectury {
             minecraft = '1.16.5'

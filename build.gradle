@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.8'
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+    id 'architectury-plugin' version '3.4-SNAPSHOT'
+    id 'dev.architectury.loom' version '1.11-SNAPSHOT' apply false
+}
+
+group = 'com.thexfactor117.levels'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+subprojects.findAll { it.name.contains("1.16.5") }.subprojects.each { subproject ->
+    subproject.with {
+        apply plugin: 'dev.architectury.loom'
+        apply plugin: 'architectury-plugin'
+        apply plugin: 'maven-publish'
+
+        architectury {
+            minecraft = '1.16.5'
+        }
+
+        base {
+            archivesName = "${rootProject.ext.archives_name}-${project.name}"
+        }
+
+        repositories {
+            // Add additional repositories if needed
+        }
+
+        dependencies {
+            minecraft "net.minecraft:minecraft:1.16.5"
+            mappings loom.officialMojangMappings()
+
+        }
+
+        java {
+            withSourcesJar()
+
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+
+        tasks.withType(JavaCompile).configureEach {
+            it.options.release = 8
+        }
+    }
+}

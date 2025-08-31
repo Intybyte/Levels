@@ -1,8 +1,3 @@
-plugins {
-    id("architectury-plugin") version "3.4-SNAPSHOT"
-    id("dev.architectury.loom") version "1.3-SNAPSHOT"
-}
-
 val project_mcVersion = "1.16.5"
 
 architectury {

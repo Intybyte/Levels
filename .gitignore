@@ -1,5 +1,6 @@
 .idea/**
 /forge/1.12.2/.idea/**
+architectury/1.16.5/*/.gradle
 /.gradle/**
 /bin/
 /.classpath

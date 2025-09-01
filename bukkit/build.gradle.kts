@@ -10,7 +10,7 @@ plugins {
 
 val mainPackage = "com.thexfactor117.levels.bukkit"
 group = mainPackage
-version = "3.0.0"
+version = rootProject.property("version") as String
 
 bukkit {
     name = "Levels"
@@ -77,6 +77,9 @@ java {
 }
 
 tasks.named<ShadowJar>("shadowJar") {
+    archiveBaseName.set("levels-bukkit")
+    archiveVersion.set(rootProject.property("version") as String)
+
     // Relocate the class to your package
     relocate("com.cryptomorin.xseries", "$mainPackage.libs.xseries")
     relocate("xyz.xenondevs.invui", "$mainPackage.libs.invui")
@@ -107,10 +110,4 @@ tasks.named<ShadowJar>("shadowJar") {
 
 tasks.build {
     dependsOn("shadowJar")
-}
-
-tasks.jar {
-    archiveBaseName.set("levels-bukkit")
-    archiveVersion.set(rootProject.property("version") as String)
-    archiveClassifier.set("") // optional, remove if you want
 }

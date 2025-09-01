@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.thexfactor117.levels.common"
-version = "1.0-SNAPSHOT"
+version = rootProject.property("version") as String
 
 repositories {
     mavenCentral()

@@ -11,7 +11,7 @@ plugins {
 
 // Project properties
 group = "com.thexfactor117.levels.forge"
-version = "3.0.0"
+version = rootProject.property("version") as String
 
 val minecraftVersion = "1.12.2"
 

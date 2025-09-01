@@ -109,3 +109,8 @@ tasks.build {
     dependsOn("shadowJar")
 }
 
+tasks.jar {
+    archiveBaseName.set("levels-bukkit")
+    archiveVersion.set(rootProject.property("version") as String)
+    archiveClassifier.set("") // optional, remove if you want
+}

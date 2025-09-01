@@ -26,10 +26,13 @@ configurations {
     }
 }
 
-dependencies {
-    forge "net.minecraftforge:forge:$rootProject.forge_version"
+def forge_version = "1.16.5-36.2.42"
+def architectury_api_version = "1.32.67"
 
-    modImplementation "me.shedaniel:architectury-forge:$rootProject.architectury_api_version"
+dependencies {
+    forge "net.minecraftforge:forge:$forge_version"
+
+    modImplementation "me.shedaniel:architectury-forge:$architectury_api_version"
 
     common(project(path: ':architectury-1.16.5:common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':architectury-1.16.5:common', configuration: 'transformProductionForge')

@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.freefair.lombok' version '8.14.2'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.8'
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
@@ -30,6 +31,8 @@ test {
 }
 
 allprojects { subproject ->
+    apply plugin: 'io.freefair.lombok'
+
     if(subproject.path.contains("1.16.5")) {
         apply plugin: 'dev.architectury.loom'
         apply plugin: 'architectury-plugin'

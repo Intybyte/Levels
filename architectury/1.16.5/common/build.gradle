@@ -24,4 +24,11 @@ repositories {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "me.shedaniel:architectury:${architectury_api_version}"
+    implementation(project(":common"))
 }
+
+tasks.named('jar') {
+    // Add compiled classes from :common project to this mod's jar
+    from project(':common').sourceSets.main.output
+}
+

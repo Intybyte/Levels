@@ -137,6 +137,8 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 tasks.named<Jar>("jar") {
+    archiveBaseName = "levels-forge-1.12.2"
+
     // Add compiled classes from levels-common to this mod's jar
     from(project(":common").sourceSets["main"].output)
 }

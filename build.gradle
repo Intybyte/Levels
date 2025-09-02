@@ -20,12 +20,6 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-String transformProjectPath(String path) {
-    // Remove leading colon and replace remaining colons with dashes
-    return path.replaceFirst("^:", "").replace(":", "-")
-}
-
-
 test {
     useJUnitPlatform()
 }

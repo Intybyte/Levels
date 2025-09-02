@@ -73,6 +73,8 @@ public class PacketAttributeSelection implements IMessage {
                 Experience exp = new Experience(stack);
 
                 List<? extends AttributeBase> attributeList = type.enabledAttributes();
+                if (message.index < 0 || attributeList.size() <= message.index) return;
+
                 AttributeBase attribute = attributeList.get(message.index);
 
                 INBT nbt = NBTHelper.toCommon(baseNbt);

@@ -6,6 +6,7 @@ package com.thexfactor117.levels.forge.util;
  *
  */
 public class Reference {
+    //todo: change update json and add it to the 1.16.5 forge
     public static final String MODID = "levels";
     public static final String NAME = "Levels";
     public static final String VERSION = "@VERSION@";

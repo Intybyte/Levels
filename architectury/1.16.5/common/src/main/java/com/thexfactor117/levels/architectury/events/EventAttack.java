@@ -1,5 +1,6 @@
-package com.thexfactor117.levels.architectury.forge.events;
+package com.thexfactor117.levels.architectury.events;
 
+import com.thexfactor117.levels.architectury.events.custom.AttackCallback;
 import com.thexfactor117.levels.architectury.nbt.NBTHelper;
 import com.thexfactor117.levels.common.leveling.attributes.AnyAttributes;
 import com.thexfactor117.levels.common.leveling.attributes.ArmorAttribute;
@@ -7,6 +8,7 @@ import com.thexfactor117.levels.common.leveling.attributes.BowAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.SwordAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.WeaponAttributes;
 import com.thexfactor117.levels.common.nbt.INBT;
+import me.shedaniel.architectury.event.events.EntityEvent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,76 +27,114 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
-import static com.thexfactor117.levels.architectury.util.AttackUtil.*;
+import static com.thexfactor117.levels.architectury.util.AttackUtil.addExperience;
+import static com.thexfactor117.levels.architectury.util.AttackUtil.attemptLevel;
+import static com.thexfactor117.levels.architectury.util.AttackUtil.processDeath;
+import static com.thexfactor117.levels.architectury.util.AttackUtil.useRarity;
+import static net.minecraft.world.InteractionResult.SUCCESS;
 
-/**
- *
- * @author TheXFactor117
- *
- */
-@Mod.EventBusSubscriber
 public class EventAttack {
-    @SubscribeEvent
-    public static void onAttack(LivingHurtEvent event) {
-        Entity source = event.getSource().getDirectEntity();
-        LivingEntity victim = event.getEntityLiving();
+    public static void register() {
+        AttackCallback.EVENT.register((event) -> {
+            Entity source = event.getSource().getDirectEntity();
+            LivingEntity victim = event.getVictim();
 
-        if (source == null) {
-            return;
-        }
-
-        if (source instanceof Player && !(source instanceof FakePlayer)) {
-            Player player = (Player) source;
-            LivingEntity enemy = victim;
-            ItemStack stack = player.getMainHandItem();
-            CompoundTag nbt = stack.getOrCreateTag();
-
-            if (nbt != null && stack.getItem() instanceof SwordItem) {
-                processHit(event, nbt, stack, enemy, player);
-            }
-        } else if (source instanceof LivingEntity && victim instanceof Player) {
-            Player player = (Player) victim;
-            LivingEntity enemy = (LivingEntity) source;
-
-            processArmorHit(event, player, enemy);
-        }
-        else if (source instanceof Arrow) {
-            Arrow arrow = (Arrow) source;
-
-            Entity shooter = arrow.getOwner();
-            if (shooter == null) {
+            if (source == null) {
                 return;
             }
 
-            if (shooter instanceof Player) {
-                Player player = (Player) shooter;
+            if (source instanceof Player) {
+                Player player = (Player) source;
                 LivingEntity enemy = victim;
                 ItemStack stack = player.getMainHandItem();
                 CompoundTag nbt = stack.getOrCreateTag();
 
-                if (enemy != null && nbt != null && stack.getItem() instanceof BowItem) {
+                if (nbt != null && stack.getItem() instanceof SwordItem) {
                     processHit(event, nbt, stack, enemy, player);
                 }
-            } else if (shooter instanceof LivingEntity) {
+            } else if (source instanceof LivingEntity && victim instanceof Player) {
                 Player player = (Player) victim;
-                LivingEntity enemy = (LivingEntity) shooter;
+                LivingEntity enemy = (LivingEntity) source;
 
-                if (player != null) {
-                    processArmorHit(event, player, enemy);
+                processArmorHit(event, player, enemy);
+            }
+            else if (source instanceof Arrow) {
+                Arrow arrow = (Arrow) source;
+
+                Entity shooter = arrow.getOwner();
+                if (shooter == null) {
+                    return;
+                }
+
+                if (shooter instanceof Player) {
+                    Player player = (Player) shooter;
+                    LivingEntity enemy = victim;
+                    ItemStack stack = player.getMainHandItem();
+                    CompoundTag nbt = stack.getOrCreateTag();
+
+                    if (enemy != null && nbt != null && stack.getItem() instanceof BowItem) {
+                        processHit(event, nbt, stack, enemy, player);
+                    }
+                } else if (shooter instanceof LivingEntity) {
+                    Player player = (Player) victim;
+                    LivingEntity enemy = (LivingEntity) shooter;
+
+                    if (player != null) {
+                        processArmorHit(event, player, enemy);
+                    }
                 }
             }
-        }
+        });
+
+        EntityEvent.LIVING_DEATH.register((living, dmgSource) -> {
+
+            Entity source = dmgSource.getDirectEntity();
+            if (source == null) {
+                return SUCCESS;
+            }
+
+            if (source instanceof Player) {
+                Player player = (Player) source;
+                LivingEntity enemy = living;
+                ItemStack stack = player.getMainHandItem();
+                CompoundTag nbt = stack.getOrCreateTag();
+
+                if (enemy != null && nbt != null && stack.getItem() instanceof SwordItem) {
+                    processDeath(nbt, stack, enemy, player);
+                }
+            } else if (source instanceof Arrow) {
+                Arrow arrow = (Arrow) source;
+
+                Entity shooter = arrow.getOwner();
+                if (shooter == null) {
+                    return SUCCESS;
+                }
+
+                if (shooter instanceof Player) {
+                    Player player = (Player) shooter;
+                    LivingEntity enemy = living;
+                    ItemStack stack = player.getMainHandItem();
+                    CompoundTag nbt = stack.getOrCreateTag();
+
+                    if (enemy != null && nbt != null && stack.getItem() instanceof BowItem) {
+                        processDeath(nbt, stack, enemy, player);
+
+                        INBT inbt = NBTHelper.toCommon(nbt);
+                        if (BowAttribute.RECOVER.hasAttribute(inbt)) {
+                            enemy.spawnAtLocation(Items.ARROW, (int) (Math.random() * 2));
+                        }
+                    }
+                }
+            }
+
+            return SUCCESS;
+        });
     }
 
-    private static void processArmorHit(LivingHurtEvent event, Player player, LivingEntity enemy) {
+    private static void processArmorHit(AttackCallback.AttackInstance event, Player player, LivingEntity enemy) {
         for (ItemStack stack : player.inventory.armor) {
             CompoundTag nbt = stack.getOrCreateTag();
 
@@ -113,68 +153,14 @@ public class EventAttack {
         }
     }
 
-    private static void processHit(LivingHurtEvent event, CompoundTag nbt, ItemStack stack, LivingEntity enemy, Player player) {
+    private static void processHit(AttackCallback.AttackInstance event, CompoundTag nbt, ItemStack stack, LivingEntity enemy, Player player) {
         addExperience(stack, enemy);
         useRarity(nbt, stack, false);
         useAttributes(nbt, event, stack, player, enemy);
         attemptLevel(nbt, stack, player);
     }
 
-    /**
-     * Called every time a living entity dies.
-     * @param event
-     */
-    @SubscribeEvent
-    public void onLivingDeath(LivingDeathEvent event) {
-        Entity source = event.getSource().getDirectEntity();
-        if (source == null) {
-            return;
-        }
-
-        if (source instanceof Player && !(source instanceof FakePlayer)) {
-            Player player = (Player) source;
-            LivingEntity enemy = event.getEntityLiving();
-            ItemStack stack = player.getMainHandItem();
-            CompoundTag nbt = stack.getOrCreateTag();
-
-            if (enemy != null && nbt != null && stack.getItem() instanceof SwordItem) {
-                processDeath(nbt, stack, enemy, player);
-            }
-        } else if (source instanceof Arrow) {
-            Arrow arrow = (Arrow) source;
-
-            Entity shooter = arrow.getOwner();
-            if (shooter == null) {
-                return;
-            }
-
-            if (shooter instanceof Player) {
-                Player player = (Player) shooter;
-                LivingEntity enemy = event.getEntityLiving();
-                ItemStack stack = player.getMainHandItem();
-                CompoundTag nbt = stack.getOrCreateTag();
-
-                if (enemy != null && nbt != null && stack.getItem() instanceof BowItem) {
-                    processDeath(nbt, stack, enemy, player);
-
-                    INBT inbt = NBTHelper.toCommon(nbt);
-                    if (BowAttribute.RECOVER.hasAttribute(inbt)) {
-                        enemy.spawnAtLocation(Items.ARROW, (int) (Math.random() * 2));
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Uses any attributes the stack currently has.
-     * @param baseNbt
-     * @param event
-     * @param stack
-     * @param player
-     * @param enemy
-     */
-    private static void useAttributes(CompoundTag baseNbt, LivingHurtEvent event, ItemStack stack, Player player, LivingEntity enemy) {
+    private static void useAttributes(CompoundTag baseNbt, AttackCallback.AttackInstance event, ItemStack stack, Player player, LivingEntity enemy) {
         // WEAPONS
         INBT nbt = NBTHelper.toCommon(baseNbt);
 

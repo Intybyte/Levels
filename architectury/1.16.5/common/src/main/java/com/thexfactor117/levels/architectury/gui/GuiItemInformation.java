@@ -38,15 +38,14 @@ public class GuiItemInformation extends Screen {
     @Override
     public void init() {
         selection = new Button(this.width / 2 - 166, 125, 110, 20, new TextComponent("Attribute Selection"), this::actionPerformed);
-
-        this.buttons.add(selection);
+        this.addButton(selection);
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(poseStack, mouseX, mouseY, partialTicks);
         super.renderBackground(poseStack);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
 
         Player player = Minecraft.getInstance().player;
         if (player == null) {

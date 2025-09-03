@@ -19,6 +19,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -63,7 +64,7 @@ public class GuiTypeSelection extends Screen {
             }
 
             attributeButtons[i] = new Button(width / 2 - 147, 60 + (i * 20), 75, 20, new TextComponent(display), this::actionPerformed, this::drawButtonTooltip);
-            this.buttons.add(attributeButtons[i]);
+            this.addButton(attributeButtons[i]);
             attributeButtons[i].active = false;
         }
     }
@@ -98,32 +99,19 @@ public class GuiTypeSelection extends Screen {
                 AttributeBase attr = attributes.get(i);
                 TextComponent cmp = new TextComponent("");
                 attr.getUpgradeSummary(nbt, I18n::get).stream()
-                    .map(TextComponent::new)
+                    .map(this::createComponent)
                     .forEach(cmp::append);
 
                 renderTooltip(poseStack, cmp, mouseX + 3, mouseY + 3);
             }
         }
-
-        /*
-        HoverChecker checker = new HoverChecker(attributeButtons[i], 0);
-
-        if (!checker.checkHover(mouseX, mouseY)) {
-            continue;
-        }
-
-        AttributeBase attr = attributes.get(i);
-        List<String> list = attr.getUpgradeSummary(nbt, I18n::get);
-
-        drawHoveringText(list, mouseX + 3, mouseY + 3);*/
-
     }
 
     // renderBackground
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(poseStack, mouseX, mouseY, partialTicks);
         this.renderBackground(poseStack);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
 
         ItemStack stack = getItemStack();
         if (stack == null) return;
@@ -216,5 +204,9 @@ public class GuiTypeSelection extends Screen {
 
             attributeButtons[i].active = shouldEnable;
         }
+    }
+
+    private Component createComponent(String arg) {
+        return new TextComponent(arg + "\n");
     }
 }

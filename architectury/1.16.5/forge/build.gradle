@@ -43,6 +43,8 @@ processResources {
 
     filesMatching('META-INF/mods.toml') {
         expand version: project.version
+        expand authors: authors
+        expand license: license
     }
 }
 

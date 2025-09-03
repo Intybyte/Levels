@@ -8,7 +8,7 @@
   "contact": {
     "homepage": ""  },
   "license": "unlicense",
-  "icon": "assets/levels/icon.png",
+  "icon": "assets/levels/logo/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [

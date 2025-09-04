@@ -35,16 +35,18 @@ project(":forge-1.12.2").projectDir = file("./forge/1.12.2")
 
 include("bukkit")
 
-val arc1165 = "architectury-1.16.5"
-val arcFolder1165 = "architectury/1.16.5"
+listOf("1.16.5").forEach { version ->
+    val arcProj = "architectury-$version"
+    val arcFolder = "architectury/$version"
 
-include(":$arc1165")
-project(":$arc1165").projectDir = file(arcFolder1165)
+    include(":$arcProj")
+    project(":$arcProj").projectDir = file(arcFolder)
 
-include(":$arc1165:common")
-include(":$arc1165:fabric")
-include(":$arc1165:forge")
+    include(":$arcProj:common")
+    include(":$arcProj:fabric")
+    include(":$arcProj:forge")
 
-project(":$arc1165:common").projectDir = file("$arcFolder1165/common")
-project(":$arc1165:fabric").projectDir = file("$arcFolder1165/fabric")
-project(":$arc1165:forge").projectDir = file("$arcFolder1165/forge")
+    project(":$arcProj:common").projectDir = file("$arcFolder/common")
+    project(":$arcProj:fabric").projectDir = file("$arcFolder/fabric")
+    project(":$arcProj:forge").projectDir = file("$arcFolder/forge")
+}

@@ -3,6 +3,7 @@ package com.thexfactor117.levels.architectury.gui;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thexfactor117.levels.architectury.leveling.Experience;
 import com.thexfactor117.levels.architectury.nbt.NBTHelper;
+import com.thexfactor117.levels.architectury.network.GuiTypeRequest;
 import com.thexfactor117.levels.architectury.util.ItemUtil;
 import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.Rarity;
@@ -88,9 +89,7 @@ public class GuiItemInformation extends Screen {
             return;
         }
 
-        Minecraft.getInstance().setScreen(
-            new GuiTypeSelection(currentType)
-        );
+        new GuiTypeRequest(currentType).send();
     }
 
     /**

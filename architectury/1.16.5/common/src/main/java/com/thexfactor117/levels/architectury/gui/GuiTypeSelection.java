@@ -33,10 +33,10 @@ public class GuiTypeSelection extends Screen {
     private final ItemType type;
     private final List<? extends AttributeBase> attributes;
 
-    public GuiTypeSelection(ItemType type) {
+    public GuiTypeSelection(ItemType type, List<? extends AttributeBase> attributes) {
         super(new TextComponent("Attribute Selection"));
         this.type = type;
-        this.attributes = type.enabledAttributes();
+        this.attributes = attributes;
     }
 
     @Override

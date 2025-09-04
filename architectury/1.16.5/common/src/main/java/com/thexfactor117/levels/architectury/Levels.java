@@ -1,7 +1,7 @@
 package com.thexfactor117.levels.architectury;
 
 import com.thexfactor117.levels.architectury.init.ModEvents;
-import com.thexfactor117.levels.architectury.network.PacketAttributeSelection;
+import com.thexfactor117.levels.architectury.network.PacketIdentifiers;
 import com.thexfactor117.levels.common.leveling.ItemType;
 
 public final class Levels {
@@ -11,6 +11,6 @@ public final class Levels {
         ItemType.init();
         ModEvents.init();
 
-        PacketAttributeSelection.register();
+        PacketIdentifiers.init();
     }
 }

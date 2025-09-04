@@ -35,7 +35,7 @@ project(":forge-1.12.2").projectDir = file("./forge/1.12.2")
 
 include("bukkit")
 
-listOf("1.16.5").forEach { version ->
+listOf("1.16.5", "1.20.1").forEach { version ->
     val arcProj = "architectury-$version"
     val arcFolder = "architectury/$version"
 

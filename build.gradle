@@ -26,42 +26,4 @@ test {
 
 allprojects { subproject ->
     apply plugin: 'io.freefair.lombok'
-
-    if(subproject.path.contains("1.16.5")) {
-        apply plugin: 'dev.architectury.loom'
-        apply plugin: 'architectury-plugin'
-        apply plugin: 'maven-publish'
-        apply plugin: 'com.github.johnrengelman.shadow'
-
-        architectury {
-            minecraft = '1.16.5'
-        }
-
-        base {
-            archivesName = "${rootProject.ext.archives_name}-${project.name}"
-        }
-
-        repositories {
-            // Add additional repositories if needed
-        }
-
-        dependencies {
-            minecraft "net.minecraft:minecraft:1.16.5"
-            mappings loom.officialMojangMappings()
-
-        }
-
-        java {
-            withSourcesJar()
-
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        }
-
-        tasks.withType(JavaCompile).configureEach {
-            it.options.release = 8
-        }
-
-    }
-
 }

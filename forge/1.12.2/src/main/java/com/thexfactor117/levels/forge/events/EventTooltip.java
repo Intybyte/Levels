@@ -2,12 +2,9 @@ package com.thexfactor117.levels.forge.events;
 
 import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.Rarity;
-import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
-import com.thexfactor117.levels.common.leveling.exp.ExperienceEditor;
 import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
-import com.thexfactor117.levels.forge.util.I18nUtil;
 import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemArmor;
@@ -27,7 +24,6 @@ import org.lwjgl.input.Keyboard;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

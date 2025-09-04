@@ -4,7 +4,6 @@ import com.thexfactor117.levels.common.config.ConfigEntry;
 import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
-import com.thexfactor117.levels.common.leveling.attributes.components.config.LevelConfigAttribute;
 import com.thexfactor117.levels.common.leveling.attributes.components.config.SimpleConfigAttribute;
 import com.thexfactor117.levels.common.nbt.INBT;
 import lombok.AllArgsConstructor;

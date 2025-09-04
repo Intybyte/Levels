@@ -4,7 +4,6 @@ import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeBase;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;
 import com.thexfactor117.levels.common.networking.AttributeData;
-import com.thexfactor117.levels.forge.client.gui.GuiItemInformation;
 import com.thexfactor117.levels.forge.client.gui.GuiTypeSelection;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
@@ -14,8 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

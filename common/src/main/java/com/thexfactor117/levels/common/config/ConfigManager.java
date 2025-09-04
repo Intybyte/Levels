@@ -1,7 +1,7 @@
 package com.thexfactor117.levels.common.config;
 
-import com.thexfactor117.levels.common.utils.PropertiesUtil;
 import com.thexfactor117.levels.common.utils.FieldProcessor;
+import com.thexfactor117.levels.common.utils.PropertiesUtil;
 import lombok.Getter;
 
 import java.io.File;

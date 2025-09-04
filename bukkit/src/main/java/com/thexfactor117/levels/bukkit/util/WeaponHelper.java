@@ -5,7 +5,6 @@ import com.google.common.collect.Multimap;
 import com.thexfactor117.levels.bukkit.leveling.Experience;
 import com.thexfactor117.levels.bukkit.nbt.NBTHelper;
 import com.thexfactor117.levels.common.config.Configs;
-import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.MinecraftAttributes;
 import com.thexfactor117.levels.common.leveling.Rarity;
 import com.thexfactor117.levels.common.nbt.INBT;

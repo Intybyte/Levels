@@ -1,6 +1,5 @@
 package com.thexfactor117.levels.architectury.network;
 
-import com.thexfactor117.levels.architectury.gui.GuiItemInformation;
 import com.thexfactor117.levels.architectury.gui.GuiTypeSelection;
 import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.common.leveling.attributes.components.AttributeRarity;

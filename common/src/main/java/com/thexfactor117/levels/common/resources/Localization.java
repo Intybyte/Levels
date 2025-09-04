@@ -6,7 +6,6 @@ import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.common.leveling.attributes.display.Formatter;
 import com.thexfactor117.levels.common.utils.PropertiesUtil;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.File;
 import java.nio.file.Path;

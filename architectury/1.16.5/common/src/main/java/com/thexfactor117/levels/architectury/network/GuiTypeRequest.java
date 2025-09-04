@@ -14,8 +14,6 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.thexfactor117.levels.architectury.util.NetworkUtil.writeString;
-
 @Getter
 @AllArgsConstructor
 public class GuiTypeRequest {

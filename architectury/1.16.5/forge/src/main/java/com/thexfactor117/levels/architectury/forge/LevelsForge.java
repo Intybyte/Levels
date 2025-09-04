@@ -4,7 +4,6 @@ import com.thexfactor117.levels.architectury.Levels;
 import com.thexfactor117.levels.architectury.keybindings.Keybinds;
 import com.thexfactor117.levels.common.config.Configs;
 import me.shedaniel.architectury.platform.forge.EventBuses;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;

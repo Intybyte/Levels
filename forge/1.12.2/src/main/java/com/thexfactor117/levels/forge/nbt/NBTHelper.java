@@ -3,7 +3,6 @@ package com.thexfactor117.levels.forge.nbt;
 import com.thexfactor117.levels.common.nbt.INBT;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 
 /**
  *

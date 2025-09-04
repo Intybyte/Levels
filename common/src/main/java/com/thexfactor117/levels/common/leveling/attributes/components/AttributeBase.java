@@ -7,6 +7,7 @@ import com.thexfactor117.levels.common.leveling.attributes.components.config.Sim
 import com.thexfactor117.levels.common.leveling.attributes.display.Formatter;
 import com.thexfactor117.levels.common.leveling.attributes.display.RomanNumeralDisplay;
 import com.thexfactor117.levels.common.nbt.INBT;
+import com.thexfactor117.levels.common.networking.AttributeData;
 import com.thexfactor117.levels.common.utils.RomanNumber;
 
 import java.util.ArrayList;
@@ -119,5 +120,30 @@ public interface AttributeBase extends RomanNumeralDisplay {
         }
 
         return list;
+    }
+
+
+    default AttributeData netWrapper() {
+        double baseValue = 1.0;
+        double multiplier = 1.0;
+        if (this instanceof SimpleConfigAttribute) {
+            SimpleConfigAttribute attr = (SimpleConfigAttribute) this;
+            baseValue = attr.getBaseValue();
+            multiplier = attr.getMultiplier();
+        }
+
+        return AttributeData.builder()
+            .key(this.getAttributeKey())
+            .baseName(this.getBaseName())
+            .translationKey(this.getTranslationKey())
+            .rarity(this.getRarity())
+            .enabled(this.isEnabled())
+            .hexColor(this.getHexColor())
+            .color(this.getColor())
+            //stats
+            .maxTier(LevelConfigAttribute.getMaxLevel(this))
+            .baseValue(baseValue)
+            .multiplier(multiplier)
+            .build();
     }
 }

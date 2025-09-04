@@ -114,7 +114,7 @@ public class EventTooltip {
             tooltip.add(ChatFormatting.GRAY + "" + ChatFormatting.ITALIC + I18n.get("levels.misc.attributes.shift"));
             tooltip.add("");
             componentTooltip.addAll(
-                tooltip.stream().map(TextComponent::new).collect(Collectors.toSet())
+                tooltip.stream().map(TextComponent::new).collect(Collectors.toList())
             );
             return;
         }
@@ -127,7 +127,7 @@ public class EventTooltip {
         if (type == null) {
             tooltip.add("");
             componentTooltip.addAll(
-                tooltip.stream().map(TextComponent::new).collect(Collectors.toSet())
+                tooltip.stream().map(TextComponent::new).collect(Collectors.toList())
             );
             return;
         }
@@ -135,7 +135,7 @@ public class EventTooltip {
         tooltip.addAll(type.displayAttributes(nbt));
 
         componentTooltip.addAll(
-            tooltip.stream().map(TextComponent::new).collect(Collectors.toSet())
+            tooltip.stream().map(TextComponent::new).collect(Collectors.toList())
         );
     }
 }

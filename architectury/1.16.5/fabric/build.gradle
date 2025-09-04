@@ -1,0 +1,63 @@
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+
+    // Files in this configuration will be bundled into your mod using the Shadow plugin.
+    // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://maven.fabricmc.net/"
+    }
+    maven {
+        url = "https://maven.architectury.dev/"
+    }
+}
+
+def fabric_loader_version = "0.14.25"
+def fabric_api_version = "0.42.0+1.16"
+def architectury_api_version = "1.32.67"
+
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:$fabric_loader_version"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_api_version"
+
+    modImplementation "me.shedaniel:architectury-fabric:$architectury_api_version"
+
+    common(project(path: ':architectury-1.16.5:common', configuration: 'namedElements')) { transitive false }
+    shadowBundle project(path: ':architectury-1.16.5:common', configuration: 'transformProductionFabric')
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching('fabric.mod.json') {
+        expand version: project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+}

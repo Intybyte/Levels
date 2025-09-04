@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "levels",
+  "version": "${version}",
+  "name": "Levels",
+  "description": "",
+  "authors": [""],
+  "contact": {
+    "homepage": ""  },
+  "license": "unlicense",
+  "icon": "assets/levels/logo/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.thexfactor117.levels.architectury.fabric.LevelsFabric"
+    ],
+    "client": [
+      "com.thexfactor117.levels.architectury.fabric.client.LevelsFabricClient"
+    ]
+  },
+  "mixins": [
+    "levels.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "minecraft": "~1.16.5",
+    "java": ">=8"
+    ,"architectury": ">=1.32.68"
+    ,"fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

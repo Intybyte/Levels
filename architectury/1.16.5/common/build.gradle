@@ -1,0 +1,74 @@
+import groovy.json.JsonOutput
+
+def fabric_loader_version = "0.14.25"
+def architectury_api_version = "1.32.67"
+
+architectury {
+    common(["forge", "fabric"])
+}
+
+repositories {
+    maven { url 'https://maven.minecraftforge.net/' }
+    maven { url 'https://files.minecraftforge.net/maven/' }
+    maven { url 'https://maven.fabricmc.net/' }
+    maven { url 'https://maven.architectury.dev/' }
+    mavenCentral()
+}
+
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "me.shedaniel:architectury:${architectury_api_version}"
+    implementation(project(":common"))
+}
+
+// Custom task to convert .lang to .json
+def convertLangToJsonTask = tasks.register("convertLangToJson") {
+
+    def inputDir = project(":common").file("src/main/resources/assets/levels/lang")
+    def outputDir = file("$buildDir/generated/resources/assets/levels/lang")
+
+    inputs.dir(inputDir).optional(true)
+    outputs.dir(outputDir)
+
+    doLast {
+        if (!inputDir.exists()) return
+
+        outputDir.mkdirs()
+
+        inputDir.eachFileMatch(~/.+\.lang$/) { File langFile ->
+            def map = [:]
+            langFile.eachLine { line ->
+                line = line.trim()
+                if (!line || line.startsWith("#")) return
+                def parts = line.split("=", 2)
+                if (parts.length == 2) {
+                    map[parts[0].trim()] = parts[1].trim()
+                }
+            }
+
+            def newName = langFile.name.replaceAll(/\.lang$/, '.json').toLowerCase(Locale.US)
+            def jsonFile = new File(outputDir, newName)
+            jsonFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(map))
+        }
+    }
+}
+
+// Inject the transformed JSON into processResources
+tasks.named("processResources", ProcessResources).configure {
+    dependsOn(convertLangToJsonTask)
+
+    // Add transformed resources
+    from("$buildDir/generated/resources") {
+        include "assets/levels/lang/*.json"
+    }
+
+    // Exclude the original .lang files from common
+    exclude("assets/levels/lang/*.lang")
+}
+
+// only include compiled code from :common
+tasks.named("jar") {
+    from {
+        project(':common').sourceSets.main.output.classesDirs
+    }
+}

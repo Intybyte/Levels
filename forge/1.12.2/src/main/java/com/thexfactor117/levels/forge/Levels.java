@@ -3,6 +3,7 @@ package com.thexfactor117.levels.forge;
 import com.thexfactor117.levels.common.config.Configs;
 import com.thexfactor117.levels.common.leveling.ItemType;
 import com.thexfactor117.levels.forge.init.ModEvents;
+import com.thexfactor117.levels.forge.network.GuiPackets;
 import com.thexfactor117.levels.forge.network.PacketAttributeSelection;
 import com.thexfactor117.levels.forge.network.PacketMythicSound;
 import com.thexfactor117.levels.forge.proxies.CommonProxy;
@@ -55,6 +56,8 @@ public class Levels {
         network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID);
         network.registerMessage(PacketAttributeSelection.Handler.class, PacketAttributeSelection.class, 0, Side.SERVER);
         network.registerMessage(PacketMythicSound.Handler.class, PacketMythicSound.class, 1, Side.CLIENT);
+        network.registerMessage(GuiPackets.HandlerClient.class, GuiPackets.Response.class, 2, Side.CLIENT);
+        network.registerMessage(GuiPackets.HandlerServer.class, GuiPackets.Request.class, 3, Side.SERVER);
     }
 
     @EventHandler

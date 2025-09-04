@@ -8,7 +8,7 @@ import com.thexfactor117.levels.common.nbt.INBT;
 import com.thexfactor117.levels.forge.Levels;
 import com.thexfactor117.levels.forge.leveling.Experience;
 import com.thexfactor117.levels.forge.nbt.NBTHelper;
-import com.thexfactor117.levels.forge.util.GuiHandler;
+import com.thexfactor117.levels.forge.network.GuiPackets;
 import com.thexfactor117.levels.forge.util.I18nUtil;
 import com.thexfactor117.levels.forge.util.ItemUtil;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -16,12 +16,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -88,17 +83,8 @@ public class GuiItemInformation extends GuiScreen {
             return;
         }
 
-        if (stack.getItem() instanceof ItemSword) {
-            player.openGui(Levels.instance, GuiHandler.WEAPON_ATTRIBUTES, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
-        } else if (stack.getItem() instanceof ItemArmor) {
-            player.openGui(Levels.instance, GuiHandler.ARMOR_ATTRIBUTES, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
-        } else if (stack.getItem() instanceof ItemBow) {
-            player.openGui(Levels.instance, GuiHandler.BOW_ATTRIBUTES, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
-        } else if (stack.getItem() instanceof ItemShield) {
-            player.openGui(Levels.instance, GuiHandler.SHIELD_ATTRIBUTES, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
-        } else if (stack.getItem() instanceof ItemTool) {
-            //player.openGui(Levels.instance, GuiHandler., player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
-        }
+        ItemType type = ItemUtil.type(stack.getItem());
+        Levels.network.sendToServer(new GuiPackets.Request(type));
     }
 
     /**

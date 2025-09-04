@@ -29,9 +29,9 @@ public class GuiTypeSelection extends GuiScreen {
     private final ItemType type;
     private final List<? extends AttributeBase> attributes;
 
-    public GuiTypeSelection(ItemType type) {
+    public GuiTypeSelection(ItemType type, List<? extends AttributeBase> attributes) {
         this.type = type;
-        this.attributes = type.enabledAttributes();
+        this.attributes = attributes;
     }
 
     @SideOnly(Side.CLIENT)

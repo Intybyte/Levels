@@ -4,10 +4,10 @@
   "version": "${version}",
   "name": "Levels",
   "description": "",
-  "authors": [""],
+  "authors": ["Vaan1310", "TheXFactor117"],
   "contact": {
     "homepage": ""  },
-  "license": "unlicense",
+  "license": "GPLv2",
   "icon": "assets/levels/logo/icon.png",
   "environment": "*",
   "entrypoints": {

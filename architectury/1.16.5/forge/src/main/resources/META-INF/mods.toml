@@ -1,13 +1,13 @@
 modLoader = "javafml"
 loaderVersion = "[36,)"
 #issueTrackerURL = ""
-license = "Unlicense"
+license = "GPLv2"
 
 [[mods]]
 modId = "levels"
 version = "${version}"
 displayName = "Levels"
-authors = ""
+authors = "Vaan1310,TheXFactor117"
 description = '''
 
 '''

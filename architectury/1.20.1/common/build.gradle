@@ -62,6 +62,10 @@ tasks.named("processResources", ProcessResources).configure {
         include "assets/levels/lang/*.json"
     }
 
+    from(project(":common").file("src/main/resources/assets/levels/logo")) {
+        into("assets/levels/logo")
+    }
+
     // Exclude the original .lang files from common
     exclude("assets/levels/lang/*.lang")
 }

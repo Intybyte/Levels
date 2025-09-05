@@ -53,14 +53,18 @@ def convertLangToJsonTask = tasks.register("convertLangToJson") {
     }
 }
 
-// Inject the transformed JSON into processResources
 tasks.named("processResources", ProcessResources).configure {
     dependsOn(convertLangToJsonTask)
 
-    // Add transformed resources
     from("$buildDir/generated/resources") {
         include "assets/levels/lang/*.json"
     }
+
+    from(project(":common").file("src/main/resources/assets/levels/logo")) {
+        into("assets/levels/logo")
+    }
+
+    include "assets/levels/logo/logo.png"
 
     // Exclude the original .lang files from common
     exclude("assets/levels/lang/*.lang")

@@ -11,7 +11,7 @@ authors = "Vaan1310,TheXFactor117"
 description = '''
 
 '''
-logoFile = "/assets/levels/logo/logo.png"
+logoFile = "/assets/levels/logo/icon.png"
 
 [[dependencies.levels]]
 modId = "forge"

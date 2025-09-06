@@ -1,3 +1,18 @@
+# Levels Plus
+
+This is a fork of [Levels](https://github.com/TheXFactor117/Levels), the underlying code is almost completely different as
+I abstracted most of the logic into a common package, this allows this version to be: 
+
+- Fully configurable (the cfg file now has way more entries, you can configure for instance how long "Fire" lasts or how much "Absorbs" takes, and their max levels)
+- Easily implemented in other platforms (Right now supports Bukkit, Forge and Fabric)
+- Possibly allow sub mods to define their own attributes and register them, thanks to a registry instead of enums
+- Allow more or less than 3 levels, without being limited (eg: Soulbound in the past had 3 levels which behaved the exact same way, this has been fixed) 
+- Better support for displaying upgrade summary (before each level had a custom description, now it has a placeholder for the value calculated based on the level)
+- Safer network implementation (old version could allow you to send fake packets and upgrade stuff without the necessary tokens and more)
+
+
+# Old Readme:
+
 Since people have given me a lotta shit about the license and other stuff - lemme spell out what is going on.
 
 The port of Levels 2 which was floating around ported the mod illegally (by GPL's standards). I removed it because it was a shitty version of Levels 2 and apparently had several bugs and issues. I've been on and off trying to update Levels 3, but I'm also trying to cut back how much time I'm spending modding (with work and school), and with LSC taking up a lot of time, I don't have much time to work on Levels 3 - if anyone wants to take over the mod, send me a message please. I'd be interested in handing the project off to someone else.
